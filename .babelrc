@@ -1,0 +1,10 @@
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": { "browsers": ["last 2 versions"] },
+      "corejs": "2",
+      "useBuiltIns": "entry",
+    }],
+    "@babel/preset-react",
+  ]
+}
