@@ -1,8 +1,8 @@
 {
-  "name": "react-skeleton",
+  "name": "web-lab-website",
   "version": "1.0.0",
-  "description": "a skeleton for starting a react project with webpack and babel",
-  "repository": "https://github.com/mit6148-workshops/react-skeleton",
+  "description": "the best website for the best staff",
+  "repository": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
