@@ -19,7 +19,7 @@ class AdminView extends React.Component {
     return (
       <div style={{display: 'flex'}}>
         <AdminSideBar activeTab={this.state.activeTab} year={this.state.year} onClick={this.onClickTab.bind(this)} />
-        <AdminBody />
+        <AdminBody activeTab={this.state.activeTab} />
       </div>
     );
   }
