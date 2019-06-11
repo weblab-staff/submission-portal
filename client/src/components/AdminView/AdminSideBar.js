@@ -39,7 +39,7 @@ class AdminSideBar extends React.Component {
       alignItems: 'center',
       paddingTop: '20px',
       width: '120px',
-      minHeight:'100vh',
+      minHeight: 'calc(100vh - 20px)',
       backgroundColor: '#000000',
     }
 

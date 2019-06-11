@@ -1,6 +1,7 @@
 import React from "react";
 import AdminSideBar from "./AdminSideBar";
 import AdminBody from "./AdminBody";
+import "./AdminView.css";
 
 class AdminView extends React.Component {
   constructor(props) {
