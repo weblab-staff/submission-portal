@@ -1,32 +1,46 @@
 import React from "react";
 import AdminView from "./AdminView/AdminView";
 import StudentView from "./StudentView/StudentView";
+import Login from "./Login";
 
 class Root extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       // should use the below eventually
-      // loading: true,
-      // currentUser: null,
-      loading: false,
-      currentUser: {
-        name: 'Matt',
-        isAdmin: true,
-      }
+      loading: true,
+      currentUser: null,
+      // loading: false,
+      // currentUser: {
+      //   name: 'Matt',
+      //   isAdmin: false,
+      // }
     }
   }
 
   componentDidMount() {
-    // The below isn't exact but it's basically the right idea
-    // get('/whoami')
-    //   .then(data => {
-    //     this.setState({
-    //       loading: false,
-    //       currentUser: data.user,
-    //     });
-    //   })
-    //   .catch(err => console.log(err));
+    this.getUser();
+  }
+
+
+  getUser = () => {
+    fetch('/api/whoami')
+      .then(res => res.json())
+      .then(
+        userObj => {
+          if (userObj.username !== undefined) {
+            this.setState({
+              currentUser: userObj,
+              loading: false,
+            });
+          } else {
+            this.setState({
+              currentUser: null,
+              loading: false,
+            });
+          }
+        }
+      ).catch(err => console.log(err));
   }
 
   render() {
@@ -40,9 +54,13 @@ class Root extends React.Component {
       )
     }
 
+    if (!currentUser) {
+      return <Login />
+    }
+
     return (
       <div>
-        {currentUser.isAdmin ? <AdminView /> : <StudentView />}
+        {currentUser.isAdmin ? <AdminView /> : <StudentView currentUser={currentUser} />}
       </div>
     );
   }

@@ -2,9 +2,15 @@ import React from "react";
 
 class StudentViewBroad extends React.Component {
   render() {
+    const {
+      toggleView
+    } = this.props;
     return (
       <div>
-        StudentViewBroad!
+        Milestone # submitted by <div onClick={toggleView}>Cory Lynch</div>
+        Milestone # submitted by <div onClick={toggleView}>Cory Lynch</div>
+        Milestone # submitted by <div onClick={toggleView}>Cory Lynch</div>
+        Milestone # submitted by <div onClick={toggleView}>Cory Lynch</div>
       </div>
     )
     ;
