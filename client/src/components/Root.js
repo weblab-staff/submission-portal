@@ -19,8 +19,7 @@ class Root extends React.Component {
 
   componentDidMount() {
     // The below isn't exact but it's basically the right idea
-    // fetch("API_URL")
-    //   .then(response => response.json())
+    // get('/whoami')
     //   .then(data => {
     //     this.setState({
     //       loading: false,

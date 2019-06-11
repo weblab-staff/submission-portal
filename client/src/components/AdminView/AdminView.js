@@ -8,19 +8,23 @@ class AdminView extends React.Component {
     super(props);
     this.state = {
       activeTab: 'iteration',
-      year: '2019',
+      viewedYear: 2019,
     }
   }
 
-  onClickTab = (tab) => {
+  setActiveTab = (tab) => {
     this.setState({ activeTab: tab });
+  }
+
+  setViewedYear = (year) => {
+    this.setState({ viewedYear: year });
   }
 
   render() {
     return (
       <div style={{display: 'flex'}}>
-        <AdminSideBar activeTab={this.state.activeTab} year={this.state.year} onClick={this.onClickTab} />
-        <AdminBody activeTab={this.state.activeTab} />
+        <AdminSideBar activeTab={this.state.activeTab} year={this.state.viewedYear} setActiveTab={this.setActiveTab} />
+        <AdminBody activeTab={this.state.activeTab} setViewedYear={this.setViewedYear} />
       </div>
     );
   }

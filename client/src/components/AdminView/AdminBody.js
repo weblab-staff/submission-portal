@@ -12,7 +12,7 @@ class AdminBody extends React.Component {
 
     return (
       <div style={styles}>
-        {this.props.activeTab === 'iteration' && <ClassIterationsSection />}
+        {this.props.activeTab === 'iteration' && <ClassIterationsSection setViewedYear={this.props.setViewedYear} />}
         {this.props.activeTab === 'students' && <StudentsSection />}
         {this.props.activeTab === 'grade' && <GradesSection />}
         {this.props.activeTab === 'settings' && <SettingsSection />}

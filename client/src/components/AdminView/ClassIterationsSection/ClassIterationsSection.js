@@ -6,7 +6,7 @@ class ClassIterationsSection extends React.Component {
     return (
       <div>
         <h1 className="tabHeader">Class Iterations</h1>
-        <ClassList />
+        <ClassList setViewedYear={this.props.setViewedYear} />
       </div>
     );
   }
