@@ -12,7 +12,11 @@ router.use('/milestones', require('./milestones'));
 router.use('/emails', require('./emails'));
 router.use('/class', require('./class'));
 
-router.get('/whoami', (res, req) => {
+router.get('/whoami', (req, res) => {
+  if (req.isAuthenticated()) {
+    return res.send(req.user);
+  }
+
   res.send({});
 });
 
