@@ -1,29 +1,47 @@
-const passport = require('passport');
-const GitHubStrategy = require('passport-github').Strategy;
-const User = require('./models/User');
+const passport = require("passport");
+const GitHubStrategy = require("passport-github").Strategy;
+const User = require("./models/User");
 
-passport.use(new GitHubStrategy({
-    clientID: process.env.GITHUB_ID,
-    clientSecret: process.env.GITHUB_SECRET,
-    callbackURL: '/auth/github/callback'
-  },
-  (accessToken, refreshToken, profile, cb) => {
-    console.log(`User ${profile.username} logged in.`);
-     
-    /*User.findOrCreate({ githubId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });*/
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+      callbackURL: "/auth/github/callback"
+    },
+    (accessToken, refreshToken, profile, done) => {
+      console.log(`User ${profile.username} logged in.`);
+      User.findOne(
+        {
+          github_id: profile.id
+        },
+        function(err, user) {
+          if (err) return done(err);
 
-    return cb(null, {username: profile.username}); // temporary line until we finish model
-  }
-));
+          if (!user) {
+            const newUser = new User({
+              github_id: profile.id
+            });
+
+            newUser.save(function(err) {
+              if (err) console.log(err);
+
+              return done(err, newUser);
+            });
+          } else {
+            return done(err, user);
+          }
+        }
+      );
+    }
+  )
+);
 
 passport.serializeUser(function(user, cb) {
-      cb(null, user);
+  cb(null, user);
 });
 passport.deserializeUser(function(obj, cb) {
-      cb(null, obj);
+  cb(null, obj);
 });
-
 
 module.exports = passport;
