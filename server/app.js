@@ -43,7 +43,13 @@ app.get("/auth/github", passport.authenticate("github"));
 app.get(
   "/auth/github/callback",
   passport.authenticate("github", { failureRedirect: "/" }),
-  (req, res) => res.redirect("/")
+  (req, res) => {
+    if (!req.user.email) {
+      return res.redirect("/register");
+    }
+
+    res.redirect("/");
+  }
 );
 
 app.use(express.static(publicPath));
