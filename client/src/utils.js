@@ -10,7 +10,7 @@ function formatParams(params) {
 
  // params is given as a JSON
 export const get = (endpoint, params) => {
-  const fullPath = endpoint + "?" + formatParams(params);
+  const fullPath = endpoint + (params ? `?${formatParams(params)}` : '');
   return fetch(fullPath).then(res => res.json());
 }
 

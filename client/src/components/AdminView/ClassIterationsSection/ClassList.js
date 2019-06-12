@@ -22,6 +22,14 @@ class ClassList extends React.Component {
     console.log(`Toggling active state for ${year} year!`)
   }
 
+  makeNewIteration = () => {
+    if (confirm('Are you sure you want to make a new class iteration?')) {
+      console.log('Making a new class iteration');
+    } else {
+      console.log('NOT making a new class iteration');
+    }
+  }
+
   componentDidMount() {
     // get('/class/years')
     //   .then(data => {
@@ -40,7 +48,7 @@ class ClassList extends React.Component {
         <div style={{display: 'flex', justifyContent: 'space-around'}}>
           <div>Year</div>
           <div>Active</div>
-          <button>New Iteration</button>
+          <button onClick={this.makeNewIteration}>New Iteration</button>
         </div>
         <hr />
         {this.renderMainContent()}
