@@ -31,7 +31,7 @@ class AdminTabButton extends React.Component {
 
 class AdminSideBar extends React.Component {
   render() {
-    const { activeTab, year, onClick } = this.props;
+    const { activeTab, year, setActiveTab } = this.props;
 
     const styles = {
       display: 'flex', 
@@ -39,20 +39,20 @@ class AdminSideBar extends React.Component {
       alignItems: 'center',
       paddingTop: '20px',
       width: '120px',
-      minHeight:'100vh',
+      minHeight: 'calc(100vh - 20px)',
       backgroundColor: '#000000',
     }
 
     return (
       <div style={styles}>
         <AdminTabButton activeTab={activeTab} tabName='iteration' 
-          tabLabel={`${year} Class`} icon='calendar-alt' onClick={onClick} />
+          tabLabel={`${year} Class`} icon='calendar-alt' onClick={setActiveTab} />
         <AdminTabButton activeTab={activeTab} tabName='students' 
-          tabLabel='Students' icon='user' onClick={onClick} />
+          tabLabel='Students' icon='user' onClick={setActiveTab} />
         <AdminTabButton activeTab={activeTab} tabName='grade' 
-          tabLabel='Grade' icon='highlighter' onClick={onClick} />
+          tabLabel='Grade' icon='highlighter' onClick={setActiveTab} />
         <AdminTabButton activeTab={activeTab} tabName='settings' 
-          tabLabel='Settings' icon='cog' onClick={onClick} />
+          tabLabel='Settings' icon='cog' onClick={setActiveTab} />
       </div>
     );
   }

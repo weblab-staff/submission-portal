@@ -1,13 +1,14 @@
 import React from "react";
+import ClassList from "./ClassList";
 
 class ClassIterationsSection extends React.Component {
   render() {
     return (
       <div>
-        ClassIterationsSection!
+        <h1 className="tabHeader">Class Iterations</h1>
+        <ClassList setViewedYear={this.props.setViewedYear} />
       </div>
-    )
-    ;
+    );
   }
 }
 
