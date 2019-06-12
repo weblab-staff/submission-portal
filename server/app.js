@@ -52,6 +52,11 @@ app.get(
   }
 );
 
+app.get("/auth/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
+
 app.use(express.static(publicPath));
 app.use("/api", api);
 
