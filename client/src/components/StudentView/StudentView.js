@@ -7,7 +7,7 @@ class StudentView extends React.Component {
       <div>
         <ul>
         <li><a href="#">Portal</a></li>
-        <li><a href="/logout">Logout</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
       </ul>
         Welcome, {this.props.currentUser.username}!
         <StudentViewBody />

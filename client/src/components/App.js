@@ -5,6 +5,7 @@ import Switch from "react-router-dom/es/Switch";
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import Root from "./Root";
+import Register from "./Register";
 
 library.add(fas)
 
@@ -15,6 +16,7 @@ class App extends React.Component {
       <div>
         <Switch>
           <Route exact path="/" component={Root} />
+          <Route exact path="/register" component={Register} />
         </Switch>
       </div>
     )

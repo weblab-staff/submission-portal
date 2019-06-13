@@ -2,21 +2,22 @@ import React from "react";
 import AdminView from "./AdminView/AdminView";
 import StudentView from "./StudentView/StudentView";
 import Login from "./Login";
+import Register from "./Register";
 import { get } from "../utils";
 
 class Root extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // loading: true,
-      // currentUser: null,
-      loading: false,
-      currentUser: {isAdmin: true},
+      loading: true,
+      currentUser: null,
+      // loading: false,
+      // currentUser: {isAdmin: true},
     }
   }
 
   componentDidMount() {
-    // this.getUser();
+    this.getUser();
   }
 
   getUser = () => {
@@ -54,7 +55,13 @@ class Root extends React.Component {
 
     return (
       <div>
-        {currentUser.isAdmin ? <AdminView /> : <StudentView currentUser={currentUser} />}
+        {currentUser.isAdmin ? <AdminView /> : (
+          currentUser.first_name ? (
+            <StudentView currentUser={currentUser} />
+            ) : (
+              <Register currentUser={currentUser} />
+            )
+          )}
       </div>
     );
   }
