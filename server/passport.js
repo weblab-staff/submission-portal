@@ -3,36 +3,26 @@ const GitHubStrategy = require("passport-github").Strategy;
 const User = require("./models/User");
 
 passport.use(
-  new GitHubStrategy(
-    {
+  new GitHubStrategy({
       clientID: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
       callbackURL: "/auth/github/callback"
     },
     (accessToken, refreshToken, profile, done) => {
       console.log(`User ${profile.username} logged in.`);
-      User.findOne(
-        {
+      User.findOne({ github_id: profile.id })
+        .then(user => {
+          if (user) return user;
+
+          // create user if doesn't exist yet
+          const newUser = new User({
           github_id: profile.id
-        },
-        function(err, user) {
-          if (err) return done(err);
+          });
 
-          if (!user) {
-            const newUser = new User({
-              github_id: profile.id
-            });
-
-            newUser.save(function(err) {
-              if (err) console.log(err);
-
-              return done(err, newUser);
-            });
-          } else {
-            return done(err, user);
-          }
-        }
-      );
+          return user.save();
+        })
+        .then(user => done(null, user))
+        .catch(done);
     }
   )
 );
