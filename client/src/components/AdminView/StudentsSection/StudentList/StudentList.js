@@ -9,8 +9,8 @@ class StudentList extends React.Component {
     this.state = {
       loading: false,
       students: [
-        {first_name: 'Jessica', last_name: 'Tang', github_username: 'jynnie', team: 'Plix', for_credit: true, tags: ['Student']},
-        {first_name: 'Matt', last_name: 'F', github_username: 'mfarejowicz', for_credit: false, tags: []},
+        {first_name: 'Jessica', last_name: 'Tang', github_url: 'jynnie', team: 'Plix', for_credit: true, tags: ['Student', 'test']},
+        {first_name: 'Matt', last_name: 'F', github_url: 'mfarejowicz', for_credit: false, tags: []},
       ],
     };
   }

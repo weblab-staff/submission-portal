@@ -46,7 +46,7 @@ class StudentEntry extends React.Component {
           <div>{info.last_name}</div>
         </div>
         <div style={{width: '10vw'}}>
-          <a href={`https://github.com/${info.github_username}`}>{info.github_username}</a>
+          <a href={`https://github.com/${info.github_url}`}>{info.github_url}</a>
         </div>
         <div style={{width: '10vw'}}>
           <div>{info.team}</div>
@@ -54,7 +54,7 @@ class StudentEntry extends React.Component {
         <div style={{width: '5vw'}}>
           <input type='checkbox' checked={info.for_credit}></input>
         </div>
-        <div style={{width: '25vw'}}>
+        <div style={{display: 'flex', width: '25vw'}}>
           {info.tags.map((el, index) => 
             <div key={index}>{el}</div>
           )}
