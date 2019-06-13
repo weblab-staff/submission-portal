@@ -60,6 +60,10 @@ app.get("/auth/logout", (req, res) => {
 app.use(express.static(publicPath));
 app.use("/api", api);
 
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+ });
+
 http.listen(3000, () => {
   console.log(`Listening on port 3000 and looking in folder ${publicPath}`);
 });

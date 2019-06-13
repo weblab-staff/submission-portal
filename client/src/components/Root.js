@@ -55,13 +55,9 @@ class Root extends React.Component {
 
     return (
       <div>
-        {currentUser.isAdmin ? <AdminView /> : (
-          currentUser.first_name ? (
+        {currentUser.isAdmin ? <AdminView /> : 
             <StudentView currentUser={currentUser} />
-            ) : (
-              <Register currentUser={currentUser} />
-            )
-          )}
+}
       </div>
     );
   }

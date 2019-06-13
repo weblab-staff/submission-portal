@@ -1,9 +1,11 @@
 import React from "react";
+import { get, post } from "../utils";
 
 class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentUser: null,
       firstName: '',
       lastName: '',
       email: '',
@@ -11,6 +13,20 @@ class Register extends React.Component {
       livingGroup: '',
       priorExp: ''
     }
+  }
+
+  componentDidMount() {
+    this.getUser();
+  }
+
+  getUser = () => {
+    get('/api/whoami')
+      .then(userObj => {
+        this.setState({
+          currentUser: userObj
+        });
+      })
+      .catch(err => console.log(err));
   }
 
   handleChange = event => {
@@ -22,9 +38,7 @@ class Register extends React.Component {
 
   handleSubmit= (event) => {
     const {
-      currentUser
-    } = this.props;
-    const {
+      currentUser,
       firstName,
       lastName,
       email,
@@ -32,13 +46,17 @@ class Register extends React.Component {
       livingGroup,
     } = this.state;
     event.preventDefault();
-    post(`/api/users/${currentUser._id}/update`), {
-      firstName,
-      lastName,
-      email,
-      gender,
-      livingGroup
-    }
+    post(`/api/users/${currentUser._id}/update`, {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      statistics: {
+        gender: gender,
+        // class_year: Number,
+        // experience: Number,
+        living_group: livingGroup
+      }
+    })
     .then(response => {
       console.log(response);
     })
@@ -84,7 +102,7 @@ class Register extends React.Component {
             Living Group:
             <input type="text" name="livingGroup" value={livingGroup} onChange={this.handleChange} />
           </label>
-          <input type="submit" value="Submit" />
+          <input type="submit" value="Submit" onClick={this.handleSubmit}/>
         </form>
       </div>
     )
