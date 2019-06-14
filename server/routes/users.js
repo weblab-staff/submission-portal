@@ -24,18 +24,16 @@ router.get("/:user_id", (req, res) => {
 });
 
 router.post("/:user_id/update", (req, res) => {
-  User.findOne({ _id: req.params["user_id"] }).then(user => {
-    if (user) {
-      for (const [key, value] of Object.entries(req.body)) {
-        user[key] = value;
-      }
-      user.save();
+  const updates = req.body;
+  User.findByIdAndUpdate(req.params["user_id"], updates)
+    .then((err, res) => {
+      if (err) throw err;
       res.sendStatus(204);
-    } else {
+    })
+    .catch(err => {
       console.log(`No User found with ID ${req.params["user_id"]}`);
       res.sendStatus(400);
-    }
-  });
+    });
 });
 
 router.delete("/:user_id", (req, res) => {

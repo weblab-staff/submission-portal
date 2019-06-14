@@ -8,7 +8,7 @@ const teamSchema = new mongoose.Schema({
   submissions: [
     { type: mongoose.Schema.Types.ObjectId, ref: "MilestoneSubmission" }
   ],
-  year: Number
+  year: Number // year the team was created
 });
 
 module.exports = mongoose.model("Team", teamSchema);

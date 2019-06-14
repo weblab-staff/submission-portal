@@ -79,6 +79,19 @@ router.post("/:team_id/mark-complete", (req, res) => {
   });
 });
 
+router.post("/:team_id/generate-github", (req, res) => {
+  res.sendStatus(404);
+  //TODO NOT IMPLEMENTED
+});
+
+router.post("/:team_id/set-competing", (req, res) => {
+  Team.findByIdAndUpdate(req.params["team_id"], {
+    competing: req.body["competing"]
+  }).then(() => {
+    res.sendStatus(204);
+  });
+});
+
 //delete a team member from a team
 //needs validation that team_member or admin is making this request
 router.delete("/:team_id/remove-member", (req, res) => {

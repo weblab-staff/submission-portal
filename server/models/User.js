@@ -14,7 +14,8 @@ const userSchema = new mongoose.Schema({
   },
   is_admin: Boolean,
   tags: [String],
-  team: { type: mongoose.Schema.Types.ObjectId, ref: "Team" }
+  team: { type: mongoose.Schema.Types.ObjectId, ref: "Team" },
+  year: Number //year the student registered under
 });
 
 module.exports = mongoose.model("User", userSchema);

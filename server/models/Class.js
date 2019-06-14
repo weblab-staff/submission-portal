@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 
 const classSchema = new mongoose.Schema({
   team_size_cap: Number,
-  admins: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  active_year: Number
+  admins: [String], // GITHUB IDs
+  year: Number,
+  is_active: Boolean
 });
 
 module.exports = mongoose.model("Class", classSchema);

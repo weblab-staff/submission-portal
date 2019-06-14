@@ -1,64 +1,54 @@
 /* Defines all routes under /api/class/ */
-const express = require('express');
-const connect = require('connect-ensure-login');
+const express = require("express");
+const connect = require("connect-ensure-login");
 
 const router = express.Router();
-const Class = require('../models/Class');
+const Class = require("../models/Class");
+const utils = require("./util");
 
 // gets the information of the current class iteration
-router.get("/", (req, res) => {
-  console.log("getting class")
-  Class.findOne({}).then(current_class => {
-    console.log("found class", current_class)
-    res.send(current_class);
+router.get("/", async (req, res) => {
+  const active_year = await utils.get_active_year();
+  const filter = req.query["complete"] === "true" ? {} : { year: active_year };
+  Class.find(filter).then(data => {
+    res.send(data);
   });
 });
 
-// gets the list of admins for the current class iteration
-router.post(
-  "/admins",
-  connect.ensureLoggedIn(),
-  function (req, res) {
-    Class.update({}, { $set: { admins: req.body.admins } });
+// adds and admin to the list of admins
+router.post("/admins", function(req, res) {
+  Class.findByIdAndUpdate(req.params["class_id"], {
+    $push: { admins: req.body.admin_github_id }
   });
+});
 
-// sets the current class year
-router.post(
-  "/active-year",
-  connect.ensureLoggedIn(),
-  function (req, res) {
-    Class.update({}, { $set: { active_year: req.body.new_year } });
+// changes the active year for a class
+// should make sure only one other class is active
+router.post("/:class_id/active-year", (req, res) => {
+  Class.update({ is_active: true }, { is_active: false }).then(() => {
+    Class.findByIdAndUpdate(req.params["class_id"], {
+      is_active: true
+    }).then(() => {
+      res.sendStatus(204);
+    });
   });
+});
 
-// tries to claim initial admin access by matching the predetermined passphrase
+//create a class
+//VALIDATE THAT NO OTHER CLASS HAS THE SAME YEAR!
 router.post(
-  "/create",
+  "/",
   // connect.ensureLoggedIn(),
-  function (req, res) {
-    Class.findOne({})
-      .then(current_class => {
-        console.log("current class ", current_class)
-        if (current_class != null) {
-          console.log("asdkfqejkrf")
-          throw new Error('admins already have been established');
-        } else {
-          const passphrase = req.body.passphrase;
-          if (process.env.ADMIN_PASSPHRASE != passphrase) {
-            console.log("pqweoroqwer")
-            throw new Error('invalid credential');
-          } else {
-            const newClass = new Class({
-              'admins': [req.user],
-              'active-year': req.body.new_year,
-            });
-            newClass.save();
-            res.send(newClass);
-          }
-        }
-      })
-      .catch(error => {
-        throw error;
-      });
-  });
+  function(req, res) {
+    Class.create({
+      year: req.body["year"],
+      team_size_cap: req.body["team_size_cap"],
+      admins: req.body["admins"],
+      is_active: false
+    }).then(() => {
+      res.sendStatus(204);
+    });
+  }
+);
 
 module.exports = router;
