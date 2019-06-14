@@ -28,6 +28,7 @@ async function checkSubmissions() {
         const submission = new MilestoneSubmission({
           team: team._id,
           timestamp: row.timestamp,
+          milestone: milestone._id,
           form_response: row,
           feedback: []
         })
