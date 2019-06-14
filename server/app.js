@@ -11,6 +11,7 @@ const io = require("socket.io")(http);
 const api = require("./routes/api");
 const mongoose = require("mongoose");
 const passport = require("./passport");
+const periodic = require("./periodic");
 
 // set POST request body parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -27,6 +28,8 @@ mongoose
     () => console.log("Connected to MongoDB"),
     err => console.log("Error connecting to MongoDB: " + err)
   );
+
+periodic.start(); // start periodic tasks (e.g. read spreadsheets)
 
 app.use(
   session({
