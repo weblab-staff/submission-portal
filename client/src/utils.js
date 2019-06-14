@@ -19,5 +19,10 @@ export const post = (endpoint, params) => {
     method: 'post',
     headers: {'Content-type': 'application/json'},
     body: JSON.stringify(params)
-  }).then(res => res.json());
+  }).then(res => {    
+    if (res.status === 200) {
+      return res.json();
+    }
+    return res.status;
+  });
 }
