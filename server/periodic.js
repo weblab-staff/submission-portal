@@ -1,7 +1,10 @@
 /** Functions that run periodically **/
 
 const GoogleSpreadsheet = require('google-spreadsheet');
+
+const Team = require('./models/Team');
 const Milestone = require('./models/Milestone');
+const MilestoneSubmission = require('./models/MilestoneSubmission');
 
 const SHEET_POLL_INTERVAL = 10;
 
@@ -10,7 +13,7 @@ function start() {
 }
 
 async function checkSubmissions() {
-  const milestones = await Milestone.find({year: 2019});
+  const milestones = await Milestone.find({year: 2019}); // TODO: get actual active year
 
   milestones
     .filter(milestone => milestone.autograde)
@@ -19,6 +22,19 @@ async function checkSubmissions() {
       const rows = await getRows(sheet, milestone.submission_count + 1);
 
       console.log("New responses:", rows);
+      rows.forEach(async row => {
+        const team = await Team.findOne({team_name: row.teamname}, '_id');
+
+        const submission = new MilestoneSubmission({
+          team: team._id,
+          timestamp: row.timestamp,
+          form_response: row,
+          feedback: []
+        })
+
+        submission.save();
+      });
+
 
       milestone.submission_count += rows.length;
       milestone.save();
@@ -53,12 +69,17 @@ function getRows(sheet, offset=0) {
         const output = {};
         Object.keys(row)
           .filter(key => !key.startsWith("_") && !exclude.includes(key))
-          .forEach(key => output[key] = row[key]);
+          .forEach(key => output[sanitizeKey(key)] = row[key]);
         return output;
       }));
 
     });
   });
+}
+
+// delete characters from keys mongo doesn't like
+function sanitizeKey(key) {
+  return key.replace('.', '_');
 }
 
 module.exports = { start };
