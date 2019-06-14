@@ -1,23 +1,33 @@
 /** Functions that run periodically **/
 
 const GoogleSpreadsheet = require('google-spreadsheet');
+const Milestone = require('./models/Milestone');
 
-const SHEET_POLL_INTERVAL = 5;
+const SHEET_POLL_INTERVAL = 10;
 
 function start() {
   setInterval(checkSubmissions, SHEET_POLL_INTERVAL * 1000);
 }
 
 async function checkSubmissions() {
-  const sheet = await connectToSheet('189xLdHXbNRUzsZ14-qprHD5O-3G0gdju9CFCUr-19rs');
-  const rows = await getRows(sheet);
+  const milestones = await Milestone.find({year: 2019});
 
-  console.log(rows);
-  console.log(rows.length);
+  milestones
+    .filter(milestone => milestone.autograde)
+    .forEach(async milestone => {
+      const sheet = await connectToSheet(milestone.responses_id);
+      const rows = await getRows(sheet, milestone.submission_count + 1);
+
+      console.log("New responses:", rows);
+
+      milestone.submission_count += rows.length;
+      milestone.save();
+  });
+
 }
 
 function connectToSheet(sheetId) {
-  const doc = new GoogleSpreadsheet('189xLdHXbNRUzsZ14-qprHD5O-3G0gdju9CFCUr-19rs');
+  const doc = new GoogleSpreadsheet(sheetId);
   const client_email = process.env.GOOGLE_SERVICE_ACCOUNT;
   const private_key = process.env.GOOGLE_PRIVATE_KEY;
 

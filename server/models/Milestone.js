@@ -5,9 +5,10 @@ const milestoneSchema = new mongoose.Schema({
   description: String,
   deadline: Date,
   handin_link: String,
-  responses_link: String,
+  responses_id: String,
   autograde: Boolean,
   submission_closed: Boolean,
+  submission_count: Number,
   year: Number
 });
 
