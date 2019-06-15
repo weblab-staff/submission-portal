@@ -52,7 +52,7 @@ router.delete("/:user_id", (req, res) => {
   User.findByIdAndDelete(req.params["user_id"], (err, res) => {
     if (err) {
       console.log("error deleting");
-      res.status(500);
+      res.sendStatus(500);
     } else {
       console.log(`deleted user ${req.params["user_id"]}`);
       res.sendStatus(204);

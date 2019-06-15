@@ -8,17 +8,19 @@ const utils = require("./util");
 
 // gets the information of the current class iteration
 router.get("/", async (req, res) => {
-  const active_year = await utils.get_active_year();
-  const filter = req.query["complete"] === "true" ? {} : { year: active_year };
+  const filter_year = await utils.get_filter_year();
+  const filter = req.query["complete"] === "true" ? {} : { year: filter_year };
   Class.find(filter).then(data => {
     res.send(data);
   });
 });
 
-// adds and admin to the list of admins
+// adds an admin to the list of admins
 router.post("/:class_id/admins", function(req, res) {
   Class.findByIdAndUpdate(req.params["class_id"], {
     $push: { admins: req.body.admin_github_id }
+  }).then(() => {
+    res.sendStatus(204);
   });
 });
 
