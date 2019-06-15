@@ -26,14 +26,14 @@ router.get("/:user_id", (req, res) => {
 router.post("/:user_id/update", (req, res) => {
   const updates = req.body;
   User.findByIdAndUpdate(req.params["user_id"], updates)
-    .then((err, res) => {
-      if (err) throw err;
-      res.sendStatus(204);
-    })
     .catch(err => {
+      console.log(err);
       console.log(`No User found with ID ${req.params["user_id"]}`);
       res.sendStatus(400);
-    });
+    })
+    .then(data => {
+      res.sendStatus(204);
+    })
 });
 
 router.delete("/:user_id", (req, res) => {
