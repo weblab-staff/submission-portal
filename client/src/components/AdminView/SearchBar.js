@@ -4,10 +4,10 @@ class SearchBar extends React.Component {
   render() {
     return (
       <div>
-        SearchBar!
+        <span>Search:</span>
+        <input type="text"></input>
       </div>
-    )
-    ;
+    );
   }
 }
 

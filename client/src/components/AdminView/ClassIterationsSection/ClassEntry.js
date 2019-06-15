@@ -1,8 +1,8 @@
 import React from "react";
 
 class ClassEntry extends React.Component {
-  toggleActiveYear = () => {
-    this.props.toggleActiveYear(this.props.year);
+  makeYearActive = () => {
+    this.props.makeYearActive(this.props.year);
   }
 
   setViewedYear = () => {
@@ -15,7 +15,7 @@ class ClassEntry extends React.Component {
     return (
       <div style={{display: 'flex', justifyContent: 'space-around'}}>
         <div>{`${year} Class`}</div>
-        <input type='checkbox' checked={active} onChange={this.toggleActiveYear}/>
+        {active ? <span>ACTIVE!</span> : <button onClick={this.makeYearActive}>make active</button>}
         <div style={{ color: 'blue', cursor: 'pointer' }} onClick={this.setViewedYear}>View</div>
       </div>
     );

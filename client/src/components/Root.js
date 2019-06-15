@@ -2,7 +2,6 @@ import React from "react";
 import AdminView from "./AdminView/AdminView";
 import StudentView from "./StudentView/StudentView";
 import Login from "./Login";
-import Register from "./Register";
 import { get } from "../utils";
 
 class Root extends React.Component {
@@ -52,12 +51,12 @@ class Root extends React.Component {
     if (!currentUser) {
       return <Login />
     }
-
+    
     return (
       <div>
         {currentUser.isAdmin ? <AdminView /> : 
             <StudentView currentUser={currentUser} />
-}
+        }
       </div>
     );
   }

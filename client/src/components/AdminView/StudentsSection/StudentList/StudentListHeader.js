@@ -13,6 +13,7 @@ class StudentListHeader extends React.Component {
       <div style={styles}>
         <div style={{width: '3vw'}}>
           <input type='checkbox'></input>
+          
         </div>
         <div style={{width: '10vw'}}>
           <div>First Name</div>
