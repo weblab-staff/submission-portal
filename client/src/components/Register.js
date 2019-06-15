@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from 'react-router-dom';
 import { get, post } from "../utils";
 
 class Register extends React.Component {
@@ -11,7 +12,8 @@ class Register extends React.Component {
       email: '',
       gender: '',
       livingGroup: '',
-      priorExp: ''
+      priorExp: '',
+      redirect: false
     }
   }
 
@@ -44,6 +46,7 @@ class Register extends React.Component {
       email,
       gender,
       livingGroup,
+      experience
     } = this.state;
     event.preventDefault();
     post(`/api/users/${currentUser._id}/update`, {
@@ -53,12 +56,16 @@ class Register extends React.Component {
       statistics: {
         gender: gender,
         // class_year: Number,
-        // experience: Number,
+        experience: experience,
         living_group: livingGroup
       }
     })
     .then(response => {
       console.log(response);
+      this.setState({
+        redirect: response === 204
+      })
+
     })
     .catch(err => console.log(err));
     
@@ -72,7 +79,12 @@ class Register extends React.Component {
       gender,
       livingGroup,
       priorExp,
+      redirect
     } = this.state;
+
+    if (redirect) {
+      return (<Redirect to="/" />)
+    }
 
     return (
       <div>
@@ -101,6 +113,14 @@ class Register extends React.Component {
           <label>
             Living Group:
             <input type="text" name="livingGroup" value={livingGroup} onChange={this.handleChange} />
+          </label>
+          <label>
+            Experience:
+            <input type="radio" name="experience" value="0" onChange={this.handleChange}/>
+            <input type="radio" name="experience" value="1" onChange={this.handleChange}/>
+            <input type="radio" name="experience" value="2" onChange={this.handleChange}/>
+            <input type="radio" name="experience" value="3" onChange={this.handleChange}/>
+            <input type="radio" name="experience" value="4" onChange={this.handleChange}/>
           </label>
           <input type="submit" value="Submit" onClick={this.handleSubmit}/>
         </form>
