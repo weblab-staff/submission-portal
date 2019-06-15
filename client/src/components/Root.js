@@ -11,6 +11,7 @@ class Root extends React.Component {
     this.state = {
       loading: true,
       currentUser: null,
+      currentTeam: null
       // loading: false,
       // currentUser: {isAdmin: true},
     }
@@ -25,9 +26,9 @@ class Root extends React.Component {
       .then(userObj => {
         if (userObj._id !== undefined) {
           this.setState({
-            currentUser: userObj,
-            loading: false,
+            currentUser: userObj
           });
+          this.getTeam(userObj.team);
         } else {
           this.setState({
             currentUser: null,
@@ -38,8 +39,19 @@ class Root extends React.Component {
       .catch(err => console.log(err));
   }
 
+  getTeam = (id) => {
+    get(`/api/teams/${id}`)
+      .then(teamObj => {
+        this.setState({
+          currentTeam: teamObj[0],
+          loading: false
+        });
+      })
+      .catch(err => console.log(err));
+  }
+
   render() {
-    const { loading, currentUser } = this.state;    
+    const { loading, currentUser, currentTeam } = this.state;    
     
     if (loading) {
       return (
@@ -56,7 +68,7 @@ class Root extends React.Component {
     return (
       <div>
         {currentUser.isAdmin ? <AdminView /> : 
-            <StudentView currentUser={currentUser} />
+            <StudentView currentUser={currentUser} currentTeam={currentTeam} loading={loading} />
 }
       </div>
     );
