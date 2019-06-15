@@ -12,10 +12,14 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log(`User ${profile.username} logged in.`);
-      let user = await User.findOne({ github_id: profile.id });
+      activeYear = await utils.get_active_year();
+      let user = await User.findOne({
+        year: activeYear,
+        github_id: profile.id
+      });
       if (!user) {
         user = await User.create({
-          year: await utils.get_active_year(),
+          year: activeYear,
           github_id: profile.id
         });
       }

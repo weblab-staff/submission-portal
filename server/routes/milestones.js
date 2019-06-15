@@ -9,8 +9,8 @@ const Class = require("../models/Class");
 const utils = require("./util.js");
 // gets the list of milestones for the current class year
 router.get("/", async (req, res) => {
-  let year_filter = await utils.get_filter_year(req);
-  Milestone.find({ year: year_filter }).then(milestones => {
+  let year_filter = { year: await utils.get_filter_year(req) };
+  Milestone.find(year_filter).then(milestones => {
     res.send(milestones);
   });
 });

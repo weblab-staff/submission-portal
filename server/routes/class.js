@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
 });
 
 // adds and admin to the list of admins
-router.post("/admins", function(req, res) {
+router.post("/:class_id/admins", function(req, res) {
   Class.findByIdAndUpdate(req.params["class_id"], {
     $push: { admins: req.body.admin_github_id }
   });
@@ -39,15 +39,20 @@ router.post("/:class_id/active-year", (req, res) => {
 router.post(
   "/",
   // connect.ensureLoggedIn(),
-  function(req, res) {
-    Class.create({
-      year: req.body["year"],
-      team_size_cap: req.body["team_size_cap"],
-      admins: req.body["admins"],
-      is_active: false
-    }).then(() => {
-      res.sendStatus(204);
-    });
+  async (req, res) => {
+    if ((await Class.findOne({ year: req.body["year"] })).length > 0) {
+      console.log("attempting to make a class with duplicate year");
+      res.sendStatus(400);
+    } else {
+      Class.create({
+        year: req.body["year"],
+        team_size_cap: req.body["team_size_cap"],
+        admins: req.body["admins"],
+        is_active: false
+      }).then(() => {
+        res.sendStatus(204);
+      });
+    }
   }
 );
 
