@@ -24,7 +24,7 @@ class AdminView extends React.Component {
     return (
       <div style={{display: 'flex'}}>
         <AdminSideBar activeTab={this.state.activeTab} year={this.state.viewedYear} setActiveTab={this.setActiveTab} />
-        <AdminBody activeTab={this.state.activeTab} setViewedYear={this.setViewedYear} />
+        <AdminBody activeTab={this.state.activeTab} year={this.state.viewedYear} setViewedYear={this.setViewedYear} />
       </div>
     );
   }

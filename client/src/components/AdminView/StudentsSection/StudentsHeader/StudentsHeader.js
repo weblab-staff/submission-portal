@@ -27,6 +27,7 @@ class StudentsHeader extends React.Component {
             <StudentsHeaderListButton tabLabel='TEAM' onClick={this.props.setActiveList} />
           </div>
         </div>
+        <hr />
       </div>
     );
   }

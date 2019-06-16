@@ -8,7 +8,6 @@ class StudentsBody extends React.Component {
 
     return (
       <div>
-        <hr />
         {activeList === 'INDIVIDUAL' ? <StudentList /> : <TeamList />}
       </div>
     );

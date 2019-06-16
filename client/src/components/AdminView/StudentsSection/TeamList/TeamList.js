@@ -11,6 +11,8 @@ class TeamList extends React.Component {
       teams: [
         {team_name: 'Gourdman', github_url: 'gourdman', members: [{first_name: 'a'}, {first_name: 'b'}], competing: true, milestones: [{id: 1, complete: true}]},
       ],
+      activeSort: null,
+      sortOrder: 'NONE',
     };
   }
 
@@ -38,8 +40,40 @@ class TeamList extends React.Component {
       .catch(err => console.log(err));
   }
 
+  genSortFunction(param, sortOrder) {
+    if (sortOrder === 'ASC') {
+      if (param === 'competing') {
+        return (a, b) => a[param] - b[param];
+      }
+
+      return (a, b) => a[param].localeCompare(b[param]);
+    } else {
+      if (param === 'competing') {
+        return (a, b) => b[param] - a[param];
+      }
+
+      return (a, b) => b[param].localeCompare(a[param]);
+    }
+  }
+
+  handleSort = (param) => {
+    let sortOrder = 'ASC';
+    if (this.state.activeSort === param && this.state.sortOrder === 'ASC') {
+      sortOrder = 'DES';
+    }
+
+    let sortedTeams = [...this.state.teams];
+    sortedTeams.sort(this.genSortFunction(param, sortOrder));    
+
+    this.setState({
+      teams: sortedTeams,
+      activeSort: param,
+      sortOrder
+    });
+  }
+
   render() {
-    const { loading, teams } = this.state;
+    const { loading, teams, activeSort, sortOrder } = this.state;
 
     if (loading) {
       return (
@@ -62,7 +96,10 @@ class TeamList extends React.Component {
     
     return (
       <div>
-        <TeamListHeader />
+        <TeamListHeader 
+          activeSort={activeSort} sortOrder={sortOrder}
+          handleSort={this.handleSort} 
+        />
         {list}
       </div>
     );
