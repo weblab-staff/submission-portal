@@ -8,7 +8,7 @@ const utils = require("./util");
 
 // gets the information of the current class iteration
 router.get("/", async (req, res) => {
-  const filter_year = await utils.get_filter_year();
+  const filter_year = await utils.get_filter_year(req);
   const filter = req.query["complete"] === "true" ? {} : { year: filter_year };
   Class.find(filter).then(data => {
     res.send(data);

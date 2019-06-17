@@ -2,7 +2,7 @@ import React from "react";
 
 class ClassEntry extends React.Component {
   makeYearActive = () => {
-    this.props.makeYearActive(this.props.year);
+    this.props.makeYearActive(this.props.id);
   }
 
   setViewedYear = () => {

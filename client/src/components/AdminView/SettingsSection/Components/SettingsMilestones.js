@@ -1,6 +1,6 @@
 import React from "react";
 import NewMilestoneModal from "./NewMilestoneModal";
-import { get, post } from "../../../utils";
+import { get, post } from "../../../../utils";
 
 class MilestoneRow extends React.Component {
   changeHandinLink = (event) => {
