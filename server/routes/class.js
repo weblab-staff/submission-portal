@@ -42,7 +42,8 @@ router.post(
   "/",
   // connect.ensureLoggedIn(),
   async (req, res) => {
-    if ((await Class.findOne({ year: req.body["year"] })).length > 0) {
+    const existing = await Class.findOne({ year: req.body["year"] });
+    if (existing && existing.length > 0) {
       console.log("attempting to make a class with duplicate year");
       res.sendStatus(400);
     } else {

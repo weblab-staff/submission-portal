@@ -13,6 +13,22 @@ class ClassList extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.getYears();
+  }
+
+  getYears = () => {
+    get('/api/class', {complete: true})
+      .then(data => {
+        data.sort((a, b) => b.year - a.year); // possible error point xd        
+        this.setState({
+          loading: false,
+          years: data,
+        });
+      })
+      .catch(err => console.log(err));
+  }
+
   makeYearActive = (id) => {
     post(`/api/class/${id}/active-year`)
       .then(status => {
@@ -28,8 +44,16 @@ class ClassList extends React.Component {
     this.setState({ modalActive: true });
   }
 
-  confirmNewIteration = () => {
+  confirmNewIteration = (body) => {
     console.log('Making new iteration!');
+    post('/api/class', body)
+      .then(status => {
+        if (status === 204) {
+          this.getYears();
+        }
+        return 'You fucked up'
+      })
+      .catch(err => console.log(err));
     this.setState({ modalActive: false });
   }
 
@@ -37,19 +61,16 @@ class ClassList extends React.Component {
     this.setState({ modalActive: false });
   }
 
-  componentDidMount() {
-    this.getYears();
-  }
+  getActiveYearData = () => {
+    const { years } = this.state;
 
-  getYears = () => {
-    get('/api/class', {complete: true})
-      .then(data => {
-        this.setState({
-          loading: false,
-          years: data,
-        });
-      })
-      .catch(err => console.log(err));
+    if (years && years.length > 0) {
+      for (let year of years) {
+        if (year.is_active) {
+          return year
+        }
+      }
+    }
   }
 
   render() {
@@ -63,6 +84,14 @@ class ClassList extends React.Component {
       );
     }
 
+    if (years && years.length === 0) {
+      return (
+        <div>
+          No years!
+        </div>
+      )
+    }
+
     return (
       <div>
         <div style={{display: 'flex', justifyContent: 'space-around'}}>
@@ -72,6 +101,7 @@ class ClassList extends React.Component {
         </div>
         {modalActive &&
           <NewClassIterationModal 
+            activeYearData={this.getActiveYearData()}
             confirmNewIteration={this.confirmNewIteration} 
             cancelNewIteration={this.cancelNewIteration} 
           />
