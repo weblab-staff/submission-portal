@@ -55,7 +55,7 @@ router.post("/", async (req, res) => {
   }).then(team => {
     User.findByIdAndUpdate(req.body["creator_id"], { team: team._id }).then(
       () => {
-        res.sendStatus(204);
+        res.status(200).send(team);
       }
     );
   });

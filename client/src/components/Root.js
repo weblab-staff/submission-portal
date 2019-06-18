@@ -20,14 +20,23 @@ class Root extends React.Component {
     this.getUser();
   }
 
+  // clean l8er
   getUser = () => {
     get('/api/whoami')
       .then(userObj => {
         if (userObj._id !== undefined) {
-          this.setState({
-            currentUser: userObj
-          });
-          this.getTeam(userObj.team);
+          if (userObj.team) {
+            this.getTeam(userObj.team);
+            this.setState({
+              currentUser: userObj,
+              // loading: false
+            });
+          } else {
+            this.setState({
+              currentUser: userObj,
+              loading: false
+            });
+          }
         } else {
           this.setState({
             currentUser: null,

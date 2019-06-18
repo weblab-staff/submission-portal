@@ -6,6 +6,8 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import Root from "./Root";
 import Register from "./Register";
+import TeamView from "./TeamView/TeamView.js";
+import CreateTeam from "./TeamView/CreateTeam.js";
 
 library.add(fas)
 
@@ -17,6 +19,8 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={Root} />
           <Route exact path="/register" component={Register} />
+          <Route exact path="/team" component={TeamView} />
+          <Route exact path="/create-team" component={CreateTeam} />
         </Switch>
       </div>
     )
