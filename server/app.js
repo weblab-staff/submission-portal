@@ -12,6 +12,7 @@ const api = require("./routes/api");
 const mongoose = require("mongoose");
 const passport = require("./passport");
 const periodic = require("./periodic");
+const github = require("./github");
 
 // set POST request body parser
 app.use(bodyParser.urlencoded({ extended: false }));
