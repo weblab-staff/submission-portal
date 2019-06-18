@@ -57,9 +57,9 @@ class SettingsBody extends React.Component {
     return (
       <div style={{marginLeft: '50px'}}>
         <SettingsMilestones year={this.props.year} />
-        <SettingsAdmin admins={info.admins}/>
+        <SettingsAdmin classId={info._id} refresh={this.getClassInfo} admins={info.admins}/>
         <div style={{display: 'flex'}}>
-          <SettingsTeamSize cap={info.team_size_cap}/>
+          <SettingsTeamSize refresh={this.getClassInfo} cap={info.team_size_cap}/>
           <SettingsRegistration />
         </div>
       </div>

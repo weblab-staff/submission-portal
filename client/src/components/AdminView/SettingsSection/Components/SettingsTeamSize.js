@@ -3,8 +3,15 @@ import React from "react";
 class SettingsTeamSize extends React.Component {
   updateCap = (event) => {
     const target = event.target;
-    const value = target.value;
-    console.log(value);
+    const value = parseInt(target.value);
+    // post('/somewhere')
+    //   .then(status => {
+    //     if (status === 204) {
+    //       this.props.refresh();
+    //     }
+    //     return 'You fucked up'
+    //   })
+    //   .catch(err => console.log(err));
   }
 
   render() {
