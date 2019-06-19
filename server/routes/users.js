@@ -48,8 +48,8 @@ router.post("/:user_id/update", (req, res) => {
     });
 });
 
-router.delete("/:user_id", (req, res) => {
-  User.findByIdAndDelete(req.params["user_id"], (err, res) => {
+router.delete("/:user_id", (req, res) => {  
+  User.findByIdAndDelete(req.params["user_id"], (err) => {
     if (err) {
       console.log("error deleting");
       res.sendStatus(500);

@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 // adds an admin to the list of admins
 router.post("/:class_id/admins", function(req, res) {
   Class.findByIdAndUpdate(req.params["class_id"], {
-    $push: { admins: req.body.admin_github_id }
+    $addToSet: { admins: req.body.admin_github_id }
   }).then(() => {
     res.sendStatus(204);
   });

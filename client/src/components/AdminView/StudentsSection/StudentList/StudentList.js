@@ -1,6 +1,7 @@
 import React from "react";
 import StudentListHeader from "./StudentListHeader";
 import StudentEntry from "./StudentEntry";
+import StudentInfoModal from "./StudentInfoModal";
 import { get } from "../../../../utils";
 
 class StudentList extends React.Component {
@@ -8,25 +9,22 @@ class StudentList extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      students: [
-        {first_name: 'Jessica', last_name: 'Tang', github_url: 'jynnie', team: 'Plix', for_credit: true, tags: ['Student', 'test']},
-        {first_name: 'matt', last_name: 'F', github_url: 'mfarejowicz', for_credit: false, tags: []},
-      ],
+      students: null,
       activeSort: null,
       sortOrder: 'NONE',
+      modalInfo: null,
+      modalActive: false
     };
   }
 
   componentDidMount() {
-    // this.getStudents();
+    this.getStudents();
   }
 
   getStudents = () => {
-    get('/api/users/')
+    get('/api/users/', {populate: true})
       .then(data => {
-        if (data) {
-          console.log(data);
-          
+        if (data) {         
           this.setState({
             loading: false,
             students: data,
@@ -42,6 +40,7 @@ class StudentList extends React.Component {
   }
 
   genSortFunction(param, sortOrder) {
+    // Team name sort is borked rn
     if (sortOrder === 'ASC') {
       if (param === 'for_credit') {
         return (a, b) => a[param] - b[param];
@@ -73,8 +72,16 @@ class StudentList extends React.Component {
     });
   }
 
+  showInfoModal = (info) => {
+    this.setState({ modalActive: true, modalInfo: info });
+  }
+
+  hideInfoModal = () => {
+    this.setState({ modalActive: false });
+  }
+
   render() {
-    const { loading, students, activeSort, sortOrder } = this.state;
+    const { loading, students, activeSort, sortOrder, modalInfo, modalActive } = this.state;
 
     if (loading) {
       return (
@@ -89,14 +96,20 @@ class StudentList extends React.Component {
         No students!
       </div>
     );
+    
     if (students && students.length > 0) {
       list = students.map((el, index) => 
-        <StudentEntry key={index} info={el} />
+        <StudentEntry key={index} info={el} 
+          showInfoModal={this.showInfoModal}
+        />
       );
     }
     
     return (
       <div>
+        {modalActive &&
+          <StudentInfoModal info={modalInfo} hideInfoModal={this.hideInfoModal}/>
+        }
         <StudentListHeader 
           activeSort={activeSort} sortOrder={sortOrder}
           handleSort={this.handleSort} 

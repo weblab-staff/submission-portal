@@ -10,14 +10,14 @@ class Root extends React.Component {
     this.state = {
       loading: true,
       currentUser: null,
-      currentTeam: null
-      // loading: false,
-      // currentUser: {isAdmin: true},
+      currentTeam: null,
+      currentClass: null,
     }
   }
 
   componentDidMount() {
     this.getUser();
+    this.getCurrentClass();
   }
 
   // clean l8er
@@ -58,8 +58,23 @@ class Root extends React.Component {
       .catch(err => console.log(err));
   }
 
+  getCurrentClass = () => {
+    get(`/api/class/`)
+      .then(classObj => {
+        this.setState({
+          currentClass: classObj[0],
+          loading: false
+        });
+      })
+      .catch(err => console.log(err));
+  }
+
+  checkIfAdmin = () => {
+    return this.state.currentClass.admins.includes(this.state.currentUser.github_id);
+  }
+
   render() {
-    const { loading, currentUser, currentTeam } = this.state;    
+    const { loading, currentUser, currentTeam, currentClass } = this.state;
     
     if (loading) {
       return (
@@ -73,10 +88,15 @@ class Root extends React.Component {
       return <Login />
     }
     
+    let isAdmin = false;
+    if (currentClass) {
+      isAdmin = this.checkIfAdmin();  
+    }
+
     return (
       <div>
-        {currentUser.isAdmin ? <AdminView /> : 
-            <StudentView currentUser={currentUser} currentTeam={currentTeam} loading={loading} />
+        {isAdmin ? <AdminView /> : 
+          <StudentView currentUser={currentUser} currentTeam={currentTeam} loading={loading} />
         }
       </div>
     );
