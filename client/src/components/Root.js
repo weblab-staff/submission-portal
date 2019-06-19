@@ -50,6 +50,7 @@ class Root extends React.Component {
   getTeam = (id) => {
     get(`/api/teams/${id}`)
       .then(teamObj => {
+        console.log('HEYO')
         this.setState({
           currentTeam: teamObj[0],
           loading: false

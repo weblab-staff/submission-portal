@@ -58,7 +58,7 @@ class MemberSection extends React.Component {
         )}
         <label>
             Add member:
-            <input type="text" name="newMember" value={newMember} onChange={this.handleChange} />
+            <input type="text" name="newMember" value={newMember || ''} onChange={this.handleChange} />
           </label>
         </div>
       </div>

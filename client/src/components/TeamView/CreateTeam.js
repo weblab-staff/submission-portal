@@ -64,20 +64,25 @@ class CreateTeam extends React.Component {
     }
     return (
           <div>Create Team
+
+          <ul>
+            <li><a href="/">Portal</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+          </ul>
             <form onSubmit={this.handleSubmit}>
-          <label>
-            Team Name:
-            <input type="text" name="teamName" value={teamName} onChange={this.handleChange} />
-          </label>
-          <label>
-            Are you competing?
-            <select name="isCompeting" value={isCompeting} onChange={this.handleChange}>
-              <option value={false}>Nopo</option>
-              <option value={true}>Yas</option>
-            </select>
-          </label>
-          <input type="submit" value="Submit" onClick={this.handleSubmit}/>
-        </form>
+              <label>
+                Team Name:
+                <input type="text" name="teamName" value={teamName} onChange={this.handleChange} />
+              </label>
+              <label>
+                Are you competing?
+                <select name="isCompeting" value={isCompeting} onChange={this.handleChange}>
+                  <option value={false}>Nopo</option>
+                  <option value={true}>Yas</option>
+                </select>
+              </label>
+              <input type="submit" value="Submit" onClick={this.handleSubmit}/>
+            </form>
           </div>
         )
     }

@@ -27,7 +27,8 @@ class StudentViewBroad extends React.Component {
 
   render() {
     const {
-      toggleView
+      toggleView,
+      currentTeam
     } = this.props;
     const {
       milestones,
@@ -37,10 +38,13 @@ class StudentViewBroad extends React.Component {
       <div>
         {loading ? <div>LOADING!</div> : (
           milestones.map(mileObj => {
+            // this line breaks cause currentTeam props is still null
+            // const sub = currentTeam.submissions.slice().reverse().find(sub => sub.milestone === mileObj._id);
             return <div
               key={mileObj._id}
               >
-              {mileObj.title} submitted by <button onClick={toggleView}>Cory Lynch</button>
+              <div>{mileObj.title}</div>
+              <button onClick={toggleView}>{sub ? "last submitted " + sub.timestamp : "no submissions!"}</button>
               <div>due: {mileObj.deadline}</div>
             </div>
           })

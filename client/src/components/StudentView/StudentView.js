@@ -53,7 +53,7 @@ class StudentView extends React.Component {
               }
             }}>Create Team</Link>
           )}
-        <StudentViewBody />
+        <StudentViewBody currentTeam={currentTeam} />
       </div>
     )
       ;

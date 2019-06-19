@@ -18,12 +18,15 @@ class StudentViewBody extends React.Component {
 
   render() {
     const {
+      currentTeam
+    } = this.props;
+    const {
       expanded
     } = this.state;
     return (
       <div>
         StudentViewBody!
-        {expanded ? <StudentViewDetailed toggleView={this.toggleView}/> : <StudentViewBroad toggleView={this.toggleView}/>}
+        {expanded ? <StudentViewDetailed currentTeam={currentTeam} toggleView={this.toggleView}/> : <StudentViewBroad currentTeam={currentTeam} toggleView={this.toggleView}/>}
       </div>
     )
     ;

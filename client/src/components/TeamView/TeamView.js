@@ -21,6 +21,10 @@ class TeamView extends React.Component {
 
     return (
       <div>
+        <ul>
+          <li><a href="/">Portal</a></li>
+          <li><a href="/auth/logout">Logout</a></li>
+        </ul>
         TeamView!
           <div>
             {currentTeam.team_name}
