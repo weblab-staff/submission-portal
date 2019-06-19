@@ -13,8 +13,14 @@ function find_team(year, id, populate, include_content, callback) {
   if (populate) {
     query
       .populate("members")
-      .populate("submissions", include_content ? "" : "-form_response")
-      .populate("feedback", include_content ? "" : "-body");
+      .populate({
+        path: "submissions", 
+        select: include_content ? "" : "-form_response",
+        populate: [
+          { path: "milestone", select: "title description" },
+          { path: "feedback", select: include_content ? "" : "-body" }
+        ]
+      })
   }
   query.exec((err, data) => {
     callback(data);
