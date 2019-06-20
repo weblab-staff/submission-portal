@@ -2,6 +2,7 @@ const passport = require("passport");
 const GitHubStrategy = require("passport-github").Strategy;
 const User = require("./models/User");
 const utils = require("./routes/util.js");
+const Class = require("./models/Class");
 
 passport.use(
   new GitHubStrategy(
@@ -12,21 +13,24 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log(`User ${profile.username} logged in.`);
-      console.log(profile);
       activeYear = await utils.get_active_year();
       let user = await User.findOne({
         year: activeYear,
         github_username: profile.username
       });
       if (!user) {
+        // old_users = await User.find({ github_username: profile.username });
+        // const was_admin =
+        //   old_users.filter(old_user => old_user.is_admin == true).length > 0;
+
+        adminList = (await Class.findOne({ year: activeYear })).admins;
         user = await User.create({
           year: activeYear,
           github_username: profile.username,
           first_name: profile.displayName.split(" ")[0],
           last_name: profile.displayName.split(" ")[1],
           for_credit: false, //by default set their for_credit status to false
-          is_admin: false /*we could do some cool things where we set this to true,
-                          if we do a lookup and see this user existed as admin in a previous year*/
+          is_admin: adminList.includes(profile.username)
         });
       }
       done(null, user);

@@ -97,7 +97,15 @@ router.post(
         admins: req.body["admins"],
         is_active: false
       }).then(() => {
-        res.sendStatus(204);
+        User.Update(
+          {
+            year: req.body.year,
+            github_username: { $in: [req.body.admins] }
+          },
+          { is_admin: true }
+        ).then(() => {
+          res.sendStatus(204);
+        });
       });
     }
   }
