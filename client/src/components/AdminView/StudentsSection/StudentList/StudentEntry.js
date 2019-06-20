@@ -70,7 +70,7 @@ class StudentEntry extends React.Component {
           <div>{info.last_name}</div>
         </div>
         <div style={{width: '10vw'}}>
-          <a href={`https://github.com/${info.github_id}`}>{info.github_id}</a>
+          <a href={`https://github.com/${info.github_username}`}>{info.github_username}</a>
         </div>
         <div style={{width: '10vw'}}>
           <div>{info.team ? info.team.team_name : '???'}</div>

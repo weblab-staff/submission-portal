@@ -39,7 +39,7 @@ class StudentListHeader extends React.Component {
         </div>
         <div style={{display: 'flex', width: '10vw'}}>
           <div style={{marginRight: '5px'}}>GitHub</div>
-          {this.renderSortIcon('github_id')}
+          {this.renderSortIcon('github_username')}
         </div>
         <div style={{display: 'flex', width: '10vw'}}>
           <div style={{marginRight: '5px'}}>Team</div>

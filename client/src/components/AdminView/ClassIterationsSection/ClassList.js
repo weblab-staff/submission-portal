@@ -30,7 +30,7 @@ class ClassList extends React.Component {
   }
 
   makeYearActive = (id) => {
-    post(`/api/class/${id}/active-year`)
+    post(`/api/class/${id}/set-active-year`)
       .then(status => {
         if (status === 204) {
           this.getYears();
