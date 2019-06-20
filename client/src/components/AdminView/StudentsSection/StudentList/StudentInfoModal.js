@@ -28,7 +28,7 @@ class StudentInfoModal extends React.Component {
         </div>
         <div>
           <span>github id</span>
-          <span>{info.github_id}</span>
+          <span>{info.github_username}</span>
         </div>
         <div>
           <span>email</span>

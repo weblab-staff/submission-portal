@@ -18,7 +18,7 @@ class SettingsAdmin extends React.Component {
   getUsers = () => {
     get('/api/users')
       .then(data => {
-        console.log(data);
+        // console.log(data);
         
         this.setState({
           loading: false,
@@ -38,7 +38,7 @@ class SettingsAdmin extends React.Component {
   }
 
   addAdmin = () => {
-    post(`/api/class/${this.props.classId}/admins`, {admin_github_id: this.state.selected})
+    post(`/api/class/${this.props.classId}/admins`, {admin_github_username: this.state.selected})
       .then(status => {
         if (status === 204) {
           this.setState({
@@ -52,21 +52,37 @@ class SettingsAdmin extends React.Component {
       .catch(err => console.log(err));
   }
 
-  deleteAdmin = (id) => {
-    console.log(`Deleting ${id}`)
-    // post('/api/class/delete-admin', {id})
-    //   .then(status => {
-    //     if (status === 204) {
-    //       this.props.refresh();
-    //     }
-    //     return 'You fucked up'
-    //   })
-    //   .catch(err => console.log(err));
+  deleteAdmin = (github_username) => {
+    if (confirm(`Are you sure you want to delete?`)) {
+      fetch(`/api/class/${this.props.classId}/admins`, {
+        method: 'DELETE',
+        body: {admin_github_username: github_username}
+      }).then(res => {
+        if (res.status === 204) {
+          console.log('nice');
+        } else {
+          console.log('you fuked up');
+        }
+      })
+      .catch(err => console.log(err));
+    } else {
+      console.log('NOT deleting');
+    }
+  }
+
+  getAdmins = () => {
+    const admins = [];
+
+    for (let user of this.state.users) {
+      if (user.is_admin) {
+        admins.push(user);
+      }
+    }
+
+    return admins;
   }
 
   render() {
-    const dummyAdmins = [{name: 'Matt', _id:6}, {name: 'jessica', _id:9}];
-
     if (this.state.loading) {
       return (
         <div>
@@ -74,6 +90,8 @@ class SettingsAdmin extends React.Component {
         </div>
       )
     }
+
+    const admins = this.getAdmins();    
     
     return (
       <div style={{display: 'flex', width: '82vw', height:'20vh', border: '1px solid black', margin: '1vh 1vw'}}>
@@ -82,14 +100,14 @@ class SettingsAdmin extends React.Component {
           <input type="text" list="users" value={this.state.selected} onChange={this.onChange}/>
           <datalist id="users">
             {this.state.users.map((user, index) =>
-              <option key={index} value={user.github_id}>{`${user.first_name} ${user.last_name}`}</option>
+              <option key={index} value={user.github_username}>{`${user.first_name} ${user.last_name}`}</option>
             )}
           </datalist>
           <button onClick={this.addAdmin}>Add</button>
         </div>
         <div>
-          {dummyAdmins.map((el, index) => 
-            <div key={index}>{el.name}<button onClick={() => this.deleteAdmin(el._id)}>X</button></div>
+          {admins.map((el, index) => 
+            <div key={index}>{`${el.first_name} ${el.last_name}`}<button onClick={() => this.deleteAdmin(el.github_username)}>X</button></div>
           )}
         </div>
       </div>
