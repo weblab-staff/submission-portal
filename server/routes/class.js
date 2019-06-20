@@ -52,13 +52,31 @@ router.delete("/:class_id/admins", function(req, res) {
 
 // changes the active year for a class
 // should make sure only one other class is active
-router.post("/:class_id/active-year", (req, res) => {
+router.post("/:class_id/set-active-year", (req, res) => {
   Class.update({ is_active: true }, { is_active: false }).then(() => {
     Class.findByIdAndUpdate(req.params["class_id"], {
       is_active: true
     }).then(() => {
       res.sendStatus(204);
     });
+  });
+});
+
+// sets team_size_cap
+router.post("/:class_id/team_size_cap", (req, res) => {
+  Class.findByIdAndUpdate(req.params["class_id"], {
+    team_size_cap: req.body.team_size_cap
+  }).then(() => {
+    res.sendStatus(204);
+  });
+});
+
+// sets team_size_cap
+router.post("/:class_id/registration", (req, res) => {
+  Class.findByIdAndUpdate(req.params["class_id"], {
+    registration_open: req.body.registration_open
+  }).then(() => {
+    res.sendStatus(204);
   });
 });
 
