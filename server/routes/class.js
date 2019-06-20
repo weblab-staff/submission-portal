@@ -5,6 +5,7 @@ const connect = require("connect-ensure-login");
 const router = express.Router();
 const Class = require("../models/Class");
 const utils = require("./util");
+const User = require("../models/User");
 
 // gets the information of the current class iteration
 router.get("/", async (req, res) => {
@@ -18,9 +19,34 @@ router.get("/", async (req, res) => {
 // adds an admin to the list of admins
 router.post("/:class_id/admins", function(req, res) {
   Class.findByIdAndUpdate(req.params["class_id"], {
-    $addToSet: { admins: req.body.admin_github_id }
-  }).then(() => {
-    res.sendStatus(204);
+    $addToSet: { admins: req.body.admin_github_username }
+  }).then(indiv_class => {
+    User.update(
+      {
+        year: indiv_class.year,
+        github_username: req.body.admin_github_username
+      },
+      { is_admin: true }
+    ).then(() => {
+      res.sendStatus(204);
+    });
+  });
+});
+
+// removes an admin from the list of admins
+router.delete("/:class_id/admins", function(req, res) {
+  Class.findByIdAndUpdate(req.params["class_id"], {
+    $pull: { admins: req.body.admin_github_username }
+  }).then(indiv_class => {
+    User.updateOne(
+      {
+        year: indiv_class.year,
+        github_username: req.body.admin_github_username
+      },
+      { is_admin: false }
+    ).then(() => {
+      res.sendStatus(204);
+    });
   });
 });
 

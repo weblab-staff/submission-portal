@@ -11,16 +11,14 @@ function find_team(year, id, populate, include_content, callback) {
   const filter = id.length > 0 ? { _id: id } : { year: year };
   const query = Team.find(filter);
   if (populate) {
-    query
-      .populate("members")
-      .populate({
-        path: "submissions", 
-        select: include_content ? "" : "-form_response",
-        populate: [
-          { path: "milestone", select: "title description" },
-          { path: "feedback", select: include_content ? "" : "-body" }
-        ]
-      })
+    query.populate("members").populate({
+      path: "submissions",
+      select: include_content ? "" : "-form_response",
+      populate: [
+        { path: "milestone", select: "title description" },
+        { path: "feedback", select: include_content ? "" : "-body" }
+      ]
+    });
   }
   query.exec((err, data) => {
     callback(data);
