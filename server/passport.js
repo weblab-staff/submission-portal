@@ -13,17 +13,13 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log(`User ${profile.username} logged in.`);
-      activeYear = await utils.get_active_year();
+      const activeYear = await utils.get_active_year();
       let user = await User.findOne({
         year: activeYear,
         github_username: profile.username
       });
       if (!user) {
-        // old_users = await User.find({ github_username: profile.username });
-        // const was_admin =
-        //   old_users.filter(old_user => old_user.is_admin == true).length > 0;
-
-        adminList = (await Class.findOne({ year: activeYear })).admins;
+        const adminList = (await Class.findOne({ year: activeYear }, "admins")).admins;
         user = await User.create({
           year: activeYear,
           github_username: profile.username,
