@@ -26,14 +26,14 @@ function createTeam(name) {
 }
 
 // returns a promise for the URL of the repo
-function createRepo(name, team_id) {
+function createRepo(teamId, repoName) {
   const options = {
     method: 'POST',
     uri: getEndpoint('orgs/mit6148/repos'),
     headers: HEADERS,
     body: { 
-      name,
-      team_id,
+      name: repoName,
+      team_id: teamId,
       private: true,
     },
     json: true
@@ -42,10 +42,66 @@ function createRepo(name, team_id) {
   return request(options).then(res => res.html_url);
 }
 
-async function main() {
-  const id = await createTeam("the meme team");
-  const res = await createRepo('cor-jynnie-aspiser', id);
-  console.log(res);
+function giveAdminAccess(teamId, repoName) {
+  const options = {
+    method: 'PUT',
+    uri: getEndpoint(`teams/${teamId}/repos/mit6148/${repoName}`),
+    headers: HEADERS,
+    body: {
+      permission: 'admin'
+    },
+    json: true
+  };
+
+  return request(options);
 }
 
-// main()
+function addMembers(teamId, usernames) {
+  return Promise.all(usernames.map(username => {
+    const options = {
+      method: 'PUT',
+      uri: getEndpoint(`teams/${teamId}/memberships/${username}`),
+      headers: HEADERS,
+      json: true
+    };
+
+    return request(options);
+  }));
+}
+
+function deleteTeamAndRepo(teamId, repoName) {
+  const teamOptions = {
+    method: 'DELETE',
+    uri: getEndpoint(`teams/${teamId}`),
+    headers: HEADERS
+  }
+  
+  const repoOptions = {
+    method: 'DELETE',
+    uri: getEndpoint(`repos/mit6148/${repoName}`),
+    headers: HEADERS
+  }
+
+  return Promise.all([
+    request(teamOptions),
+    request(repoOptions)
+  ])
+}
+
+
+async function test() {
+  const id = await createTeam("the meme team");
+  console.log(`Created team with id ${id}`);
+  const url = await createRepo(id, 'cor-jynnie-aspiser');
+  console.log(`Created new repo ${url}`);
+  const res2 = await giveAdminAccess(id, 'cor-jynnie-aspiser');
+  console.log("Granted team admin access to repo");
+  const res = await addMembers(id, ['cory2067']);
+  console.log("Added members to repo");
+
+  await deleteTeamAndRepo(id, 'cor-jynnie-aspiser');
+  console.log("Cleaned up.");
+}
+
+// test()
+
