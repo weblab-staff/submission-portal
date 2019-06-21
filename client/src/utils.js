@@ -26,3 +26,16 @@ export const post = (endpoint, params) => {
     return res.status;
   });
 }
+
+export const delet = (endpoint, params) => {
+  return fetch(endpoint, {
+    method: 'delete',
+    headers: {'Content-type': 'application/json'},
+    body: JSON.stringify(params)
+  }).then(res => {    
+    if (res.status === 200) {
+      return res.json();
+    }
+    return res.status;
+  });
+}

@@ -48,6 +48,34 @@ router.post("/:user_id/update", (req, res) => {
     });
 });
 
+router.post("/:user_id/tag", (req, res) => {
+  User.findByIdAndUpdate(req.params["user_id"], {
+    $addToSet: { tags: req.body.tag }
+  })
+  .then(data => {
+    res.sendStatus(204);
+  })
+  .catch(err => {
+    console.log(err);
+    console.log(`No User found with ID ${req.params["user_id"]}`);
+    res.sendStatus(400);
+  });
+});
+
+router.delete("/:user_id/tag", (req, res) => {
+  User.findByIdAndUpdate(req.params["user_id"], {
+    $pull: { tags: req.body.tag }
+  })
+  .then(data => {
+    res.sendStatus(204);
+  })
+  .catch(err => {
+    console.log(err);
+    console.log(`No User found with ID ${req.params["user_id"]}`);
+    res.sendStatus(400);
+  });
+});
+
 router.delete("/:user_id", (req, res) => {  
   User.findByIdAndDelete(req.params["user_id"], (err) => {
     if (err) {

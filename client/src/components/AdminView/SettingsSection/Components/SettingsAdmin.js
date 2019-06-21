@@ -1,5 +1,5 @@
 import React from "react";
-import { get, post } from "../../../../utils";
+import { get, post, delet } from "../../../../utils";
 
 class SettingsAdmin extends React.Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class SettingsAdmin extends React.Component {
       .catch(err => console.log(err));
   }
 
-  onChange = (event) => {
+  handleChange = (event) => {
     const target = event.target;
     const value = target.value;
 
@@ -40,11 +40,11 @@ class SettingsAdmin extends React.Component {
   addAdmin = () => {
     post(`/api/class/${this.props.classId}/admins`, {admin_github_username: this.state.selected})
       .then(status => {
-        if (status === 204) {
+        if (status === 204) {          
           this.setState({
             selected: '',
           });
-          this.props.refresh();
+          this.getUsers();
         } else {
           console.log('you fuked up');
         }
@@ -54,20 +54,18 @@ class SettingsAdmin extends React.Component {
 
   deleteAdmin = (github_username) => {
     if (confirm(`Are you sure you want to delete?`)) {
-      fetch(`/api/class/${this.props.classId}/admins`, {
-        method: 'DELETE',
-        body: {admin_github_username: github_username}
-      }).then(res => {
-        if (res.status === 204) {
-          console.log('nice');
-        } else {
-          console.log('you fuked up');
-        }
-      })
-      .catch(err => console.log(err));
-    } else {
-      console.log('NOT deleting');
-    }
+      delet(`/api/class/${this.props.classId}/admins`, {admin_github_username:github_username})
+        .then(status => {
+          if (status === 204) {
+            this.getUsers();
+          } else {
+            console.log('you fuked up');
+          }
+        })
+        .catch(err => console.log(err));
+      } else {
+        console.log('NOT deleting');
+      }
   }
 
   getAdmins = () => {
@@ -97,7 +95,7 @@ class SettingsAdmin extends React.Component {
       <div style={{display: 'flex', width: '82vw', height:'20vh', border: '1px solid black', margin: '1vh 1vw'}}>
         <div>Admins</div>
         <div>
-          <input type="text" list="users" value={this.state.selected} onChange={this.onChange}/>
+          <input type="text" list="users" value={this.state.selected} onChange={this.handleChange}/>
           <datalist id="users">
             {this.state.users.map((user, index) =>
               <option key={index} value={user.github_username}>{`${user.first_name} ${user.last_name}`}</option>

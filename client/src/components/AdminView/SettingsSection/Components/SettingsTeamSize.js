@@ -1,17 +1,18 @@
 import React from "react";
+import { post } from "../../../../utils";
 
 class SettingsTeamSize extends React.Component {
   updateCap = (event) => {
     const target = event.target;
     const value = parseInt(target.value);
-    // post('/somewhere')
-    //   .then(status => {
-    //     if (status === 204) {
-    //       this.props.refresh();
-    //     }
-    //     return 'You fucked up'
-    //   })
-    //   .catch(err => console.log(err));
+    post(`/api/class/${this.props.classId}/team_size_cap`, {team_size_cap: value})
+      .then(status => {
+        if (status === 204) {
+          this.props.refresh();
+        }
+        return 'You fucked up'
+      })
+      .catch(err => console.log(err));
   }
 
   render() {

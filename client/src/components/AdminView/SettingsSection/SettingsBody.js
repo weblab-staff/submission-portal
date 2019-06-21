@@ -18,7 +18,7 @@ class SettingsBody extends React.Component {
     this.getClassInfo();
   }
 
-  getClassInfo = () => {
+  getClassInfo = () => {    
     get('/api/class')
       .then(data => {
         if (data && data.length > 0) {
@@ -57,10 +57,10 @@ class SettingsBody extends React.Component {
     return (
       <div style={{marginLeft: '50px'}}>
         <SettingsMilestones year={this.props.year} />
-        <SettingsAdmin classId={info._id} refresh={this.getClassInfo} admins={info.admins}/>
+        <SettingsAdmin classId={info._id} admins={info.admins}/>
         <div style={{display: 'flex'}}>
-          <SettingsTeamSize refresh={this.getClassInfo} cap={info.team_size_cap}/>
-          <SettingsRegistration />
+          <SettingsTeamSize classId={info._id} refresh={this.getClassInfo} cap={info.team_size_cap}/>
+          <SettingsRegistration classId={info._id} refresh={this.getClassInfo} regOpen={info.registration_open}/>
         </div>
       </div>
     );

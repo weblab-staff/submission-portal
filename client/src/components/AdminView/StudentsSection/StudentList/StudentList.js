@@ -40,16 +40,30 @@ class StudentList extends React.Component {
   }
 
   genSortFunction(param, sortOrder) {
-    // Team name sort is borked rn
+    // This is probably too overcomplicated but im bad
     if (sortOrder === 'ASC') {
       if (param === 'for_credit') {
         return (a, b) => a[param] - b[param];
+      }
+      if (param === 'team_name') {
+        return (a, b) => {
+          const aTeam = a.team ? a.team.team_name : '???';
+          const bTeam = b.team ? b.team.team_name : '???';
+          return aTeam.localeCompare(bTeam);
+        }
       }
 
       return (a, b) => a[param].localeCompare(b[param]);
     } else {
       if (param === 'for_credit') {
         return (a, b) => b[param] - a[param];
+      }
+      if (param === 'team_name') {
+        return (a, b) => {
+          const aTeam = a.team ? a.team.team_name : '???';
+          const bTeam = b.team ? b.team.team_name : '???';
+          return bTeam.localeCompare(aTeam);
+        }
       }
 
       return (a, b) => b[param].localeCompare(a[param]);
@@ -101,6 +115,7 @@ class StudentList extends React.Component {
       list = students.map((el, index) => 
         <StudentEntry key={index} info={el} 
           showInfoModal={this.showInfoModal}
+          refresh={this.getStudents}
         />
       );
     }

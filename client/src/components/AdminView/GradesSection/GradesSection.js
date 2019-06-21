@@ -6,8 +6,7 @@ class Root extends React.Component {
       <div>
         GradesSection!
       </div>
-    )
-    ;
+    );
   }
 }
 

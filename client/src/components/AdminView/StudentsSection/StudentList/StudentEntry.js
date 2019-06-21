@@ -1,18 +1,26 @@
 import React from "react";
-import { get, post } from "../../../../utils";
+import { get, post, delet } from "../../../../utils";
 
 class StudentEntry extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      addingTag: false,
+      tag: '',
+    }
+  }
+
   toggleCredit = () => {
-    // const { _id, for_credit } = this.props.info;
-    // post(`/api/users/${_id}/update`, {for_credit: !for_credit})
-    //   .then(status => {
-    //     if (status === 204) {
-    //       // this.props.refresh();
-    //     } else {
-    //       console.log('you fuked up');
-    //     }
-    //   })
-    //   .catch(err => console.log(err));
+    const { _id, for_credit } = this.props.info;
+    post(`/api/users/${_id}/update`, {for_credit: !for_credit})
+      .then(status => {
+        if (status === 204) {
+          this.props.refresh();
+        } else {
+          console.log('you fuked up');
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   showInfoModal = () => {
@@ -26,10 +34,9 @@ class StudentEntry extends React.Component {
   deleteStudent = () => {
     if (confirm(`Are you sure you want to delete ${this.props.info.first_name}?`)) {
       const { _id } = this.props.info;
-      fetch(`/api/users/${_id}`, {
-        method: 'DELETE'
-      }).then(res => {
-        if (res.status === 204) {
+      delet(`/api/users/${_id}`)
+      .then(status => {
+        if (status === 204) {
           console.log('nice');
         } else {
           console.log('you fuked up');
@@ -39,6 +46,58 @@ class StudentEntry extends React.Component {
     } else {
       console.log('NOT deleting');
     }
+  }
+
+  handleChange = (event) => {
+    const target = event.target;
+    const value = target.value;
+
+    this.setState({
+      tag: value,
+    });
+  }
+
+  showTagInput = () => {
+    this.setState({
+      addingTag: true
+    });
+  }
+
+  addTag = () => {
+    const { _id } = this.props.info;
+    post(`/api/users/${_id}/tag`, {tag: this.state.tag})
+      .then(status => {
+        if (status === 204) {
+          this.setState({
+            addingTag: false,
+            tag: '',
+          })
+          this.props.refresh();
+        } else {
+          console.log('you fuked up');
+        }
+      })
+      .catch(err => console.log(err));
+  }
+
+  deleteTag = (tag) => {
+    const { _id } = this.props.info;
+    delet(`/api/users/${_id}/tag`, {tag})
+      .then(status => {
+        if (status === 204) {
+          this.props.refresh();
+        } else {
+          console.log('you fuked up');
+        }
+      })
+      .catch(err => console.log(err));
+  }
+
+  hideTagInput = () => {
+    this.setState({
+      addingTag: false,
+      tag: '',
+    })
   }
 
   render() {
@@ -76,12 +135,23 @@ class StudentEntry extends React.Component {
           <div>{info.team ? info.team.team_name : '???'}</div>
         </div>
         <div style={{width: '5vw'}}>
-          <input type='checkbox' checked={info.for_credit}></input>
+          <input type='checkbox' checked={info.for_credit} onChange={this.toggleCredit}></input>
         </div>
         <div style={{display: 'flex', width: '25vw'}}>
-          {info.tags.map((el, index) => 
-            <div key={index}>{el}</div>
+          {info.tags.map((tag, index) => 
+            <div key={index} style={{border: '1px solid black', borderRadius: '3px'}}>
+              <span>{tag}</span>
+              <button onClick={() => this.deleteTag(tag)}>X</button>
+            </div>
           )}
+          {this.state.addingTag ?
+            <div>
+              <input type="text" onChange={this.handleChange}></input>
+              <button onClick={this.hideTagInput}>cancel</button>
+              <button onClick={this.addTag}>add</button>
+            </div> :
+            <button onClick={this.showTagInput}>+</button>
+          }
         </div>
         <div style={{display: 'flex', justifyContent: 'flex-end', width: '10vw'}}>
           <div style={iconStyle} onClick={this.showInfoModal}>I</div>

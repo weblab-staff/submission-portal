@@ -6,8 +6,7 @@ class GradesHeader extends React.Component {
       <div>
         GradesHeader!
       </div>
-    )
-    ;
+    );
   }
 }
 
