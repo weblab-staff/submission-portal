@@ -103,5 +103,21 @@ async function test() {
   console.log("Cleaned up.");
 }
 
-// test()
+module.exports = {
+
+  // Generate a GitHub team and repo for the given team, return URL of repo
+  generate: async (team) => {
+    const members = team.members.map(member => member.github_username);
+    const repoName = members.join("-");
+
+    const id = await createTeam(team.team_name);
+    const url = await createRepo(id, repoName);
+    
+    await giveAdminAccess(id, repoName);
+    await addMembers(id, members);
+     
+    return url;
+  }
+
+}
 

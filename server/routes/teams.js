@@ -6,6 +6,7 @@ const Team = require("../models/Team");
 const User = require("../models/User");
 const MilestoneSubmission = require("../models/MilestoneSubmission");
 const utils = require("./util.js");
+const github = require("../github");
 
 function find_team(year, id, populate, include_content, callback) {
   const filter = id.length > 0 ? { _id: id } : { year: year };
@@ -94,9 +95,15 @@ router.post("/:team_id/mark-complete", (req, res) => {
   });
 });
 
-router.post("/:team_id/generate-github", (req, res) => {
-  res.sendStatus(404);
-  //TODO NOT IMPLEMENTED
+router.post("/:team_id/generate-github", async (req, res) => {
+  const team = await Team.findOne({ _id: req.params.team_id })
+                         .populate('members', 'github_username');
+
+  const url = await github.generate(team);
+  
+  team.github_url = url;
+  await team.save();
+  res.send({url});
 });
 
 router.post("/:team_id/feedback", (req, res) => {
