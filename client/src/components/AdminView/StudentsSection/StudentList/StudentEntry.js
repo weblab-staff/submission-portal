@@ -100,8 +100,16 @@ class StudentEntry extends React.Component {
     })
   }
 
+  toggleSelection = () => {    
+    if (this.props.selected) {
+      this.props.deselectStudent(this.props.info);
+    } else {
+      this.props.selectStudent(this.props.info);
+    }
+  }
+
   render() {
-    const { info } = this.props;
+    const { info, selected } = this.props;
 
     const styles = {
       display: 'flex',
@@ -120,7 +128,7 @@ class StudentEntry extends React.Component {
     return (
       <div style={styles}>
         <div style={{width: '3vw'}}>
-          <input type='checkbox'></input>
+          <input type='checkbox' checked={selected} onChange={this.toggleSelection}></input>
         </div>
         <div style={{width: '10vw'}}>
           <div>{info.first_name}</div>

@@ -4,11 +4,19 @@ import TeamList from "./TeamList/TeamList";
 
 class StudentsBody extends React.Component {
   render() {
-    const { activeList } = this.props;
+    const { activeList, selectedStudents, selectStudent, deselectStudent } = this.props;
 
     return (
       <div>
-        {activeList === 'INDIVIDUAL' ? <StudentList /> : <TeamList />}
+        {activeList === 'INDIVIDUAL' ? 
+          <StudentList 
+            selectedStudents={selectedStudents}
+            selectStudent={selectStudent}
+            deselectStudent={deselectStudent}
+            deselectAll={this.props.deselectAll}
+          /> : 
+          <TeamList />
+        }
       </div>
     );
   }

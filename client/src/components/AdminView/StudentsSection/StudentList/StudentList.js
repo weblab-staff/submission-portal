@@ -24,10 +24,15 @@ class StudentList extends React.Component {
   getStudents = () => {
     get('/api/users/', {populate: true})
       .then(data => {
-        if (data) {         
+        if (data) {
+          let newModalInfo = null;
+          if (this.state.modalInfo) {
+            newModalInfo = data.filter(el => el._id === this.state.modalInfo._id)[0];
+          }    
           this.setState({
             loading: false,
             students: data,
+            modalInfo: newModalInfo,
           });
         } else {
           this.setState({
@@ -94,6 +99,10 @@ class StudentList extends React.Component {
     this.setState({ modalActive: false });
   }
 
+  isSelected = (student) => {
+    return this.props.selectedStudents.includes(student);
+  }
+
   render() {
     const { loading, students, activeSort, sortOrder, modalInfo, modalActive } = this.state;
 
@@ -114,6 +123,9 @@ class StudentList extends React.Component {
     if (students && students.length > 0) {
       list = students.map((el, index) => 
         <StudentEntry key={index} info={el} 
+          selected={this.isSelected(el)}
+          selectStudent={this.props.selectStudent}
+          deselectStudent={this.props.deselectStudent}
           showInfoModal={this.showInfoModal}
           refresh={this.getStudents}
         />
@@ -123,11 +135,17 @@ class StudentList extends React.Component {
     return (
       <div>
         {modalActive &&
-          <StudentInfoModal info={modalInfo} hideInfoModal={this.hideInfoModal}/>
+          <StudentInfoModal 
+            info={modalInfo} 
+            hideInfoModal={this.hideInfoModal}
+            refresh={this.getStudents}
+          />
         }
         <StudentListHeader 
           activeSort={activeSort} sortOrder={sortOrder}
-          handleSort={this.handleSort} 
+          handleSort={this.handleSort}
+          selectedStudents={this.props.selectedStudents}
+          deselectAll={this.props.deselectAll}
         />
         {list}
       </div>

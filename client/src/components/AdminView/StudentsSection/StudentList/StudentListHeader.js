@@ -16,6 +16,16 @@ class StudentListHeader extends React.Component {
     return <div onClick={() => this.props.handleSort(param)}>{text}</div>;
   }
 
+  areStudentsSelected = () => {
+    return this.props.selectedStudents.length > 0;
+  }
+
+  deselectAll = () => {    
+    if (this.areStudentsSelected()) {       
+      this.props.deselectAll();
+    }
+  }
+
   render() {
     const styles = {
       display: 'flex',
@@ -27,7 +37,7 @@ class StudentListHeader extends React.Component {
     return (
       <div style={styles}>
         <div style={{display: 'flex', width: '3vw'}}>
-          <input type='checkbox'></input>
+          <input type='checkbox' checked={this.areStudentsSelected()} onChange={this.deselectAll}></input>
         </div>
         <div style={{display: 'flex', width: '10vw'}}>
           <div style={{marginRight: '5px'}}>First Name</div>
