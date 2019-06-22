@@ -17,11 +17,6 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-router.get("/", async (req, res) => {
-  const emails = await Email.find({});
-  res.send(emails);
-});
-
 router.post(
   '/',
   connect.ensureLoggedIn(),
