@@ -22,13 +22,15 @@ router.post(
   connect.ensureLoggedIn(),
   async (req, res) => {
     if (req.user.is_admin) {
-      const teams = await Team.find({ _id: { $in: [req.body.teams] } });
-      const users = await User.find({ _id: { $in: [req.body.students] } })
+      const user_ids = req.body.students !== undefined ? req.body.students : []
+      const team_ids = req.body.teams !== undefined ? req.body.teams : []
+      const teams = await Team.find({ _id: { $in: team_ids } });
+      const users = await User.find({ _id: { $in: user_ids } })
       const recipients = await User.find(
         {
           $or: [
             { _id: { $in: teams.map(function (team) { return team.members }).flat() } },
-            { _id: { $in: [req.body.students] } }
+            { _id: { $in: user_ids } }
           ]
         }
       );
