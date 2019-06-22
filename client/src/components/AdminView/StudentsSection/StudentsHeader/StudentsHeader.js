@@ -4,6 +4,8 @@ import StudentsHeaderListButton from "./StudentsHeaderListButton";
 
 class StudentsHeader extends React.Component {
   render() {
+    const { setActiveList, selectedStudents, deselectStudent } = this.props;
+
     const styles = {
       marginLeft: '20px',
       display: 'flex',
@@ -16,15 +18,25 @@ class StudentsHeader extends React.Component {
         <h1 className="tabHeader">Students</h1>
         <div style={styles}>
           <div>
-            <input style={{width: '30vw'}}></input>
-            <button>EMAIL</button>
+            <div>
+              <input style={{width: '30vw'}}></input>
+              <button onClick={this.props.showEmailModal}>EMAIL</button>
+            </div>
+            <div style={{display: 'flex'}}>
+              {selectedStudents.map((student, index) => 
+                <div key={`selected-${index}`}>
+                  <span>{student.first_name}</span>
+                  <button onClick={() => deselectStudent(student)}>X</button>
+                </div>
+              )}
+            </div>
           </div>
           <div>
             <SearchBar />
           </div>
           <div style={{display: 'flex'}}>
-            <StudentsHeaderListButton tabLabel='INDIVIDUAL' onClick={this.props.setActiveList} />
-            <StudentsHeaderListButton tabLabel='TEAM' onClick={this.props.setActiveList} />
+            <StudentsHeaderListButton tabLabel='INDIVIDUAL' onClick={setActiveList} />
+            <StudentsHeaderListButton tabLabel='TEAM' onClick={setActiveList} />
           </div>
         </div>
         <hr />
