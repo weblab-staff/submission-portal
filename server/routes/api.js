@@ -4,7 +4,19 @@
 */
 
 const express = require('express');
+const util = require('./util');
 const router = express.Router();
+
+// Determine year from request
+router.use(async (req, res, next) => {
+  if (req.query.class_year) {
+    req.year = parseInt(req.query.class_year);
+    return next();
+  }
+
+  req.year = await util.get_active_year();
+  next();
+});
 
 router.use('/teams', require('./teams'));
 router.use('/users', require('./users'));

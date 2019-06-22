@@ -28,7 +28,7 @@ async function find_team(year, id, populate, include_content, callback) {
 //get information about all the teams
 router.get("/", errorWrap(async (req, res) => {
   const teams = await find_team(
-    await utils.get_filter_year(req),
+    req.year,
     "",
     req.query.populate === "true",
     req.query.include_content === "true"
@@ -40,7 +40,7 @@ router.get("/", errorWrap(async (req, res) => {
 //find and get all information about a specific team
 router.get("/:team_id", errorWrap(async (req, res) => {
   const team = await find_team(
-    await utils.get_filter_year(req),
+    req.year,
     req.params.team_id,
     true, //populate always true for individual team
     true, //always include content for individual team
@@ -57,7 +57,7 @@ router.post("/", errorWrap(async (req, res) => {
     team_name: req.body.team_name,
     members: [ req.body.creator_id ],
     competing: req.body.is_competing,
-    year: await utils.get_filter_year(req)
+    year: req.year
   });
 
   await team.save();
