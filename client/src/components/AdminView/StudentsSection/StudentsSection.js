@@ -59,6 +59,7 @@ class StudentsSection extends React.Component {
           <EmailModal 
             selectedStudents={selectedStudents}
             hideEmailModal={this.hideEmailModal}
+            deselectAll={this.deselectAll}
           />
         }
         <StudentsHeader 
@@ -72,7 +73,7 @@ class StudentsSection extends React.Component {
           selectedStudents={selectedStudents}
           selectStudent={this.selectStudent}
           deselectStudent={this.deselectStudent}
-          deselectAll = {this.deselectAll}
+          deselectAll={this.deselectAll}
         />
       </div>
     );

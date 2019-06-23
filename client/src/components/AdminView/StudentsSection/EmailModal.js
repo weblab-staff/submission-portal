@@ -23,12 +23,14 @@ class EmailModal extends React.Component {
   sendEmail = () => {
     post('/api/emails/', {
       students: this.props.selectedStudents.map(el => el._id),
-      teams: [],
       subject: this.state.subject,
       body: this.state.body,
     })
     .then(data => {
-      console.log(data);
+      if (data.response) {
+        this.props.hideEmailModal();
+        this.props.deselectAll();
+      }
     })
     .catch(err => console.log(err));
   }
