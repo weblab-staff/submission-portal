@@ -145,6 +145,7 @@ class StudentList extends React.Component {
           activeSort={activeSort} sortOrder={sortOrder}
           handleSort={this.handleSort}
           selectedStudents={this.props.selectedStudents}
+          selectAll={() => this.props.selectAll(students)}
           deselectAll={this.props.deselectAll}
         />
         {list}

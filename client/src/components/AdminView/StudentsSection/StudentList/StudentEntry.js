@@ -1,5 +1,5 @@
 import React from "react";
-import { get, post, delet } from "../../../../utils";
+import { post, delet } from "../../../../utils";
 
 class StudentEntry extends React.Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class StudentEntry extends React.Component {
       delet(`/api/users/${_id}`)
       .then(status => {
         if (status === 204) {
-          console.log('nice');
+          this.props.refresh()
         } else {
           console.log('you fuked up');
         }
@@ -140,7 +140,7 @@ class StudentEntry extends React.Component {
           <a href={`https://github.com/${info.github_username}`}>{info.github_username}</a>
         </div>
         <div style={{width: '10vw'}}>
-          <div>{info.team ? info.team.team_name : '???'}</div>
+          <div>{info.team ? info.team.team_name : 'undefined'}</div>
         </div>
         <div style={{width: '5vw'}}>
           <input type='checkbox' checked={info.for_credit} onChange={this.toggleCredit}></input>

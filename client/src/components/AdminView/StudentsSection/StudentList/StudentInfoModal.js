@@ -114,7 +114,7 @@ class StudentInfoModal extends React.Component {
         </div>
         <div>
           <span>for credit</span>
-          <span>{info.for_credit ? info.for_credit.toString() : 'idk'}</span>
+          <span>{info.for_credit.toString()}</span>
         </div>
         <div>
           <span>tags</span>

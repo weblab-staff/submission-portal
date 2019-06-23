@@ -50,6 +50,12 @@ class StudentsSection extends React.Component {
     })
   }
 
+  selectAll = (students) => {
+    this.setState({
+      selectedStudents: students,
+    })
+  }
+
   render() {
     const { activeList, emailModalActive, selectedStudents } = this.state;
 
@@ -72,6 +78,7 @@ class StudentsSection extends React.Component {
           activeList={activeList} 
           selectedStudents={selectedStudents}
           selectStudent={this.selectStudent}
+          selectAll={this.selectAll}
           deselectStudent={this.deselectStudent}
           deselectAll={this.deselectAll}
         />

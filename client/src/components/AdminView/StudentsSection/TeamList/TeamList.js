@@ -8,36 +8,32 @@ class TeamList extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      teams: [
-        {team_name: 'Gourdman', github_url: 'gourdman', members: [{first_name: 'a'}, {first_name: 'b'}], competing: true, milestones: [{id: 1, complete: true}]},
-      ],
+      teams: [],
       activeSort: null,
       sortOrder: 'NONE',
     };
   }
 
   componentDidMount() {
-    // this.getTeams();
+    this.getTeams();
   }
 
   getTeams = () => {
-    get('/api/teams/')
-      .then(data => {
-        if (data) {
-          console.log(data);
-          
-          this.setState({
-            loading: false,
-            teams: data,
-          });
-        } else {
-          this.setState({
-            loading: false,
-            teams: null,
-          });
-        }
-      })
-      .catch(err => console.log(err));
+    get('/api/teams/', {populate: true})
+    .then(data => {
+      if (data) {        
+        this.setState({
+          loading: false,
+          teams: data,
+        });
+      } else {
+        this.setState({
+          loading: false,
+          teams: null,
+        });
+      }
+    })
+    .catch(err => console.log(err));
   }
 
   genSortFunction(param, sortOrder) {
@@ -45,11 +41,25 @@ class TeamList extends React.Component {
       if (param === 'competing') {
         return (a, b) => a[param] - b[param];
       }
+      if (param === 'github_url') {
+        return (a, b) => {
+          const aGit = a.github_url || 'undefined';
+          const bGit = b.github_url || 'undefined';
+          return aGit.localeCompare(bGit);
+        }
+      }
 
       return (a, b) => a[param].localeCompare(b[param]);
     } else {
       if (param === 'competing') {
         return (a, b) => b[param] - a[param];
+      }
+      if (param === 'github_url') {
+        return (a, b) => {
+          const aGit = a.github_url || 'undefined';
+          const bGit = b.github_url || 'undefined';
+          return bGit.localeCompare(aGit);
+        }
       }
 
       return (a, b) => b[param].localeCompare(a[param]);
@@ -88,9 +98,12 @@ class TeamList extends React.Component {
         No teams!
       </div>
     );
-    if (teams && teams.length > 0) {
+    if (teams.length > 0) {
       list = teams.map((el, index) => 
-        <TeamEntry key={index} info={el} />
+        <TeamEntry 
+          key={index} info={el} 
+          refresh={this.getTeams}
+        />
       );
     }
     

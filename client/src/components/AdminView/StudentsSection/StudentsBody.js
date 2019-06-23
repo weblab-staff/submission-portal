@@ -4,7 +4,7 @@ import TeamList from "./TeamList/TeamList";
 
 class StudentsBody extends React.Component {
   render() {
-    const { activeList, selectedStudents, selectStudent, deselectStudent } = this.props;
+    const { activeList, selectedStudents, selectStudent, selectAll, deselectStudent, deselectAll } = this.props;
 
     return (
       <div>
@@ -12,8 +12,9 @@ class StudentsBody extends React.Component {
           <StudentList 
             selectedStudents={selectedStudents}
             selectStudent={selectStudent}
+            selectAll={selectAll}
             deselectStudent={deselectStudent}
-            deselectAll={this.props.deselectAll}
+            deselectAll={deselectAll}
           /> : 
           <TeamList />
         }

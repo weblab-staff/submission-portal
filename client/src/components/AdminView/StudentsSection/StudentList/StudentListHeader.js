@@ -20,9 +20,11 @@ class StudentListHeader extends React.Component {
     return this.props.selectedStudents.length > 0;
   }
 
-  deselectAll = () => {    
+  toggleSelect = () => {    
     if (this.areStudentsSelected()) {       
       this.props.deselectAll();
+    } else {
+      this.props.selectAll();
     }
   }
 
@@ -37,7 +39,7 @@ class StudentListHeader extends React.Component {
     return (
       <div style={styles}>
         <div style={{display: 'flex', width: '3vw'}}>
-          <input type='checkbox' checked={this.areStudentsSelected()} onChange={this.deselectAll}></input>
+          <input type='checkbox' checked={this.areStudentsSelected()} onChange={this.toggleSelect}></input>
         </div>
         <div style={{display: 'flex', width: '10vw'}}>
           <div style={{marginRight: '5px'}}>First Name</div>
