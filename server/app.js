@@ -20,12 +20,7 @@ app.use(bodyParser.json());
 
 const publicPath = path.resolve(__dirname, "..", "client", "dist");
 
-let env = 'dev';
-if (process.env.PRODUCTION) {
-    env = 'prod';
-} else if (process.env.TESTING) {
-    env = 'test';
-}
+let env = process.env.NODE_ENV || "dev";
 
 mongoose
   .connect(process.env.MONGO_SRV, {
@@ -76,9 +71,14 @@ app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
  });
 
-const port = process.env.PRODUCTION ? 80 : 3000;
+module.exports = app;
+
+if (env === 'test') {
+    return; // don't run webserver for tests
+}
+
+const port = (env  === 'prod') ? 80 : 3000;
 http.listen(port, () => {
   console.log(`Listening on port ${port} and looking in folder ${publicPath}`);
 });
 
-module.exports = app;
