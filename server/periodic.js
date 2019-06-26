@@ -31,9 +31,16 @@ async function checkSubmissions() {
           milestone: milestone._id,
           form_response: row,
           feedback: []
-        })
+        });
+
+        if (!team.submissions) {
+            team.submissions = [submission];
+        } else {
+            team.submissions.push(submission);
+        }
 
         submission.save();
+        team.save();
       });
 
 
