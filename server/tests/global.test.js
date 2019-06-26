@@ -3,8 +3,9 @@ const mongoose = require('mongoose');
 before(() => {
   // wait for mongodb to connect before running test suite
   return new Promise((resolve, reject) => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       if (mongoose.connection.db) {
+        clearInterval(interval);
         return resolve();
       }
     }, 100);
@@ -12,5 +13,5 @@ before(() => {
 });
 
 after(() => {
-  mongoose.connection.close();
+  mongoose.disconnect();
 });
