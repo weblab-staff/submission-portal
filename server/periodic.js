@@ -9,6 +9,7 @@ const MilestoneSubmission = require('./models/MilestoneSubmission');
 const SHEET_POLL_INTERVAL = 10;
 
 function start() {
+  if (process.env.NODE_ENV === 'test') return;
   setInterval(checkSubmissions, SHEET_POLL_INTERVAL * 1000);
 }
 
