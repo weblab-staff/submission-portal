@@ -20,10 +20,18 @@ app.use(bodyParser.json());
 
 const publicPath = path.resolve(__dirname, "..", "client", "dist");
 
+let env = 'dev';
+if (process.env.PRODUCTION) {
+    env = 'prod';
+} else if (process.env.TESTING) {
+    env = 'test';
+}
+
 mongoose
   .connect(process.env.MONGO_SRV, {
     useNewUrlParser: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    dbName: env 
   })
   .then(
     () => console.log("Connected to MongoDB"),
@@ -68,6 +76,9 @@ app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
  });
 
-http.listen(3000, () => {
-  console.log(`Listening on port 3000 and looking in folder ${publicPath}`);
+const port = process.env.PRODUCTION ? 80 : 3000;
+http.listen(port, () => {
+  console.log(`Listening on port ${port} and looking in folder ${publicPath}`);
 });
+
+module.exports = app;
