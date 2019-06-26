@@ -7,8 +7,9 @@ class TeamList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
+      loading: true,
       teams: [],
+      milestones: [],
       activeSort: null,
       sortOrder: 'NONE',
     };
@@ -19,19 +20,16 @@ class TeamList extends React.Component {
   }
 
   getTeams = () => {
-    get('/api/teams/', {populate: true})
+    Promise.all([
+      get('/api/teams', {populate: true}),
+      get('/api/milestones/')
+    ])
     .then(data => {
-      if (data) {        
-        this.setState({
-          loading: false,
-          teams: data,
-        });
-      } else {
-        this.setState({
-          loading: false,
-          teams: null,
-        });
-      }
+      this.setState({
+        loading: false,
+        teams: data[0],
+        milestones: data[1]
+      });
     })
     .catch(err => console.log(err));
   }
@@ -83,7 +81,7 @@ class TeamList extends React.Component {
   }
 
   render() {
-    const { loading, teams, activeSort, sortOrder } = this.state;
+    const { loading, teams, milestones, activeSort, sortOrder } = this.state;
 
     if (loading) {
       return (
@@ -101,7 +99,8 @@ class TeamList extends React.Component {
     if (teams.length > 0) {
       list = teams.map((el, index) => 
         <TeamEntry 
-          key={index} info={el} 
+          key={index} info={el}
+          milestones={milestones}
           refresh={this.getTeams}
         />
       );

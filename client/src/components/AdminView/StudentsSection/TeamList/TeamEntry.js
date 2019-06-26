@@ -80,8 +80,12 @@ class TeamEntry extends React.Component {
     }
   }
 
+  submittedMilestone = (team, milestone) => {
+    return team.submissions.some(el => el.milestone._id === milestone._id);
+  }
+
   render() {
-    const { info } = this.props;
+    const { info, milestones } = this.props;
 
     const styles = {
       display: 'flex',
@@ -106,7 +110,7 @@ class TeamEntry extends React.Component {
           <div>{info.team_name}</div>
         </div>
         <div style={{width: '10vw'}}>
-          <a href={`https://github.com/${info.github_url}`}>{info.github_url ? info.github_url.substring(27) : "undefined"}</a>
+          <a href={info.github_url}>{info.github_url ? info.github_url.substring(27) : "undefined"}</a>
         </div>
         <div style={{display: 'flex', width: '20vw'}}>
           {info.members.map((member, index) => 
@@ -128,7 +132,9 @@ class TeamEntry extends React.Component {
           <input type='checkbox' checked={info.competing} onChange={this.toggleCompeting}></input>
         </div>
         <div style={{display: 'flex', width: '15vw'}}>
-          Milestones here
+          {milestones.map((el, index) =>
+            <div key={`ms-progress-${index}`}>1-{this.submittedMilestone(info, el) ? 'Y' : 'N'}</div>
+          )}
         </div>
         <div style={{display: 'flex', justifyContent: 'flex-end', width: '10vw'}}>
           <div style={iconStyle} onClick={this.showMilestonesSection}>M</div>

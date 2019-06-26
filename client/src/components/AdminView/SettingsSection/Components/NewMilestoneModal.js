@@ -5,10 +5,10 @@ class NewClassMilestoneModal extends React.Component {
     super(props);
     this.state = {
       title: null,
-      desc: null,
+      description: null,
       deadline: null,
       handin_link: null,
-      responses_link: null,
+      responses_id: null,
     }
   }
 
@@ -50,7 +50,7 @@ class NewClassMilestoneModal extends React.Component {
           <span>Title:</span><input name='title' type='text' onChange={this.handleInputChange}></input>
         </div>
         <div>
-          <span>Description:</span><textarea name='desc' onChange={this.handleInputChange}></textarea>
+          <span>Description:</span><textarea name='description' onChange={this.handleInputChange}></textarea>
         </div>
         <div>
           <span>Deadline:</span><input name='deadline' type='date' onChange={this.handleInputChange}></input>
@@ -59,7 +59,7 @@ class NewClassMilestoneModal extends React.Component {
           <span>Hand in link:</span><input name='handin_link' type='text' onChange={this.handleInputChange}></input>
         </div>
         <div>
-          <span>Responses link:</span><input name='responses_link' type='text' onChange={this.handleInputChange}></input>
+          <span>Response id:</span><input name='responses_id' type='text' onChange={this.handleInputChange}></input>
         </div>
         <button onClick={this.confirmNewMilestone}>confirm</button>
         <button onClick={this.cancelNewMilestone}>cancel</button>

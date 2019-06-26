@@ -5,6 +5,10 @@ class GradeableEntry extends React.Component {
     console.log('opening milestone modal');
   }
 
+  submittedMilestone = (team, milestone) => {
+    return team.submissions.some(el => el.milestone._id === milestone._id);
+  }
+
   render() {
     const { num, team, milestones } = this.props;
 
@@ -29,7 +33,7 @@ class GradeableEntry extends React.Component {
             <div key={`${team.team_name}-ms-${index}`}>
               <span>{ms.title}</span>
               <span style={iconStyle} onClick={this.showMilestonesSection}>I</span>
-              <span style={iconStyle}>Y</span>
+              <span style={{margin: '0 10px'}}>{this.submittedMilestone(team, ms) ? 'Y' : 'N'}</span>
             </div>
           )}
         </div>
