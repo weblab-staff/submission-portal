@@ -9,57 +9,75 @@ class NewClassMilestoneModal extends React.Component {
       deadline: null,
       handin_link: null,
       responses_id: null,
-    }
+    };
   }
 
   handleInputChange = (event) => {
     const target = event.target;
     // Sometimes gets the wrong date but i have no idea why
-    const value = target.type === 'date' ? new Date(target.value) : target.value;
+    const value =
+      target.type === "date" ? new Date(target.value) : target.value;
     const name = target.name;
 
     this.setState({
-      [name]: value
-    });    
-  }
+      [name]: value,
+    });
+  };
 
   confirmNewMilestone = () => {
     this.props.confirmNewMilestone(this.state);
-  }
+  };
 
   cancelNewMilestone = () => {
     this.props.cancelNewMilestone();
-  }
+  };
 
   render() {
     const styles = {
-      border: '1px solid black',
-      background: 'white',
-      position: 'absolute',
-      left: '40vw',
-      top: '10vh',
-      width: '300px',
-      height: '300px',
-      zIndex: '2'
-    }
+      border: "1px solid black",
+      background: "white",
+      position: "absolute",
+      left: "40vw",
+      top: "10vh",
+      width: "300px",
+      height: "300px",
+      zIndex: "2",
+    };
 
     return (
       <div style={styles}>
         <div>Fill this out pls</div>
         <div>
-          <span>Title:</span><input name='title' type='text' onChange={this.handleInputChange}></input>
+          <span>Title:</span>
+          <input name="title" type="text" onChange={this.handleInputChange} />
         </div>
         <div>
-          <span>Description:</span><textarea name='description' onChange={this.handleInputChange}></textarea>
+          <span>Description:</span>
+          <textarea name="description" onChange={this.handleInputChange} />
         </div>
         <div>
-          <span>Deadline:</span><input name='deadline' type='date' onChange={this.handleInputChange}></input>
+          <span>Deadline:</span>
+          <input
+            name="deadline"
+            type="date"
+            onChange={this.handleInputChange}
+          />
         </div>
         <div>
-          <span>Hand in link:</span><input name='handin_link' type='text' onChange={this.handleInputChange}></input>
+          <span>Hand in link:</span>
+          <input
+            name="handin_link"
+            type="text"
+            onChange={this.handleInputChange}
+          />
         </div>
         <div>
-          <span>Response id:</span><input name='responses_id' type='text' onChange={this.handleInputChange}></input>
+          <span>Response id:</span>
+          <input
+            name="responses_id"
+            type="text"
+            onChange={this.handleInputChange}
+          />
         </div>
         <button onClick={this.confirmNewMilestone}>confirm</button>
         <button onClick={this.cancelNewMilestone}>cancel</button>

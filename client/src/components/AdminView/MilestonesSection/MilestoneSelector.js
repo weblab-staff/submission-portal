@@ -4,10 +4,10 @@ class MilestoneSelector extends React.Component {
   render() {
     return (
       <div>
-        MilestoneSelector!
+        <div onClick={this.props.hideMilestonesSection}>{"<-"}</div>
+        <div>Milestones</div>
       </div>
-    )
-    ;
+    );
   }
 }
 

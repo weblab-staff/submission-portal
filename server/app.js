@@ -26,11 +26,11 @@ mongoose
   .connect(process.env.MONGO_SRV, {
     useNewUrlParser: true,
     useFindAndModify: false,
-    dbName: env 
+    dbName: env,
   })
   .then(
     () => console.log("Connected to MongoDB"),
-    err => console.log("Error connecting to MongoDB: " + err)
+    (err) => console.log("Error connecting to MongoDB: " + err)
   );
 
 periodic.start(); // start periodic tasks (e.g. read spreadsheets)
@@ -39,7 +39,7 @@ app.use(
   session({
     secret: "session-secret",
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
   })
 );
 
@@ -67,18 +67,17 @@ app.get("/auth/logout", (req, res) => {
 app.use(express.static(publicPath));
 app.use("/api", api);
 
-app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
- });
+app.get("/*", function(req, res) {
+  res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
+});
 
 module.exports = app;
 
-if (env === 'test') {
-    return; // don't run webserver for tests
+if (env === "test") {
+  return; // don't run webserver for tests
 }
 
-const port = (env  === 'prod') ? 80 : 3000;
+const port = env === "prod" ? 80 : 3000;
 http.listen(port, () => {
   console.log(`Listening on port ${port} and looking in folder ${publicPath}`);
 });
-

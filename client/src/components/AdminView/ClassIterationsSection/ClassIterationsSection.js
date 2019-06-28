@@ -1,5 +1,5 @@
 import React from "react";
-import ClassIterationHeader from './ClassIterationHeader';
+import ClassIterationHeader from "./ClassIterationHeader";
 import ClassList from "./ClassList";
 
 class ClassIterationsSection extends React.Component {
