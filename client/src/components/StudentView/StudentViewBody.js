@@ -24,8 +24,7 @@ class StudentViewBody extends React.Component {
       expanded
     } = this.state;
     return (
-      <div>
-        StudentViewBody!
+      <div className="milestonesContainer">
         {expanded ? <StudentViewDetailed currentTeam={currentTeam} toggleView={this.toggleView}/> : <StudentViewBroad currentTeam={currentTeam} toggleView={this.toggleView}/>}
       </div>
     )
