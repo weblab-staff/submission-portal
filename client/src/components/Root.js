@@ -62,8 +62,24 @@ class Root extends React.Component {
     
     if (loading) {
       return (
-        <div>
-          Loading!
+        <div className="browserContainer">
+          <div className="greetingContainer">
+            <div className="skeleton graphicCircle" />
+            <h1 className="skeleton skeleton-line--long" />
+            <h2 className="skeleton skeleton-line" />
+          </div>
+          <div className="milestonesContainer">
+            {[0,1,2,3].map(() => {
+              return (
+              <div class="milestone-Container">
+                <div class="skeleton milestone-Indicator" />
+                <div class="milestone-Info">
+                  <div class="skeleton skeleton-line--short milestone-Name" />
+                  <div class="skeleton skeleton-line--long milestone-Due" />
+                </div>
+              </div>)
+            })}
+          </div>
         </div>
       )
     }

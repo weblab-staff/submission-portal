@@ -1,0 +1,78 @@
+.browserContainer {
+  --top-border: 40px;
+
+  margin: 0;
+  padding: 0 40px;
+  border: 10px var(--s-blue) solid;
+  border-top: var(--top-border) var(--s-blue) solid;
+  display: grid;
+  height: calc(100vh - var(--top-border) - 10px);
+  grid-template-columns: 1fr 1fr;
+}
+
+.browserContainer:after {
+  --radius: 20px;
+  --circle-margin: calc(var(--top-border) / 4);
+  
+  content: "";
+  width: var(--radius);
+  height: var(--radius);
+  position: absolute;
+  border-radius: 100%;
+  top: var(--circle-margin);
+  left: var(--circle-margin);
+  background-color: var(--s-pink);
+  box-shadow: calc(var(--radius) + var(--circle-margin)) 0 var(--s-yella);
+}
+
+.greetingContainer, .milestonesContainer {
+  margin-top: 20vh;
+}
+
+.greetingContainer {
+  margin-left: 8vw;
+}
+
+.greetingContainer h1, h2 {
+  color: var(--s-blue);
+}
+
+.greetingContainer h2 {
+  font-style: italic;
+}
+
+.greetingContainer a {
+  color: var(--s-pink);
+}
+
+.graphicCircle {
+  --radius: 80px;
+  
+  background-color: var(--grey);
+  width: var(--radius);
+  height: var(--radius);
+  border-radius: 100%;
+}
+
+.milestone-Container {
+  display: flex;
+  margin-bottom: var(--milestone-gap);
+}
+
+.milestone-Name {
+  font-size: 1.2rem;
+}
+
+.milestone-Due {
+  opacity: 0.5;
+}
+
+.milestone-Indicator {
+  --radius: 16px;
+  
+  width: var(--radius);
+  height: var(--radius);
+  border-radius: 100%;
+  background-color: var(--s-blue);
+  margin: 0 10px;
+}
