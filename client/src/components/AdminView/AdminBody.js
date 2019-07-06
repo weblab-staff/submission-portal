@@ -11,40 +11,38 @@ class AdminBody extends React.Component {
       width: "calc(100vw - 120px)",
     };
 
-    let content;
+    return <div style={styles}>{this.renderContent()}</div>;
+  }
+
+  renderContent() {
     if (this.props.showingMilestones) {
-      content = (
+      return (
         <MilestonesSection
+          team={this.props.msTeam}
           hideMilestonesSection={this.props.hideMilestonesSection}
         />
       );
     } else {
       switch (this.props.activeTab) {
         case "iteration":
-          content = (
+          return (
             <ClassIterationsSection setViewedYear={this.props.setViewedYear} />
           );
-          break;
         case "students":
-          content = <StudentsSection />;
-          break;
+          return <StudentsSection />;
         case "grade":
-          content = (
+          return (
             <GradesSection
               showMilestonesSection={this.props.showMilestonesSection}
             />
           );
-          break;
         case "settings":
-          content = <SettingsSection year={this.props.year} />;
-          break;
+          return <SettingsSection year={this.props.year} />;
         default:
           console.log("should never get here");
-          break;
+          return;
       }
     }
-
-    return <div style={styles}>{content}</div>;
   }
 }
 

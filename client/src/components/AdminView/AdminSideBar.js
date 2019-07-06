@@ -3,7 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class AdminTabButton extends React.Component {
   render() {
-    const { activeTab, tabName, tabLabel, icon, onClick } = this.props;
+    const {
+      activeTab,
+      tabName,
+      tabLabel,
+      icon,
+      onClick,
+      showingMilestones,
+    } = this.props;
 
     const styles = {
       display: "flex",
@@ -15,7 +22,7 @@ class AdminTabButton extends React.Component {
       color: "#6d6d6d",
       cursor: "pointer",
     };
-    if (activeTab === tabName) {
+    if (!showingMilestones && activeTab === tabName) {
       styles.color = "#ffffff";
       styles.backgroundColor = "#3b66ff";
     }
@@ -36,7 +43,7 @@ class AdminTabButton extends React.Component {
 
 class AdminSideBar extends React.Component {
   render() {
-    const { activeTab, year, setActiveTab } = this.props;
+    const { activeTab, year, setActiveTab, showingMilestones } = this.props;
 
     const styles = {
       display: "flex",
@@ -56,6 +63,7 @@ class AdminSideBar extends React.Component {
           tabLabel={`${year} Class`}
           icon="calendar-alt"
           onClick={setActiveTab}
+          showingMilestones={showingMilestones}
         />
         <AdminTabButton
           activeTab={activeTab}
@@ -63,6 +71,7 @@ class AdminSideBar extends React.Component {
           tabLabel="Students"
           icon="user"
           onClick={setActiveTab}
+          showingMilestones={showingMilestones}
         />
         <AdminTabButton
           activeTab={activeTab}
@@ -70,6 +79,7 @@ class AdminSideBar extends React.Component {
           tabLabel="Grade"
           icon="highlighter"
           onClick={setActiveTab}
+          showingMilestones={showingMilestones}
         />
         <AdminTabButton
           activeTab={activeTab}
@@ -77,6 +87,7 @@ class AdminSideBar extends React.Component {
           tabLabel="Settings"
           icon="cog"
           onClick={setActiveTab}
+          showingMilestones={showingMilestones}
         />
       </div>
     );

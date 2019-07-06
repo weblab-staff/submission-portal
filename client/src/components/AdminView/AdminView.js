@@ -7,23 +7,26 @@ class AdminView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showingMilestones: false,
       activeTab: "iteration",
       viewedYear: 2019,
+      showingMilestones: false,
+      msTeam: "",
     };
   }
 
   setActiveTab = (tab) => {
-    this.setState({ activeTab: tab });
+    this.setState({ activeTab: tab, showingMilestones: false });
   };
 
   setViewedYear = (year) => {
     this.setState({ viewedYear: year });
   };
 
-  showMilestonesSection = (team, milestones) => {
-    console.log(team, milestones);
-    this.setState({ showingMilestones: true });
+  showMilestonesSection = (team) => {
+    this.setState({
+      showingMilestones: true,
+      msTeam: team,
+    });
   };
 
   hideMilestonesSection = () => {
@@ -37,6 +40,7 @@ class AdminView extends React.Component {
           activeTab={this.state.activeTab}
           setActiveTab={this.setActiveTab}
           year={this.state.viewedYear}
+          showingMilestones={this.state.showingMilestones}
         />
         <AdminBody
           activeTab={this.state.activeTab}
@@ -45,6 +49,7 @@ class AdminView extends React.Component {
           showingMilestones={this.state.showingMilestones}
           showMilestonesSection={this.showMilestonesSection}
           hideMilestonesSection={this.hideMilestonesSection}
+          msTeam={this.state.msTeam}
         />
       </div>
     );

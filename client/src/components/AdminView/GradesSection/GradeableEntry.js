@@ -36,9 +36,7 @@ class GradeableEntry extends React.Component {
               <span>{ms.title}</span>
               <span
                 style={iconStyle}
-                onClick={() =>
-                  this.props.showMilestonesSection(team, milestones)
-                }
+                onClick={() => this.props.showMilestonesSection(team._id)}
               >
                 I
               </span>
