@@ -44,7 +44,7 @@ class StudentViewBroad extends React.Component {
               key={mileObj._id}
               >
               <div>{mileObj.title}</div>
-              <button onClick={toggleView}>{sub ? "last submitted " + sub.timestamp : "no submissions!"}</button>
+              {/* <button onClick={toggleView}>{sub ? "last submitted " + sub.timestamp : "no submissions!"}</button> */}
               <div>due: {mileObj.deadline}</div>
             </div>
           })
