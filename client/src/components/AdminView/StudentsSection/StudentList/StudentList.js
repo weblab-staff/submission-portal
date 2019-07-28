@@ -11,9 +11,9 @@ class StudentList extends React.Component {
       loading: false,
       students: null,
       activeSort: null,
-      sortOrder: 'NONE',
+      sortOrder: "NONE",
       modalInfo: null,
-      modalActive: false
+      modalActive: false,
     };
   }
 
@@ -22,13 +22,15 @@ class StudentList extends React.Component {
   }
 
   getStudents = () => {
-    get('/api/users/', {populate: true})
-      .then(data => {
+    get("/api/users/", { populate: true })
+      .then((data) => {
         if (data) {
           let newModalInfo = null;
           if (this.state.modalInfo) {
-            newModalInfo = data.filter(el => el._id === this.state.modalInfo._id)[0];
-          }    
+            newModalInfo = data.filter(
+              (el) => el._id === this.state.modalInfo._id
+            )[0];
+          }
           this.setState({
             loading: false,
             students: data,
@@ -41,34 +43,34 @@ class StudentList extends React.Component {
           });
         }
       })
-      .catch(err => console.log(err));
-  }
+      .catch((err) => console.log(err));
+  };
 
   genSortFunction(param, sortOrder) {
     // This is probably too overcomplicated but im bad
-    if (sortOrder === 'ASC') {
-      if (param === 'for_credit') {
+    if (sortOrder === "ASC") {
+      if (param === "for_credit") {
         return (a, b) => a[param] - b[param];
       }
-      if (param === 'team_name') {
+      if (param === "team_name") {
         return (a, b) => {
-          const aTeam = a.team ? a.team.team_name : '???';
-          const bTeam = b.team ? b.team.team_name : '???';
+          const aTeam = a.team ? a.team.team_name : "???";
+          const bTeam = b.team ? b.team.team_name : "???";
           return aTeam.localeCompare(bTeam);
-        }
+        };
       }
 
       return (a, b) => a[param].localeCompare(b[param]);
     } else {
-      if (param === 'for_credit') {
+      if (param === "for_credit") {
         return (a, b) => b[param] - a[param];
       }
-      if (param === 'team_name') {
+      if (param === "team_name") {
         return (a, b) => {
-          const aTeam = a.team ? a.team.team_name : '???';
-          const bTeam = b.team ? b.team.team_name : '???';
+          const aTeam = a.team ? a.team.team_name : "???";
+          const bTeam = b.team ? b.team.team_name : "???";
           return bTeam.localeCompare(aTeam);
-        }
+        };
       }
 
       return (a, b) => b[param].localeCompare(a[param]);
@@ -76,73 +78,75 @@ class StudentList extends React.Component {
   }
 
   handleSort = (param) => {
-    let sortOrder = 'ASC';
-    if (this.state.activeSort === param && this.state.sortOrder === 'ASC') {
-      sortOrder = 'DES';
+    let sortOrder = "ASC";
+    if (this.state.activeSort === param && this.state.sortOrder === "ASC") {
+      sortOrder = "DES";
     }
 
     let sortedStudents = [...this.state.students];
-    sortedStudents.sort(this.genSortFunction(param, sortOrder));    
+    sortedStudents.sort(this.genSortFunction(param, sortOrder));
 
     this.setState({
       students: sortedStudents,
       activeSort: param,
-      sortOrder
+      sortOrder,
     });
-  }
+  };
 
   showInfoModal = (info) => {
     this.setState({ modalActive: true, modalInfo: info });
-  }
+  };
 
   hideInfoModal = () => {
     this.setState({ modalActive: false });
-  }
+  };
 
   isSelected = (student) => {
     return this.props.selectedStudents.includes(student);
-  }
+  };
 
   render() {
-    const { loading, students, activeSort, sortOrder, modalInfo, modalActive } = this.state;
+    const {
+      loading,
+      students,
+      activeSort,
+      sortOrder,
+      modalInfo,
+      modalActive,
+    } = this.state;
 
     if (loading) {
-      return (
-        <div>
-          Loading!
-        </div>
-      )
+      return <div>Loading!</div>;
     }
 
-    let list = (
-      <div>
-        No students!
-      </div>
-    );
-    
+    let list = <div>No students!</div>;
+
     if (students && students.length > 0) {
-      list = students.map((el, index) => 
-        <StudentEntry key={index} info={el} 
+      list = students.map((el, index) => (
+        <StudentEntry
+          key={index}
+          info={el}
           selected={this.isSelected(el)}
           selectStudent={this.props.selectStudent}
           deselectStudent={this.props.deselectStudent}
           showInfoModal={this.showInfoModal}
           refresh={this.getStudents}
         />
-      );
+      ));
     }
-    
+
     return (
       <div>
-        {modalActive &&
-          <StudentInfoModal 
-            info={modalInfo} 
+        {modalActive && (
+          <StudentInfoModal
+            info={modalInfo}
             hideInfoModal={this.hideInfoModal}
             refresh={this.getStudents}
           />
-        }
-        <StudentListHeader 
-          activeSort={activeSort} sortOrder={sortOrder}
+        )}
+        <StudentListHeader
+          activeSort={activeSort}
+          sortOrder={sortOrder}
           handleSort={this.handleSort}
           selectedStudents={this.props.selectedStudents}
           selectAll={() => this.props.selectAll(students)}

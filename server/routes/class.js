@@ -97,10 +97,10 @@ router.post(
         admins: req.body["admins"],
         is_active: false
       }).then(() => {
-        User.Update(
+        User.updateMany(
           {
             year: req.body.year,
-            github_username: { $in: [req.body.admins] }
+            github_username: { $in: req.body.admins }
           },
           { is_admin: true }
         ).then(() => {

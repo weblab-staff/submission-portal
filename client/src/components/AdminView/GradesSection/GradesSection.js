@@ -10,9 +10,11 @@ class GradesSection extends React.Component {
       loading: true,
       milestones: [],
       teams: [],
+      selectedSubmit: "submit",
+      selectedMilestone: "",
       rangeMin: 1,
       rangeMax: 1,
-    }
+    };
   }
 
   componentDidMount() {
@@ -21,56 +23,45 @@ class GradesSection extends React.Component {
 
   getStuff = () => {
     Promise.all([
-      get('/api/milestones/'),
-      get('/api/teams', {populate: true})
+      get("/api/milestones/"),
+      get("/api/teams", { populate: true }),
     ])
-    .then(data => {
-      this.setState({
-        loading: false,
-        milestones: data[0],
-        teams: data[1],
-        rangeMax: data[1].length
-      });
-    })
-    .catch(err => console.log(err));
-  }
+      .then((data) => {
+        this.setState({
+          loading: false,
+          milestones: data[0],
+          teams: data[1],
+          rangeMax: data[1].length,
+        });
+      })
+      .catch((err) => console.log(err));
+  };
 
-  changeMin = (event) => {
+  handleChange = (event) => {
     const target = event.target;
-    const value = parseInt(target.value);
+    const value =
+      target.type === "number" ? parseInt(target.value) : target.value;
 
     this.setState({
-      rangeMin: value,
-    })
-  }
-
-  changeMax = (event) => {
-    const target = event.target;
-    const value = parseInt(target.value);
-
-    this.setState({
-      rangeMax: value,
-    })
-  }
+      [target.name]: value,
+    });
+  };
 
   render() {
     const { loading, milestones, teams, rangeMin, rangeMax } = this.state;
 
     if (loading) {
-      return (
-        <div>
-          Loading!
-        </div>
-      )
+      return <div>Loading!</div>;
     }
 
     return (
       <div>
-        <GradesHeader 
+        <GradesHeader
           milestones={milestones}
           teams={teams}
           rangeMin={rangeMin}
           rangeMax={rangeMax}
+          handleChange={this.handleChange}
           changeMin={this.changeMin}
           changeMax={this.changeMax}
         />
@@ -79,6 +70,7 @@ class GradesSection extends React.Component {
           teams={teams}
           rangeMin={rangeMin}
           rangeMax={rangeMax}
+          showMilestonesSection={this.props.showMilestonesSection}
         />
       </div>
     );

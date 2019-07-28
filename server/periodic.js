@@ -9,6 +9,7 @@ const MilestoneSubmission = require('./models/MilestoneSubmission');
 const SHEET_POLL_INTERVAL = 10;
 
 function start() {
+  if (process.env.NODE_ENV === 'test') return;
   setInterval(checkSubmissions, SHEET_POLL_INTERVAL * 1000);
 }
 
@@ -31,9 +32,16 @@ async function checkSubmissions() {
           milestone: milestone._id,
           form_response: row,
           feedback: []
-        })
+        });
+
+        if (!team.submissions) {
+            team.submissions = [submission];
+        } else {
+            team.submissions.push(submission);
+        }
 
         submission.save();
+        team.save();
       });
 
 

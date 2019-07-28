@@ -7,11 +7,11 @@ class StudentsHeader extends React.Component {
     const { setActiveList, selectedStudents, deselectStudent } = this.props;
 
     const styles = {
-      marginLeft: '20px',
-      display: 'flex',
-      justifyContent: 'space-around',
-      alignItems: 'center',
-    }
+      marginLeft: "20px",
+      display: "flex",
+      justifyContent: "space-around",
+      alignItems: "center",
+    };
 
     return (
       <div>
@@ -19,24 +19,27 @@ class StudentsHeader extends React.Component {
         <div style={styles}>
           <div>
             <div>
-              <input style={{width: '30vw'}}></input>
+              <input style={{ width: "30vw" }} />
               <button onClick={this.props.showEmailModal}>EMAIL</button>
             </div>
-            <div style={{display: 'flex'}}>
-              {selectedStudents.map((student, index) => 
+            <div style={{ display: "flex" }}>
+              {selectedStudents.map((student, index) => (
                 <div key={`selected-${index}`}>
                   <span>{student.first_name}</span>
                   <button onClick={() => deselectStudent(student)}>X</button>
                 </div>
-              )}
+              ))}
             </div>
           </div>
           <div>
             <SearchBar />
           </div>
-          <div style={{display: 'flex'}}>
-            <StudentsHeaderListButton tabLabel='INDIVIDUAL' onClick={setActiveList} />
-            <StudentsHeaderListButton tabLabel='TEAM' onClick={setActiveList} />
+          <div style={{ display: "flex" }}>
+            <StudentsHeaderListButton
+              tabLabel="INDIVIDUAL"
+              onClick={setActiveList}
+            />
+            <StudentsHeaderListButton tabLabel="TEAM" onClick={setActiveList} />
           </div>
         </div>
         <hr />

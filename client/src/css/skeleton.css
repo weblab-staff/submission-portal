@@ -1,0 +1,40 @@
+.skeleton {
+  /* background-color: var(--grey)!important; */
+  color: var(--grey)!important;
+  background: linear-gradient(227deg, var(--grey), #aac4dd, var(--grey));
+  background-size: 600% 600%;
+  -webkit-animation: loading-animation 3s ease infinite;
+  -moz-animation: loading-animation 3s ease infinite;
+  animation: loading-animation 3s ease infinite;
+}
+
+.skeleton-line {
+  height: 1em;
+  width: 8em;
+}
+
+.skeleton-line--short {
+  height: 1em;
+  width: 4em;
+}
+
+.skeleton-line--long {
+  height: 1em;
+  width: 10em;
+}
+
+@-webkit-keyframes loading-animation {
+  0%{background-position:0% 52%}
+  50%{background-position:100% 49%}
+  100%{background-position:0% 52%}
+}
+@-moz-keyframes loading-animation {
+  0%{background-position:0% 52%}
+  50%{background-position:100% 49%}
+  100%{background-position:0% 52%}
+}
+@keyframes loading-animation {
+  0%{background-position:0% 52%}
+  50%{background-position:100% 49%}
+  100%{background-position:0% 52%}
+}

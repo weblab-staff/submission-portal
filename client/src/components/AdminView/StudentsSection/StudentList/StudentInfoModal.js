@@ -6,8 +6,8 @@ class StudentInfoModal extends React.Component {
     super(props);
     this.state = {
       addingTag: false,
-      tag: '',
-    }
+      tag: "",
+    };
   }
 
   handleChange = (event) => {
@@ -17,64 +17,64 @@ class StudentInfoModal extends React.Component {
     this.setState({
       tag: value,
     });
-  }
+  };
 
   showTagInput = () => {
     this.setState({
-      addingTag: true
+      addingTag: true,
     });
-  }
+  };
 
   hideTagInput = () => {
     this.setState({
       addingTag: false,
-      tag: '',
-    })
-  }
+      tag: "",
+    });
+  };
 
   addTag = () => {
     const { _id } = this.props.info;
-    post(`/api/users/${_id}/tag`, {tag: this.state.tag})
-      .then(status => {
+    post(`/api/users/${_id}/tag`, { tag: this.state.tag })
+      .then((status) => {
         if (status === 204) {
           this.setState({
             addingTag: false,
-            tag: '',
-          })
+            tag: "",
+          });
           this.props.refresh();
         } else {
-          console.log('you fuked up');
+          console.log("you fuked up");
         }
       })
-      .catch(err => console.log(err));
-  }
+      .catch((err) => console.log(err));
+  };
 
   deleteTag = (tag) => {
     const { _id } = this.props.info;
-    delet(`/api/users/${_id}/tag`, {tag})
-      .then(status => {
+    delet(`/api/users/${_id}/tag`, { tag })
+      .then((status) => {
         if (status === 204) {
           this.props.refresh();
         } else {
-          console.log('you fuked up');
+          console.log("you fuked up");
         }
       })
-      .catch(err => console.log(err));
-  }
+      .catch((err) => console.log(err));
+  };
 
   render() {
     const { info } = this.props;
 
     const styles = {
-      border: '1px solid black',
-      background: 'white',
-      position: 'absolute',
-      left: '40vw',
-      top: '10vh',
-      width: '300px',
-      height: '300px',
-      zIndex: '2'
-    }
+      border: "1px solid black",
+      background: "white",
+      position: "absolute",
+      left: "40vw",
+      top: "10vh",
+      width: "300px",
+      height: "300px",
+      zIndex: "2",
+    };
 
     return (
       <div style={styles}>
@@ -106,7 +106,7 @@ class StudentInfoModal extends React.Component {
         </div>
         <div>
           <span>team</span>
-          <span>{info.team ? info.team.team_name : '???'}</span>
+          <span>{info.team ? info.team.team_name : "???"}</span>
         </div>
         <div>
           <span>experience</span>
@@ -119,20 +119,24 @@ class StudentInfoModal extends React.Component {
         <div>
           <span>tags</span>
           <div>
-            {info.tags.map((tag, index) => 
-              <div key={index} style={{border: '1px solid black', borderRadius: '3px'}}>
+            {info.tags.map((tag, index) => (
+              <div
+                key={index}
+                style={{ border: "1px solid black", borderRadius: "3px" }}
+              >
                 <span>{tag}</span>
                 <button onClick={() => this.deleteTag(tag)}>X</button>
               </div>
-            )}
-            {this.state.addingTag ?
+            ))}
+            {this.state.addingTag ? (
               <div>
-                <input type="text" onChange={this.handleChange}></input>
+                <input type="text" onChange={this.handleChange} />
                 <button onClick={this.hideTagInput}>cancel</button>
                 <button onClick={this.addTag}>add</button>
-              </div> :
+              </div>
+            ) : (
               <button onClick={this.showTagInput}>+</button>
-            }
+            )}
           </div>
         </div>
       </div>

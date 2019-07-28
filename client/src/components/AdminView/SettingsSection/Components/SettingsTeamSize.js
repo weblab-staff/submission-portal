@@ -5,19 +5,29 @@ class SettingsTeamSize extends React.Component {
   updateCap = (event) => {
     const target = event.target;
     const value = parseInt(target.value);
-    post(`/api/class/${this.props.classId}/team_size_cap`, {team_size_cap: value})
-      .then(status => {
+    post(`/api/class/${this.props.classId}/team_size_cap`, {
+      team_size_cap: value,
+    })
+      .then((status) => {
         if (status === 204) {
           this.props.refresh();
         }
-        return 'You fucked up'
+        return "You fucked up";
       })
-      .catch(err => console.log(err));
-  }
+      .catch((err) => console.log(err));
+  };
 
   render() {
     return (
-      <div style={{display: 'flex', width: '40vw', height:'20vh', border: '1px solid black', margin: '1vh 1vw'}}>
+      <div
+        style={{
+          display: "flex",
+          width: "40vw",
+          height: "20vh",
+          border: "1px solid black",
+          margin: "1vh 1vw",
+        }}
+      >
         <div>Team Size Cap:</div>
         <select value={this.props.cap} onChange={this.updateCap}>
           <option value="1">1</option>

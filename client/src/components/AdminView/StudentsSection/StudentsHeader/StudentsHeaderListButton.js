@@ -5,9 +5,9 @@ class StudentsHeaderListButton extends React.Component {
     const { tabLabel, onClick } = this.props;
 
     const styles = {
-      margin: '0 10px',
-      cursor: 'pointer',
-    }
+      margin: "0 10px",
+      cursor: "pointer",
+    };
 
     return (
       <div style={styles} onClick={() => onClick(tabLabel)}>

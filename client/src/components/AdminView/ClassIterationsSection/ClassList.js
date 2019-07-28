@@ -10,7 +10,7 @@ class ClassList extends React.Component {
       loading: true,
       years: null,
       modalActive: false,
-    }
+    };
   }
 
   componentDidMount() {
@@ -18,48 +18,48 @@ class ClassList extends React.Component {
   }
 
   getYears = () => {
-    get('/api/class', {complete: true})
-      .then(data => {
-        data.sort((a, b) => b.year - a.year); // possible error point xd        
+    get("/api/class", { complete: true })
+      .then((data) => {
+        data.sort((a, b) => b.year - a.year); // possible error point xd
         this.setState({
           loading: false,
           years: data,
         });
       })
-      .catch(err => console.log(err));
-  }
+      .catch((err) => console.log(err));
+  };
 
   makeYearActive = (id) => {
     post(`/api/class/${id}/set-active-year`)
-      .then(status => {
+      .then((status) => {
         if (status === 204) {
           this.getYears();
         }
-        return 'You fuked up.'
+        return "You fuked up.";
       })
-      .catch(err => console.log(err));
-  }
+      .catch((err) => console.log(err));
+  };
 
   openNewIterationModal = () => {
     this.setState({ modalActive: true });
-  }
+  };
 
   confirmNewIteration = (body) => {
-    console.log('Making new iteration!');
-    post('/api/class', body)
-      .then(status => {
+    console.log("Making new iteration!");
+    post("/api/class", body)
+      .then((status) => {
         if (status === 204) {
           this.getYears();
         }
-        return 'You fucked up'
+        return "You fucked up";
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
     this.setState({ modalActive: false });
-  }
+  };
 
   cancelNewIteration = () => {
     this.setState({ modalActive: false });
-  }
+  };
 
   getActiveYearData = () => {
     const { years } = this.state;
@@ -67,51 +67,48 @@ class ClassList extends React.Component {
     if (years && years.length > 0) {
       for (let year of years) {
         if (year.is_active) {
-          return year
+          return year;
         }
       }
     }
-  }
+  };
 
   render() {
     const { loading, years, modalActive } = this.state;
 
     if (loading) {
-      return (
-        <div>
-          Loading!
-        </div>
-      );
+      return <div>Loading!</div>;
     }
 
     if (years && years.length === 0) {
-      return (
-        <div>
-          No years!
-        </div>
-      )
+      return <div>No years!</div>;
     }
 
     return (
       <div>
-        <div style={{display: 'flex', justifyContent: 'space-around'}}>
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
           <div>Year</div>
           <div>Active</div>
           <button onClick={this.openNewIterationModal}>New Iteration</button>
         </div>
-        {modalActive &&
-          <NewClassIterationModal 
+        {modalActive && (
+          <NewClassIterationModal
             activeYearData={this.getActiveYearData()}
-            confirmNewIteration={this.confirmNewIteration} 
-            cancelNewIteration={this.cancelNewIteration} 
+            confirmNewIteration={this.confirmNewIteration}
+            cancelNewIteration={this.cancelNewIteration}
           />
-        }
-        <hr />
-        {years.map((el, index) => 
-          <ClassEntry key={index} id={el._id} year={el.year} 
-            active={el.is_active} makeYearActive={this.makeYearActive}
-            setViewedYear={this.props.setViewedYear} />
         )}
+        <hr />
+        {years.map((el, index) => (
+          <ClassEntry
+            key={index}
+            id={el._id}
+            year={el.year}
+            active={el.is_active}
+            makeYearActive={this.makeYearActive}
+            setViewedYear={this.props.setViewedYear}
+          />
+        ))}
       </div>
     );
   }

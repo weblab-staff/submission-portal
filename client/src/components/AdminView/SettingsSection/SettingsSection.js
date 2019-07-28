@@ -1,5 +1,5 @@
 import React from "react";
-import SettingsHeader from './SettingsHeader';
+import SettingsHeader from "./SettingsHeader";
 import SettingsBody from "./SettingsBody";
 
 class SettingsSection extends React.Component {
@@ -7,7 +7,7 @@ class SettingsSection extends React.Component {
     return (
       <div>
         <SettingsHeader />
-        <SettingsBody year={this.props.year}/>
+        <SettingsBody year={this.props.year} />
       </div>
     );
   }

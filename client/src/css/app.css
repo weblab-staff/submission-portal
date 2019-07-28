@@ -1,3 +1,12 @@
+:root {
+    --s-blue: #26C1FC;
+    --s-pink: #FE82DE;
+    --s-yella: #FFC215;
+    --grey: #D0E2F4;
+    
+    --milestone-gap: 18px;
+  }
+
 html {
     height: 100%;
     font-family: sans-serif;

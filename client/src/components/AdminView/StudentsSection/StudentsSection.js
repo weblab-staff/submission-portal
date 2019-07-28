@@ -7,7 +7,7 @@ class StudentsSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeList: 'INDIVIDUAL',
+      activeList: "INDIVIDUAL",
       emailModalActive: false,
       selectedStudents: [],
     };
@@ -15,67 +15,67 @@ class StudentsSection extends React.Component {
 
   setActiveList = (list) => {
     this.setState({ activeList: list });
-  }
+  };
 
   showEmailModal = () => {
     this.setState({
       emailModalActive: true,
     });
-  }
+  };
 
   hideEmailModal = () => {
     this.setState({
       emailModalActive: false,
-    })
-  }
-
-  selectStudent = (student) => {    
-    this.setState({
-      selectedStudents: [...this.state.selectedStudents, student]
     });
-  }
+  };
+
+  selectStudent = (student) => {
+    this.setState({
+      selectedStudents: [...this.state.selectedStudents, student],
+    });
+  };
 
   deselectStudent = (student) => {
-    const current = [...this.state.selectedStudents]
-    const newSelected = current.filter(el => el._id !== student._id);
+    const current = [...this.state.selectedStudents];
+    const newSelected = current.filter((el) => el._id !== student._id);
 
     this.setState({
-      selectedStudents: newSelected
+      selectedStudents: newSelected,
     });
-  }
+  };
 
   deselectAll = () => {
     this.setState({
       selectedStudents: [],
-    })
-  }
+    });
+  };
 
   selectAll = (students) => {
     this.setState({
       selectedStudents: students,
-    })
-  }
+    });
+  };
 
   render() {
     const { activeList, emailModalActive, selectedStudents } = this.state;
 
     return (
       <div>
-        {emailModalActive &&
-          <EmailModal 
+        {emailModalActive && (
+          <EmailModal
             selectedStudents={selectedStudents}
             hideEmailModal={this.hideEmailModal}
             deselectAll={this.deselectAll}
           />
-        }
-        <StudentsHeader 
+        )}
+        <StudentsHeader
           showEmailModal={this.showEmailModal}
-          setActiveList={this.setActiveList} 
+          setActiveList={this.setActiveList}
           selectedStudents={selectedStudents}
           deselectStudent={this.deselectStudent}
         />
-        <StudentsBody 
-          activeList={activeList} 
+        <StudentsBody
+          activeList={activeList}
           selectedStudents={selectedStudents}
           selectStudent={this.selectStudent}
           selectAll={this.selectAll}

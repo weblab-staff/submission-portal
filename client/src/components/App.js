@@ -1,15 +1,17 @@
 import React from "react";
-import "../css/app.css";
 import Route from "react-router-dom/es/Route";
 import Switch from "react-router-dom/es/Switch";
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import Root from "./Root";
 import Register from "./Register";
 import TeamView from "./TeamView/TeamView.js";
 import CreateTeam from "./TeamView/CreateTeam.js";
 
-library.add(fas)
+import "../css/app.css";
+import "../css/skeleton.css";
+
+library.add(fas);
 
 class App extends React.Component {
   
