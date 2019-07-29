@@ -82,7 +82,7 @@ class StudentsSection extends React.Component {
   };
 
   isSelected = (student) => {
-    return this.props.selectedStudents.includes(student);
+    return this.state.selectedStudents.includes(student);
   };
 
   getStudents = () => {

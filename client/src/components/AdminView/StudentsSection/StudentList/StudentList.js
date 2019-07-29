@@ -22,7 +22,7 @@ class StudentList extends React.Component {
         <StudentEntry
           key={index}
           info={el}
-          selected={() => this.props.isSelected(el)}
+          selected={this.props.isSelected(el)}
           selectStudent={this.props.selectStudent}
           deselectStudent={this.props.deselectStudent}
           showInfoModal={this.props.showInfoModal}
@@ -46,7 +46,7 @@ class StudentList extends React.Component {
           sortOrder={this.props.sortOrder}
           handleSort={this.props.handleSort}
           selectedStudents={this.props.selectedStudents}
-          selectAll={() => this.props.selectAll(students)}
+          selectAll={() => this.props.selectAll(this.props.students)}
           deselectAll={this.props.deselectAll}
         />
         {list}
