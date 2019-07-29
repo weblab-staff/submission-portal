@@ -28,7 +28,11 @@ class StudentEntry extends React.Component {
   };
 
   showMilestonesSection = () => {
-    console.log(`Showing milestones for ${this.props.info.first_name}`);
+    if (this.props.info.team) {
+      this.props.showMilestonesSection(this.props.info.team._id);
+    } else {
+      console.log("no team");
+    }
   };
 
   deleteStudent = () => {

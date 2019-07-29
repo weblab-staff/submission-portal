@@ -11,7 +11,11 @@ class TeamEntry extends React.Component {
   }
 
   showMilestonesSection = () => {
-    console.log(`Showing milestones for ${this.props.info.team_name}`);
+    if (this.props.info) {
+      this.props.showMilestonesSection(this.props.info._id);
+    } else {
+      console.log("no info");
+    }
   };
 
   handleChange = (event) => {

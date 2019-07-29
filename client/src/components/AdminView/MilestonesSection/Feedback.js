@@ -2,16 +2,14 @@ import React from "react";
 
 class Feedback extends React.Component {
   render() {
-    const { team, selectedSubmission } = this.props;
+    const { feedback } = this.props;
 
     return (
-      <div>
+      <div style={{ flexGrow: 1 }}>
         <div>Feedback</div>
-        {team.submissions[selectedSubmission].feedback.map(
-          (feedback, index) => (
-            <div>Feedback {index}</div>
-          )
-        )}
+        {feedback && feedback.map((el, index) => <div>Feedback {index}</div>)}
+        <input />
+        <button>send</button>
       </div>
     );
   }

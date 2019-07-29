@@ -131,6 +131,7 @@ class StudentList extends React.Component {
           deselectStudent={this.props.deselectStudent}
           showInfoModal={this.showInfoModal}
           refresh={this.getStudents}
+          showMilestonesSection={this.props.showMilestonesSection}
         />
       ));
     }

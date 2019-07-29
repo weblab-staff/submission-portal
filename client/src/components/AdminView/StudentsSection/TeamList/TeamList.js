@@ -95,6 +95,7 @@ class TeamList extends React.Component {
           info={el}
           milestones={milestones}
           refresh={this.getTeams}
+          showMilestonesSection={this.props.showMilestonesSection}
         />
       ));
     }

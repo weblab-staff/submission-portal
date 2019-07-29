@@ -12,7 +12,7 @@ class MilestoneSelector extends React.Component {
     const styles = {
       background: "#3b66ff",
       color: "white",
-      width: "20vw",
+      flexGrow: 1,
       minHeight: "100vh",
     };
 

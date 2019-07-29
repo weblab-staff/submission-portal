@@ -29,7 +29,11 @@ class AdminBody extends React.Component {
             <ClassIterationsSection setViewedYear={this.props.setViewedYear} />
           );
         case "students":
-          return <StudentsSection />;
+          return (
+            <StudentsSection
+              showMilestonesSection={this.props.showMilestonesSection}
+            />
+          );
         case "grade":
           return (
             <GradesSection

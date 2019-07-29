@@ -22,9 +22,10 @@ class StudentsBody extends React.Component {
             selectAll={selectAll}
             deselectStudent={deselectStudent}
             deselectAll={deselectAll}
+            showMilestonesSection={this.props.showMilestonesSection}
           />
         ) : (
-          <TeamList />
+          <TeamList showMilestonesSection={this.props.showMilestonesSection} />
         )}
       </div>
     );

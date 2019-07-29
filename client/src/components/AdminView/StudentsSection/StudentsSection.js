@@ -81,6 +81,7 @@ class StudentsSection extends React.Component {
           selectAll={this.selectAll}
           deselectStudent={this.deselectStudent}
           deselectAll={this.deselectAll}
+          showMilestonesSection={this.props.showMilestonesSection}
         />
       </div>
     );
