@@ -58,7 +58,7 @@ class MilestoneDetails extends React.Component {
             ))}
           </div>
         </div>
-        <Feedback feedback={submission.feedback} />
+        <Feedback team={team} submission={submission} />
       </div>
     );
   }

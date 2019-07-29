@@ -19,22 +19,23 @@ class Feedback extends React.Component {
   };
 
   sendFeedback = () => {
-    // post(`/teams/${}/feedback`, {
-    //   from: "test",
-    //   milestone_submission_id: "???",
-    //   feedback:this.state.feedback
-    // })
-    // .then(res => console.log(res)).catch(err=> console.log(err));
-    console.log("sending feedback");
+    post(`api/teams/${this.props.team._id}/feedback`, {
+      from: "matt",
+      milestone_submission_id: this.props.submission._id,
+      feedback: this.state.feedback,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   render() {
-    const { feedback } = this.props;
+    const { submission } = this.props;
 
     return (
       <div style={{ flexGrow: 1 }}>
         <div>Feedback</div>
-        {feedback && feedback.map((el, index) => <div>Feedback {index}</div>)}
+        {submission.feedback &&
+          submission.feedback.map((el, index) => <div>Feedback {index}</div>)}
         <input onChange={this.handleChange} />
         <button onClick={this.sendFeedback}>send</button>
       </div>
