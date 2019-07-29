@@ -11,6 +11,7 @@ class Register extends React.Component {
       lastName: '',
       email: '',
       gender: '',
+      for_credit: true,
       livingGroup: '',
       priorExp: '',
       forCredit: '',
@@ -26,7 +27,9 @@ class Register extends React.Component {
     get('/api/whoami')
       .then(userObj => {
         this.setState({
-          currentUser: userObj
+          currentUser: userObj,
+          firstName: userObj.first_name ? userObj.first_name : "",
+          lastName: userObj.last_name ? userObj.last_name : ""
         });
       })
       .catch(err => console.log(err));
@@ -37,15 +40,16 @@ class Register extends React.Component {
     this.setState({
       [inputNode.name]: inputNode.value
     });
-}
+  }
 
-  handleSubmit= (event) => {
+  handleSubmit = (event) => {
     const {
       currentUser,
       firstName,
       lastName,
       email,
       gender,
+      for_credit,
       livingGroup,
       experience,
       forCredit
@@ -61,23 +65,25 @@ class Register extends React.Component {
         // class_year: Number,
         experience: experience,
         living_group: livingGroup
-      }
+      },
+      for_credit: for_credit,
     })
-    .then(response => {
-      console.log(response);
-      this.setState({
-        redirect: response === 204
-      })
+      .then(response => {
+        console.log(response);
+        this.setState({
+          redirect: response === 204
+        })
 
-    })
-    .catch(err => console.log(err));
-    
+      })
+      .catch(err => console.log(err));
+
   }
 
   render() {
     const {
       firstName,
       lastName,
+      for_credit,
       email,
       gender,
       livingGroup,
@@ -106,6 +112,10 @@ class Register extends React.Component {
             <input type="text" name="email" value={email} onChange={this.handleChange} />
           </label>
           <label>
+            For Credit:
+            <input type="checkbox" name="for_credit" value={for_credit} onChange={this.handleChange} defaultChecked />
+          </label>
+          <label>
             Gender:
             <select name="gender" value={gender} onChange={this.handleChange}>
               <option value="male">Male</option>
@@ -119,22 +129,17 @@ class Register extends React.Component {
           </label>
           <label>
             Experience:
-            <input type="radio" name="experience" value="0" onChange={this.handleChange}/>
-            <input type="radio" name="experience" value="1" onChange={this.handleChange}/>
-            <input type="radio" name="experience" value="2" onChange={this.handleChange}/>
-            <input type="radio" name="experience" value="3" onChange={this.handleChange}/>
-            <input type="radio" name="experience" value="4" onChange={this.handleChange}/>
+            <input type="radio" name="experience" value="0" onChange={this.handleChange} />
+            <input type="radio" name="experience" value="1" onChange={this.handleChange} />
+            <input type="radio" name="experience" value="2" onChange={this.handleChange} />
+            <input type="radio" name="experience" value="3" onChange={this.handleChange} />
+            <input type="radio" name="experience" value="4" onChange={this.handleChange} />
           </label>
-          <label>
-            For Credit:
-            <input type="radio" name="forCredit" value={true} onChange={this.handleChange}/>
-            <input type="radio" name="forCredit" value={false} onChange={this.handleChange}/>
-          </label>
-          <input type="submit" value="Submit" onClick={this.handleSubmit}/>
+          <input type="submit" value="Submit" onClick={this.handleSubmit} />
         </form>
       </div>
     )
-    ;
+      ;
   }
 }
 
