@@ -55,7 +55,7 @@ router.get("/:team_id", errorWrap(async (req, res) => {
 router.post("/", errorWrap(async (req, res) => {
   const team = new Team({
     team_name: req.body.team_name,
-    members: [ req.body.creator_id ],
+    members: [req.user],
     competing: req.body.is_competing,
     year: req.year
   });
@@ -95,13 +95,13 @@ router.post("/:team_id/mark-complete", errorWrap(async (req, res) => {
 
 router.post("/:team_id/generate-github", errorWrap(async (req, res) => {
   const team = await Team.findOne({ _id: req.params.team_id })
-                         .populate('members', 'github_username');
+    .populate('members', 'github_username');
 
   const url = await github.generate(team);
-  
+
   team.github_url = url;
   await team.save();
-  res.send({url});
+  res.send({ url });
 }));
 
 router.post("/:team_id/feedback", errorWrap(async (req, res) => {
@@ -132,7 +132,7 @@ router.delete("/:team_id/remove-member", errorWrap(async (req, res) => {
 //needs validation that admin is making this request
 router.delete("/:team_id", errorWrap(async (req, res) => {
   const team = await Team.findByIdAndDelete(req.params.team_id);
-  
+
   await Promise.all(team.members.map(user_id => {
     return User.findByIdAndUpdate(user_id, { team: null });
   }));
