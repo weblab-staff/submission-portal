@@ -49,8 +49,8 @@ class MilestoneDetails extends React.Component {
             ))}
           </div>
           <div>
-            {Object.keys(submission.form_response).map((el) => (
-              <div>
+            {Object.keys(submission.form_response).map((el, index) => (
+              <div key={`response-item-${index}`}>
                 <div>{el}</div>
                 <div>{submission.form_response[el]}</div>
                 <br />
