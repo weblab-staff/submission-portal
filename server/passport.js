@@ -19,26 +19,33 @@ passport.use(
         github_username: profile.username
       });
       if (!user) {
-        const adminList = (await Class.findOne({ year: activeYear }, "admins")).admins;
-        user = await User.create({
+        const adminList = (await Class.findOne({ year: activeYear }, "admins"))
+          .admins;
+        user = new User({
           year: activeYear,
           github_username: profile.username,
-          first_name: profile.displayName.split(" ")[0],
-          last_name: profile.displayName.split(" ")[1],
           for_credit: false, //by default set their for_credit status to false
           is_admin: adminList.includes(profile.username)
         });
+        if (profile.displayName && profile.displayName.split(" ").length == 2) {
+          user.first_name = profile.displayName.split(" ")[0];
+          user.last_name = profile.displayName.split(" ")[1];
+        }
+        user = await user.save();
       }
       done(null, user);
     }
   )
 );
 
-passport.serializeUser(function(user, cb) {
-  cb(null, user);
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
 });
-passport.deserializeUser(function(obj, cb) {
-  cb(null, obj);
+
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
 });
 
 module.exports = passport;

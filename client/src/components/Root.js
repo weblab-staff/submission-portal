@@ -59,7 +59,7 @@ class Root extends React.Component {
 
   render() {
     const { loading, currentUser, currentTeam } = this.state;
-    
+
     if (loading) {
       return (
         <div className="browserContainer">
@@ -83,14 +83,14 @@ class Root extends React.Component {
         </div>
       )
     }
-    
+
     if (!currentUser) {
       return <Login />
     }
-    
+
     return (
       <div>
-        {currentUser.is_admin ? <AdminView /> : 
+        {currentUser.is_admin ? <AdminView /> :
           <StudentView currentUser={currentUser} currentTeam={currentTeam} loading={loading} />
         }
       </div>
