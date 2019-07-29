@@ -55,12 +55,21 @@ class StudentView extends React.Component {
               {"?"}
             </React.Fragment>
           ) : (
+            <React.Fragment>
               <Link to={{
                 pathname: '/create-team',
                 state: {
                   currentUser
                 }
               }}>Create Team</Link>
+              <br/>
+              <Link to={{
+                pathname: '/join-team',
+                state: {
+                  currentUser
+                }
+              }}>Join Team</Link>
+            </React.Fragment>
             )}
             </h2>
           </div>

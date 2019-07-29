@@ -49,17 +49,19 @@ class StudentViewBroad extends React.Component {
         }) : (
           milestones.map(mileObj => {
             // this line breaks cause currentTeam props is still null
-            // const sub = currentTeam.submissions.slice().reverse().find(sub => sub.milestone === mileObj._id);
+            console.log(currentTeam.submissions)
+            const sub = currentTeam.submissions.slice().reverse().find(sub => sub.milestone === mileObj._id);
             return (
               <div
                 key={mileObj._id}
                 className="milestone-Container"
+                onClick={toggleView}
               >
                 <div className="milestone-Indicator"></div>
                 <div className="milestone-Info">
                   <div className="milestone-Name">{mileObj.title}</div>
-                  {/* <button onClick={toggleView}>{sub ? "last submitted " + sub.timestamp : "no submissions!"}</button> */}
-                  <div className="milestone-Due">due: {mileObj.deadline}</div>
+                   <button onClick={toggleView}>{sub ? "last submitted " + sub.timestamp : "no submissions!"}</button> 
+                  <div className="milestone-Due">due {mileObj.deadline}</div>
                 </div>
               </div>
             )
