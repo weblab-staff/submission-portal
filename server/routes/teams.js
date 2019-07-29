@@ -26,16 +26,15 @@ async function find_team(year, id, populate, include_content, callback) {
   return query.exec();
 }
 
+function get_feedback_subject(milestone_name) {
+  return "Feedback for " + milestone_name;
+}
+
 //get information about all the teams
 router.get(
   "/",
   errorWrap(async (req, res) => {
-    const teams = await find_team(
-      req.year,
-      "",
-      req.query.populate === "true",
-      req.query.include_content === "true"
-    );
+    const teams = await find_team(req.year, "", req.query.populate === "true", req.query.include_content === "true");
 
     res.send(teams);
   })
@@ -116,10 +115,7 @@ router.post(
 router.post(
   "/:team_id/generate-github",
   errorWrap(async (req, res) => {
-    const team = await Team.findOne({ _id: req.params.team_id }).populate(
-      "members",
-      "github_username"
-    );
+    const team = await Team.findOne({ _id: req.params.team_id }).populate("members", "github_username");
 
     const url = await github.generate(team);
 
@@ -132,8 +128,18 @@ router.post(
 router.post(
   "/:team_id/feedback",
   errorWrap(async (req, res) => {
-    res.sendStatus(404);
-    //TODO NOT IMPLEMENTED
+    const team_id = req.params.team_id;
+    const feedback = req.body.feedback;
+    const sender = req.user;
+    const submission = await MilestoneSubmission.findOne({
+      _id: req.body.milestone_submission_id
+    });
+    const subject = get_feedback_subject(submission.milestone.title);
+    email = await utils.send_email([], [team_id], subject, feedback, sender);
+    await MilestoneSubmission.findByIdAndUpdate(submission._id, {
+      $push: { feedback: email._id }
+    });
+    res.send(email);
   })
 );
 
