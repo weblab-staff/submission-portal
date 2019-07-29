@@ -1,28 +1,6 @@
-.browserContainer {
-  --top-border: 40px;
-
-  margin: 0;
-  padding: 0 40px;
-  border: 10px var(--s-blue) solid;
-  border-top: var(--top-border) var(--s-blue) solid;
+.browserContainer--studentView {
   display: grid;
-  height: calc(100vh - var(--top-border) - 10px);
   grid-template-columns: 1fr 1fr;
-}
-
-.browserContainer:after {
-  --radius: 20px;
-  --circle-margin: calc(var(--top-border) / 4);
-  
-  content: "";
-  width: var(--radius);
-  height: var(--radius);
-  position: absolute;
-  border-radius: 100%;
-  top: var(--circle-margin);
-  left: var(--circle-margin);
-  background-color: var(--s-pink);
-  box-shadow: calc(var(--radius) + var(--circle-margin)) 0 var(--s-yella);
 }
 
 .greetingContainer, .milestonesContainer {
