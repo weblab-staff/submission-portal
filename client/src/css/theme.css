@@ -1,0 +1,49 @@
+.browserContainer {
+  margin: 0;
+  padding: 0 40px;
+  border: 10px var(--s-blue) solid;
+  border-top: var(--top-border) var(--s-blue) solid;
+  height: calc(100vh - var(--top-border) - 10px);
+}
+
+.browserContainer:after {
+  --radius: 20px;
+  --circle-margin: calc(var(--top-border) / 4);
+  
+  content: "";
+  width: var(--radius);
+  height: var(--radius);
+  position: absolute;
+  border-radius: 100%;
+  top: var(--circle-margin);
+  left: var(--circle-margin);
+  background-color: var(--s-pink);
+  box-shadow: calc(var(--radius) + var(--circle-margin)) 0 var(--s-yella);
+}
+
+.studentButton {
+  background: var(--s-blue);
+  border-radius: var(--radius-sm);
+  padding: .8em 1.4em;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.studentButton:hover {
+  background: var(--s-blue-focus);
+}
+
+.formInput {
+  background: var(--grey);
+  padding: .5em;
+  border: 1px solid var(--grey);
+  border-radius: var(--radius-sm);
+  width: calc(100% - 1em);
+  font-size: 1em;
+}
+
+.formInput:focus {
+  border: 1px solid var(--grey-focus);
+}

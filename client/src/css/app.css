@@ -1,10 +1,16 @@
 :root {
     --s-blue: #26C1FC;
+    --s-blue-focus: #26ACFC;
     --s-pink: #FE82DE;
     --s-yella: #FFC215;
     --grey: #D0E2F4;
+    --grey-focus: #97B8D9;
+    --dark-grey: #707070;
     
     --milestone-gap: 18px;
+    --top-border: 40px;
+
+    --radius-sm: 4px;
   }
 
 html {
@@ -32,3 +38,35 @@ body {
     flex-direction: column;
 }
 
+.u-blue {
+    color: var(--s-blue);
+}
+
+.u-flex {
+    display: flex;
+}
+
+.u-flexCenter, .u-flexCenter--browser {
+    justify-content: center;
+    align-items: center
+}
+
+.u-flexCenter--browser div {
+    transform: translateY(-40px);
+}
+
+.u-textCenter {
+    text-align: center;
+}
+
+.u-formLabel {
+    color: var(--dark-grey);
+}
+
+.u-marginBottom-sm {
+    margin-bottom: 4px;
+}
+
+.u-marginBottom-md {
+    margin-bottom: 10px;
+}

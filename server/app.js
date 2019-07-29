@@ -26,11 +26,11 @@ mongoose
   .connect(process.env.MONGO_SRV, {
     useNewUrlParser: true,
     useFindAndModify: false,
-    dbName: env,
+    dbName: env
   })
   .then(
     () => console.log("Connected to MongoDB"),
-    (err) => console.log("Error connecting to MongoDB: " + err)
+    err => console.log("Error connecting to MongoDB: " + err)
   );
 
 periodic.start(); // start periodic tasks (e.g. read spreadsheets)
@@ -39,7 +39,7 @@ app.use(
   session({
     secret: "session-secret",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: true
   })
 );
 
@@ -51,10 +51,9 @@ app.get(
   "/auth/github/callback",
   passport.authenticate("github", { failureRedirect: "/" }),
   (req, res) => {
-    if (!req.user.email) {
+    if (!is_registered(req.user)) {
       return res.redirect("/register");
     }
-
     res.redirect("/");
   }
 );
@@ -71,6 +70,12 @@ app.get("/*", function(req, res) {
   res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
 });
 
+//error handler
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(err.status || 500).send(err.message || "Something broke!");
+});
+
 module.exports = app;
 
 if (env === "test") {
@@ -81,3 +86,12 @@ const port = env === "prod" ? 80 : 3000;
 http.listen(port, () => {
   console.log(`Listening on port ${port} and looking in folder ${publicPath}`);
 });
+
+function is_registered(user) {
+  return (
+    user.first_name !== undefined &&
+    user.last_name !== undefined &&
+    user.email !== undefined &&
+    user.is_competing !== undefined
+  );
+}
