@@ -92,6 +92,6 @@ function is_registered(user) {
     user.first_name !== undefined &&
     user.last_name !== undefined &&
     user.email !== undefined &&
-    user.is_competing !== undefined
+    user.for_credit !== undefined
   );
 }

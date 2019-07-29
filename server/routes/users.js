@@ -3,6 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const errorWrap = require("./errorWrap");
 const utils = require("./util.js");
 
 function find_user(year, id, populate, callback) {
@@ -26,14 +27,12 @@ router.get("/", async (req, res) => {
   );
 });
 
-router.get("/:user_id", async (req, res) => {
-  find_user(
-    await utils.get_filter_year(req),
-    req.params["user_id"],
-    true,
-    data => res.send(data)
-  );
-});
+router.get(
+  "/:user_id",
+  errorWrap(async (req, res) => {
+    find_user(req.year, req.params["user_id"], true, data => res.send(data));
+  })
+);
 
 router.post("/:user_id/update", (req, res) => {
   const updates = req.body;
@@ -52,32 +51,32 @@ router.post("/:user_id/tag", (req, res) => {
   User.findByIdAndUpdate(req.params["user_id"], {
     $addToSet: { tags: req.body.tag }
   })
-  .then(data => {
-    res.sendStatus(204);
-  })
-  .catch(err => {
-    console.log(err);
-    console.log(`No User found with ID ${req.params["user_id"]}`);
-    res.sendStatus(400);
-  });
+    .then(data => {
+      res.sendStatus(204);
+    })
+    .catch(err => {
+      console.log(err);
+      console.log(`No User found with ID ${req.params["user_id"]}`);
+      res.sendStatus(400);
+    });
 });
 
 router.delete("/:user_id/tag", (req, res) => {
   User.findByIdAndUpdate(req.params["user_id"], {
     $pull: { tags: req.body.tag }
   })
-  .then(data => {
-    res.sendStatus(204);
-  })
-  .catch(err => {
-    console.log(err);
-    console.log(`No User found with ID ${req.params["user_id"]}`);
-    res.sendStatus(400);
-  });
+    .then(data => {
+      res.sendStatus(204);
+    })
+    .catch(err => {
+      console.log(err);
+      console.log(`No User found with ID ${req.params["user_id"]}`);
+      res.sendStatus(400);
+    });
 });
 
-router.delete("/:user_id", (req, res) => {  
-  User.findByIdAndDelete(req.params["user_id"], (err) => {
+router.delete("/:user_id", (req, res) => {
+  User.findByIdAndDelete(req.params["user_id"], err => {
     if (err) {
       console.log("error deleting");
       res.sendStatus(500);
