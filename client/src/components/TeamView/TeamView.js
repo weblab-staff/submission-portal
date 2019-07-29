@@ -20,7 +20,7 @@ class TeamView extends React.Component {
     } = this.state;
 
     return (
-      <div>
+      <div className="browserContainer">
         <ul>
           <li><a href="/">Portal</a></li>
           <li><a href="/auth/logout">Logout</a></li>

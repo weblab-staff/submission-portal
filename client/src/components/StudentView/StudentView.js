@@ -39,7 +39,7 @@ class StudentView extends React.Component {
             <li><a href="#">Portal</a></li>
             <li><a href="/auth/logout">Logout</a></li>
           </ul> */}
-          <div class="graphicCircle"></div>
+          <div className="graphicCircle"></div>
           <h1>Welcome, {currentUser.first_name + " " + currentUser.last_name}</h1>
           <h2>
           {currentTeam !== null ? (
@@ -55,12 +55,21 @@ class StudentView extends React.Component {
               {"?"}
             </React.Fragment>
           ) : (
+            <React.Fragment>
               <Link to={{
                 pathname: '/create-team',
                 state: {
                   currentUser
                 }
               }}>Create Team</Link>
+              <br/>
+              <Link to={{
+                pathname: '/join-team',
+                state: {
+                  currentUser
+                }
+              }}>Join Team</Link>
+            </React.Fragment>
             )}
             </h2>
           </div>

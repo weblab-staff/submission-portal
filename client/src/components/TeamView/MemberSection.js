@@ -56,10 +56,6 @@ class MemberSection extends React.Component {
               {userObj.first_name + " " + userObj.last_name}
             </div>
         )}
-        <label>
-            Add member:
-            <input type="text" name="newMember" value={newMember || ''} onChange={this.handleChange} />
-          </label>
         </div>
       </div>
     )

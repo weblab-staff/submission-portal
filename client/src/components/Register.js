@@ -13,6 +13,7 @@ class Register extends React.Component {
       gender: '',
       livingGroup: '',
       priorExp: '',
+      forCredit: '',
       redirect: false
     }
   }
@@ -46,13 +47,15 @@ class Register extends React.Component {
       email,
       gender,
       livingGroup,
-      experience
+      experience,
+      forCredit
     } = this.state;
     event.preventDefault();
     post(`/api/users/${currentUser._id}/update`, {
       first_name: firstName,
       last_name: lastName,
       email: email,
+      for_credit: forCredit,
       statistics: {
         gender: gender,
         // class_year: Number,
@@ -121,6 +124,11 @@ class Register extends React.Component {
             <input type="radio" name="experience" value="2" onChange={this.handleChange}/>
             <input type="radio" name="experience" value="3" onChange={this.handleChange}/>
             <input type="radio" name="experience" value="4" onChange={this.handleChange}/>
+          </label>
+          <label>
+            For Credit:
+            <input type="radio" name="forCredit" value={true} onChange={this.handleChange}/>
+            <input type="radio" name="forCredit" value={false} onChange={this.handleChange}/>
           </label>
           <input type="submit" value="Submit" onClick={this.handleSubmit}/>
         </form>

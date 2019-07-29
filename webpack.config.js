@@ -41,9 +41,11 @@ module.exports = {
     proxy: {
       '/api': 'http://localhost:3000',
       '/auth': 'http://localhost:3000',
+      '/logout': 'http://localhost:3000',
       '/register': 'http://localhost:3000',
       '/team': 'http://localhost:3000',
       '/create-team': 'http://localhost:3000',
+      '/join-team': 'http://localhost:3000',
     }
   }
 };

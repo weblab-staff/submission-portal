@@ -2,6 +2,7 @@ import React from "react";
 import StudentsHeader from "./StudentsHeader/StudentsHeader";
 import StudentsBody from "./StudentsBody";
 import EmailModal from "./EmailModal";
+import { get } from "../../../utils";
 
 class StudentsSection extends React.Component {
   constructor(props) {
@@ -10,8 +11,104 @@ class StudentsSection extends React.Component {
       activeList: "INDIVIDUAL",
       emailModalActive: false,
       selectedStudents: [],
+      students: null,
+      loading: false,
+      modalInfo: null,
+      activeSort: null,
+      sortOrder: "NONE",
+      modalActive: false,
     };
   }
+
+  componentDidMount() {
+    this.getStudents();
+  }
+
+  genSortFunction(param, sortOrder) {
+    // This is probably too overcomplicated but im bad
+    if (sortOrder === "ASC") {
+      if (param === "for_credit") {
+        return (a, b) => a[param] - b[param];
+      }
+      if (param === "team_name") {
+        return (a, b) => {
+          const aTeam = a.team ? a.team.team_name : "???";
+          const bTeam = b.team ? b.team.team_name : "???";
+          return aTeam.localeCompare(bTeam);
+        };
+      }
+
+      return (a, b) => a[param].localeCompare(b[param]);
+    } else {
+      if (param === "for_credit") {
+        return (a, b) => b[param] - a[param];
+      }
+      if (param === "team_name") {
+        return (a, b) => {
+          const aTeam = a.team ? a.team.team_name : "???";
+          const bTeam = b.team ? b.team.team_name : "???";
+          return bTeam.localeCompare(aTeam);
+        };
+      }
+
+      return (a, b) => b[param].localeCompare(a[param]);
+    }
+  }
+
+  handleSort = (param) => {
+    let sortOrder = "ASC";
+    if (this.state.activeSort === param && this.state.sortOrder === "ASC") {
+      sortOrder = "DES";
+    }
+
+    let sortedStudents = [...this.props.students];
+    console.log("sorted:");
+    console.log(sortedStudents);
+    sortedStudents.sort(this.genSortFunction(param, sortOrder));
+
+    this.setState({
+      students: sortedStudents,
+      activeSort: param,
+      sortOrder,
+    });
+  };
+
+  showInfoModal = (info) => {
+    this.setState({ modalActive: true, modalInfo: info });
+  };
+
+  hideInfoModal = () => {
+    this.setState({ modalActive: false });
+  };
+
+  isSelected = (student) => {
+    return this.props.selectedStudents.includes(student);
+  };
+
+  getStudents = () => {
+    get("/api/users/", { populate: true })
+      .then((data) => {
+        if (data) {
+          let newModalInfo = null;
+          if (this.state.modalInfo) {
+            newModalInfo = data.filter(
+              (el) => el._id === this.state.modalInfo._id
+            )[0];
+          }
+          this.setState({
+            loading: false,
+            students: data,
+            modalInfo: newModalInfo,
+          });
+        } else {
+          this.setState({
+            loading: false,
+            students: null,
+          });
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   setActiveList = (list) => {
     this.setState({ activeList: list });
@@ -57,8 +154,18 @@ class StudentsSection extends React.Component {
   };
 
   render() {
-    const { activeList, emailModalActive, selectedStudents } = this.state;
-
+    const {
+      activeList,
+      emailModalActive,
+      selectedStudents,
+      students,
+      loading,
+      modalInfo,
+      activeSort,
+      sortOrder,
+      modalActive,
+    } = this.state;
+    console.log(students);
     return (
       <div>
         {emailModalActive && (
@@ -72,16 +179,28 @@ class StudentsSection extends React.Component {
           showEmailModal={this.showEmailModal}
           setActiveList={this.setActiveList}
           selectedStudents={selectedStudents}
+          students={students}
           deselectStudent={this.deselectStudent}
         />
         <StudentsBody
           activeList={activeList}
           selectedStudents={selectedStudents}
+          getStudents={this.getStudents}
           selectStudent={this.selectStudent}
           selectAll={this.selectAll}
+          students={students}
+          loading={loading}
+          modalInfo={modalInfo}
+          activeSort={activeSort}
+          sortOrder={sortOrder}
+          modalActive={modalActive}
           deselectStudent={this.deselectStudent}
           deselectAll={this.deselectAll}
           showMilestonesSection={this.props.showMilestonesSection}
+          hideInfoModal={this.hideInfoModal}
+          showInfoModal={this.showInfoModal}
+          handleSort={this.handleSort}
+          isSelected={this.isSelected}
         />
       </div>
     );
