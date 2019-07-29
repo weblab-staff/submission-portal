@@ -40,11 +40,11 @@ class MilestoneDetails extends React.Component {
       <div style={styles}>
         <div style={{ flexGrow: 2 }}>
           <div>{milestone.title}</div>
-          <div style={{ display: "flex" }}>
-            {submissions.map((submission, index) => (
+          <div style={{ display: "flex", marginBottom: "20px" }}>
+            {submissions.map((_, index) => (
               <div
                 key={`submission-${index}`}
-                onClick={() => this.props.selectSubmission(index)}
+                onClick={() => this.selectSubmission(index)}
               >{`Submission ${index}`}</div>
             ))}
           </div>
@@ -53,6 +53,7 @@ class MilestoneDetails extends React.Component {
               <div>
                 <div>{el}</div>
                 <div>{submission.form_response[el]}</div>
+                <br />
               </div>
             ))}
           </div>

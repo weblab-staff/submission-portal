@@ -11,7 +11,7 @@ class Root extends React.Component {
       loading: true,
       currentUser: null,
       currentTeam: null,
-    }
+    };
   }
 
   componentDidMount() {
@@ -20,8 +20,8 @@ class Root extends React.Component {
 
   // clean l8er
   getUser = () => {
-    get('/api/whoami')
-      .then(userObj => {
+    get("/api/whoami")
+      .then((userObj) => {
         if (userObj._id !== undefined) {
           if (userObj.team) {
             this.getTeam(userObj.team);
@@ -32,7 +32,7 @@ class Root extends React.Component {
           } else {
             this.setState({
               currentUser: userObj,
-              loading: false
+              loading: false,
             });
           }
         } else {
@@ -42,20 +42,20 @@ class Root extends React.Component {
           });
         }
       })
-      .catch(err => console.log(err));
-  }
+      .catch((err) => console.log(err));
+  };
 
   getTeam = (id) => {
     get(`/api/teams/${id}`)
-      .then(teamObj => {
-        console.log('HEYO')
+      .then((teamObj) => {
+        console.log("HEYO");
         this.setState({
           currentTeam: teamObj[0],
-          loading: false
+          loading: false,
         });
       })
-      .catch(err => console.log(err));
-  }
+      .catch((err) => console.log(err));
+  };
 
   render() {
     const { loading, currentUser, currentTeam } = this.state;
@@ -69,30 +69,37 @@ class Root extends React.Component {
             <h2 className="skeleton skeleton-line" />
           </div>
           <div className="milestonesContainer">
-            {[0,1,2,3].map(() => {
+            {[0, 1, 2, 3].map((_, index) => {
               return (
-              <div className="milestone-Container">
-                <div className="skeleton milestone-Indicator" />
-                <div className="milestone-Info">
-                  <div className="skeleton skeleton-line--short milestone-Name" />
-                  <div className="skeleton skeleton-line--long milestone-Due" />
+                <div className="milestone-Container" key={`root-ms-${index}`}>
+                  <div className="skeleton milestone-Indicator" />
+                  <div className="milestone-Info">
+                    <div className="skeleton skeleton-line--short milestone-Name" />
+                    <div className="skeleton skeleton-line--long milestone-Due" />
+                  </div>
                 </div>
-              </div>)
+              );
             })}
           </div>
         </div>
-      )
+      );
     }
 
     if (!currentUser) {
-      return <Login />
+      return <Login />;
     }
 
     return (
       <div>
-        {currentUser.is_admin ? <AdminView /> :
-          <StudentView currentUser={currentUser} currentTeam={currentTeam} loading={loading} />
-        }
+        {currentUser.is_admin ? (
+          <AdminView />
+        ) : (
+          <StudentView
+            currentUser={currentUser}
+            currentTeam={currentTeam}
+            loading={loading}
+          />
+        )}
       </div>
     );
   }
