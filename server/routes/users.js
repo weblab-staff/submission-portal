@@ -36,43 +36,28 @@ router.get(
 
 router.post("/:user_id/update", (req, res) => {
   const updates = req.body;
-  User.findByIdAndUpdate(req.params["user_id"], updates)
-    .catch(err => {
-      console.log(err);
-      console.log(`No User found with ID ${req.params["user_id"]}`);
-      res.sendStatus(400);
-    })
-    .then(data => {
-      res.sendStatus(204);
-    });
+  User.findByIdAndUpdate(req.params["user_id"], updates).then(data => {
+    if (!data) return res.sendStatus(404);
+    res.sendStatus(204);
+  });
 });
 
 router.post("/:user_id/tag", (req, res) => {
   User.findByIdAndUpdate(req.params["user_id"], {
     $addToSet: { tags: req.body.tag }
-  })
-    .then(data => {
-      res.sendStatus(204);
-    })
-    .catch(err => {
-      console.log(err);
-      console.log(`No User found with ID ${req.params["user_id"]}`);
-      res.sendStatus(400);
-    });
+  }).then(data => {
+    if (!data) return res.sendStatus(404);
+    res.sendStatus(204);
+  });
 });
 
 router.delete("/:user_id/tag", (req, res) => {
   User.findByIdAndUpdate(req.params["user_id"], {
     $pull: { tags: req.body.tag }
-  })
-    .then(data => {
-      res.sendStatus(204);
-    })
-    .catch(err => {
-      console.log(err);
-      console.log(`No User found with ID ${req.params["user_id"]}`);
-      res.sendStatus(400);
-    });
+  }).then(data => {
+    if (!data) return res.sendStatus(404);
+    res.sendStatus(204);
+  });
 });
 
 router.delete("/:user_id", (req, res) => {

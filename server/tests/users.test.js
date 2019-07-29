@@ -78,4 +78,56 @@ describe("User API tests", () => {
         done();
       });
   });
+
+  it("should add a new tag to the user", done => {
+    request(app)
+      .post(`/api/users/${_id}/tag`)
+      .set("Accept", "application/json")
+      .send({
+        tag: "meme"
+      })
+      .expect(204)
+      .then(() => getUser())
+      .then(res => {
+        assert.equal(1, res.body[0].tags.length);
+        assert.equal("meme", res.body[0].tags[0]);
+        done();
+      });
+  });
+
+  it("should delete a new tag from the user", done => {
+    request(app)
+      .delete(`/api/users/${_id}/tag`)
+      .set("Accept", "application/json")
+      .send({
+        tag: "meme"
+      })
+      .expect(204)
+      .then(() => getUser())
+      .then(res => {
+        assert.equal(0, res.body[0].tags.length);
+        done();
+      });
+  });
+
+  it("should delete a user", done => {
+    request(app)
+      .delete(`/api/users/${_id}`)
+      .expect(204)
+      .then(() => getUser())
+      .then(res => {
+        assert.equal(0, res.body.length);
+        done();
+      });
+  });
+
+  it("should fail when updating a user who doesn't exist", done => {
+    request(app)
+      .post(`/api/users/${_id}/update`)
+      .set("Accept", "application/json")
+      .send({
+        email: "cor@mit.edu"
+      })
+      .expect(404, done);
+  });
 });
