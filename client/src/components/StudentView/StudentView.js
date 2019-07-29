@@ -39,7 +39,7 @@ class StudentView extends React.Component {
             <li><a href="#">Portal</a></li>
             <li><a href="/auth/logout">Logout</a></li>
           </ul> */}
-          <div class="graphicCircle"></div>
+          <div className="graphicCircle"></div>
           <h1>Welcome, {currentUser.first_name + " " + currentUser.last_name}</h1>
           <h2>
           {currentTeam !== null ? (

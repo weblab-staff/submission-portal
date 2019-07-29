@@ -38,11 +38,11 @@ class StudentViewBroad extends React.Component {
       <React.Fragment>
         {loading ? [0,1,2,3].map(() => {
           return (
-            <div class="milestone-Container">
-              <div class="skeleton milestone-Indicator" />
-              <div class="milestone-Info">
-                <div class="skeleton skeleton-line--short milestone-Name" />
-                <div class="skeleton skeleton-line--long milestone-Due" />
+            <div className="milestone-Container">
+              <div className="skeleton milestone-Indicator" />
+              <div className="milestone-Info">
+                <div className="skeleton skeleton-line--short milestone-Name" />
+                <div className="skeleton skeleton-line--long milestone-Due" />
               </div>
             </div>
           )

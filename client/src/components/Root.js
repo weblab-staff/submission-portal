@@ -59,7 +59,7 @@ class Root extends React.Component {
 
   render() {
     const { loading, currentUser, currentTeam } = this.state;
-    
+
     if (loading) {
       return (
         <div className="browserContainer">
@@ -71,11 +71,11 @@ class Root extends React.Component {
           <div className="milestonesContainer">
             {[0,1,2,3].map(() => {
               return (
-              <div class="milestone-Container">
-                <div class="skeleton milestone-Indicator" />
-                <div class="milestone-Info">
-                  <div class="skeleton skeleton-line--short milestone-Name" />
-                  <div class="skeleton skeleton-line--long milestone-Due" />
+              <div className="milestone-Container">
+                <div className="skeleton milestone-Indicator" />
+                <div className="milestone-Info">
+                  <div className="skeleton skeleton-line--short milestone-Name" />
+                  <div className="skeleton skeleton-line--long milestone-Due" />
                 </div>
               </div>)
             })}
@@ -83,14 +83,14 @@ class Root extends React.Component {
         </div>
       )
     }
-    
+
     if (!currentUser) {
       return <Login />
     }
-    
+
     return (
       <div>
-        {currentUser.is_admin ? <AdminView /> : 
+        {currentUser.is_admin ? <AdminView /> :
           <StudentView currentUser={currentUser} currentTeam={currentTeam} loading={loading} />
         }
       </div>
