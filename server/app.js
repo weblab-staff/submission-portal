@@ -88,5 +88,10 @@ http.listen(port, () => {
 });
 
 function is_registered(user) {
-  return user.first_name && user.last_name && user.email && user.is_competing;
+  return (
+    user.first_name !== undefined &&
+    user.last_name !== undefined &&
+    user.email !== undefined &&
+    user.is_competing !== undefined
+  );
 }
