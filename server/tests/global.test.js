@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 before(() => {
   // wait for mongodb to connect before running test suite

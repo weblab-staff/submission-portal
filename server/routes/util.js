@@ -8,8 +8,8 @@ const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
     user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASSWORD,
-  },
+    pass: process.env.GMAIL_PASSWORD
+  }
 });
 
 async function send_email(user_ids, team_ids, subject, body, sender) {
@@ -19,11 +19,11 @@ async function send_email(user_ids, team_ids, subject, body, sender) {
     $or: [
       {
         _id: {
-          $in: teams.map((team) => team.members).reduce((a, b) => a.concat(b)),
-        },
+          $in: teams.map(team => team.members).reduce((a, b) => a.concat(b))
+        }
       },
-      { _id: { $in: user_ids } },
-    ],
+      { _id: { $in: user_ids } }
+    ]
   });
   const mailOptions = {
     from: process.env.GMAIL_USER,
@@ -31,7 +31,7 @@ async function send_email(user_ids, team_ids, subject, body, sender) {
       return recipient.email;
     }),
     subject: subject,
-    text: body,
+    text: body
   };
   const email = new Email({
     timestamp: Date.now(),
@@ -39,7 +39,7 @@ async function send_email(user_ids, team_ids, subject, body, sender) {
     body: body,
     from: sender.first_name + " " + sender.last_name,
     user_targets: users,
-    team_targets: teams,
+    team_targets: teams
   });
   await email.save();
   transporter.sendMail(mailOptions, function(error, _) {
@@ -52,13 +52,7 @@ async function send_email(user_ids, team_ids, subject, body, sender) {
 }
 
 function query_active_year() {
-  return Class.find({}).then((classes) => {
-    for (let individual_class of classes) {
-      if (individual_class.is_active) {
-        return individual_class.year;
-      }
-    }
-  });
+  return Class.findOne({ is_active: true }).then(cls => cls && cls.year);
 }
 
 /**
@@ -75,5 +69,5 @@ async function query_filter_year(req) {
 module.exports = {
   get_active_year: query_active_year,
   get_filter_year: query_filter_year,
-  send_email,
+  send_email
 };
