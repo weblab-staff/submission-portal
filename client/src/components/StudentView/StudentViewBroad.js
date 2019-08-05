@@ -6,7 +6,7 @@ class StudentViewBroad extends React.Component {
     super(props);
     this.state = {
       milestones: [],
-      loading: true,
+      loading: true
     };
   }
 
@@ -16,13 +16,13 @@ class StudentViewBroad extends React.Component {
 
   getMilestones = () => {
     get(`/api/milestones`)
-      .then((mileObjs) => {
+      .then(mileObjs => {
         this.setState({
           milestones: mileObjs,
-          loading: false,
+          loading: false
         });
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -42,12 +42,12 @@ class StudentViewBroad extends React.Component {
                 </div>
               );
             })
-          : milestones.map((mileObj) => {
+          : milestones.map(mileObj => {
               // TODO: the below should check for existence of current team before obtaining submissions.
               const sub = currentTeam.submissions
                 .slice()
                 .reverse()
-                .find((sub) => sub.milestone === mileObj._id);
+                .find(sub => sub.milestone === mileObj._id);
               return (
                 <div
                   key={mileObj._id}

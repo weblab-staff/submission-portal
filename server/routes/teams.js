@@ -19,8 +19,8 @@ async function find_team(year, id, populate, include_content, callback) {
       select: include_content ? "" : "-form_response",
       populate: [
         { path: "milestone", select: "title description" },
-        { path: "feedback", select: include_content ? "" : "-body" },
-      ],
+        { path: "feedback", select: include_content ? "" : "-body" }
+      ]
     });
   }
   return query.exec();
@@ -56,7 +56,7 @@ router.get(
       true //always include content for individual team
     );
 
-    res.send(team);
+    res.send(team.length == 0 ? undefined : team[0]);
   })
 );
 
@@ -70,7 +70,7 @@ router.post(
       team_name: req.body.team_name,
       members: [req.user],
       competing: req.body.is_competing,
-      year: req.year,
+      year: req.year
     });
     const validationErrors = team.validateSync();
     if (validationErrors) {
@@ -91,7 +91,7 @@ router.post(
   "/:team_id",
   errorWrap(async (req, res) => {
     const team = await Team.findByIdAndUpdate(req.params.team_id, {
-      $addToSet: { members: req.body.user_id },
+      $addToSet: { members: req.body.user_id }
     });
 
     await User.findByIdAndUpdate(req.body.user_id, { team: team._id });
@@ -106,12 +106,12 @@ router.post(
       team: req.params.team_id,
       milestone: req.body.milestone_id,
       timestamp: Date.now(),
-      form_response: "Manually credited milestone",
+      form_response: "Manually credited milestone"
     });
 
     await submission.save();
     await Team.findByIdAndUpdate(req.params.team_id, {
-      $push: { submissions: submission._id },
+      $push: { submissions: submission._id }
     });
     res.sendStatus(204);
   })
@@ -140,12 +140,12 @@ router.post(
     const feedback = req.body.feedback;
     const sender = req.user;
     const submission = await MilestoneSubmission.findOne({
-      _id: req.body.milestone_submission_id,
+      _id: req.body.milestone_submission_id
     });
     const subject = get_feedback_subject(submission.milestone.title);
     email = await utils.send_email([], [team_id], subject, feedback, sender);
     await MilestoneSubmission.findByIdAndUpdate(submission._id, {
-      $push: { feedback: email._id },
+      $push: { feedback: email._id }
     });
     res.send(email);
   })
@@ -155,7 +155,7 @@ router.post(
   "/:team_id/set-competing",
   errorWrap(async (req, res) => {
     await Team.findByIdAndUpdate(req.params.team_id, {
-      competing: req.body.competing,
+      competing: req.body.competing
     });
 
     res.sendStatus(204);
@@ -168,7 +168,7 @@ router.delete(
   "/:team_id/remove-member",
   errorWrap(async (req, res) => {
     const team = await Team.findByIdAndUpdate(req.params.team_id, {
-      $pull: { members: req.body.user_id },
+      $pull: { members: req.body.user_id }
     });
 
     await User.findByIdAndUpdate(req.body.user_id, { team: null });
@@ -184,7 +184,7 @@ router.delete(
     const team = await Team.findByIdAndDelete(req.params.team_id);
 
     await Promise.all(
-      team.members.map((user_id) => {
+      team.members.map(user_id => {
         return User.findByIdAndUpdate(user_id, { team: null });
       })
     );

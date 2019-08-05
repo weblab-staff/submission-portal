@@ -10,7 +10,7 @@ class Root extends React.Component {
     this.state = {
       loading: true,
       currentUser: null,
-      currentTeam: null,
+      currentTeam: null
     };
   }
 
@@ -21,71 +21,59 @@ class Root extends React.Component {
   // clean l8er
   getUser = () => {
     get("/api/whoami")
-      .then((userObj) => {
-        if (userObj._id !== undefined) {
-          if (userObj.team) {
-            this.getTeam(userObj.team);
-            this.setState({
-              currentUser: userObj,
-              // loading: false
-            });
-          } else {
-            this.setState({
-              currentUser: userObj,
-              loading: false,
-            });
-          }
+      .then(userObj => {
+        if (this.isLoggedIn(userObj)) {
+          this.setStateLoggedIn(userObj);
         } else {
-          this.setState({
-            currentUser: null,
-            loading: false,
-          });
+          this.setStateNotLoggedIn();
         }
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
-  getTeam = (id) => {
-    get(`/api/teams/${id}`)
-      .then((teamObj) => {
-        console.log("HEYO");
+  setStateUserWithTeam = userObj => {
+    const team_id = userObj.team;
+    get(`/api/teams/${team_id}`)
+      .then(teamObj => {
         this.setState({
-          currentTeam: teamObj[0],
-          loading: false,
+          currentTeam: teamObj,
+          currentUser: userObj,
+          loading: false
         });
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
+
+  setStateNotLoggedIn() {
+    this.setState({
+      currentUser: null,
+      loading: false
+    });
+  }
+
+  setStateLoggedIn(userObj) {
+    if (userObj.team) {
+      this.setStateUserWithTeam(userObj);
+    } else {
+      this.setStateUserWithoutTeam(userObj);
+    }
+  }
+
+  setStateUserWithoutTeam(userObj) {
+    this.setState({
+      currentUser: userObj,
+      loading: false
+    });
+  }
 
   render() {
     const { loading, currentUser, currentTeam } = this.state;
 
     if (loading) {
-      return (
-        <div className="browserContainer">
-          <div className="greetingContainer">
-            <div className="skeleton graphicCircle" />
-            <h1 className="skeleton skeleton-line--long" />
-            <h2 className="skeleton skeleton-line" />
-          </div>
-          <div className="milestonesContainer">
-            {[0, 1, 2, 3].map((_, index) => {
-              return (
-                <div className="milestone-Container" key={`root-ms-${index}`}>
-                  <div className="skeleton milestone-Indicator" />
-                  <div className="milestone-Info">
-                    <div className="skeleton skeleton-line--short milestone-Name" />
-                    <div className="skeleton skeleton-line--long milestone-Due" />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      );
+      return this.getLoadingHtml();
     }
 
-    if (!currentUser) {
+    if (!this.isLoggedIn(currentUser)) {
       return <Login />;
     }
 
@@ -100,6 +88,41 @@ class Root extends React.Component {
             loading={loading}
           />
         )}
+      </div>
+    );
+  }
+
+  isLoggedIn(currentUser) {
+    return currentUser._id !== undefined;
+  }
+
+  getLoadingHtml() {
+    return (
+      <div className="browserContainer">
+        <div className="greetingContainer">
+          <div className="skeleton graphicCircle" />
+          <h1 className="skeleton skeleton-line--long" />
+          <h2 className="skeleton skeleton-line" />
+        </div>
+        {getLoadingMilestonesHtml()}
+      </div>
+    );
+  }
+
+  getLoadingMilestonesHtml() {
+    return (
+      <div className="milestonesContainer">
+        {[0, 1, 2, 3].map((_, index) => {
+          return (
+            <div className="milestone-Container" key={`root-ms-${index}`}>
+              <div className="skeleton milestone-Indicator" />
+              <div className="milestone-Info">
+                <div className="skeleton skeleton-line--short milestone-Name" />
+                <div className="skeleton skeleton-line--long milestone-Due" />
+              </div>
+            </div>
+          );
+        })}
       </div>
     );
   }
