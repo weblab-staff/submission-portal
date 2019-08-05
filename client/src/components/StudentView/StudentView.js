@@ -45,8 +45,8 @@ class StudentView extends React.Component {
                     pathname: "/team",
                     state: {
                       currentUser,
-                      currentTeam
-                    }
+                      currentTeam,
+                    },
                   }}
                 >
                   {currentTeam.team_name}
@@ -59,8 +59,8 @@ class StudentView extends React.Component {
                   to={{
                     pathname: "/create-team",
                     state: {
-                      currentUser
-                    }
+                      currentUser,
+                    },
                   }}
                 >
                   Create Team
@@ -70,8 +70,8 @@ class StudentView extends React.Component {
                   to={{
                     pathname: "/join-team",
                     state: {
-                      currentUser
-                    }
+                      currentUser,
+                    },
                   }}
                 >
                   Join Team
