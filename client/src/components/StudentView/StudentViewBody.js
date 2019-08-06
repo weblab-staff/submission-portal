@@ -6,13 +6,13 @@ class StudentViewBody extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: false,
+      expanded: false
     };
   }
 
   toggleView = () => {
     this.setState({
-      expanded: !this.state.expanded,
+      expanded: !this.state.expanded
     });
   };
 
@@ -20,7 +20,7 @@ class StudentViewBody extends React.Component {
     const { currentTeam } = this.props;
     const { expanded } = this.state;
 
-    const content = currentTeam ? (
+    return (
       <div className="milestonesContainer">
         {expanded ? (
           <StudentViewDetailed
@@ -34,13 +34,7 @@ class StudentViewBody extends React.Component {
           />
         )}
       </div>
-    ) : (
-      // TODO: we can eliminate this temporary bandaid when the above components (StudentViewDetailed and StudentViewBroad)
-      // allow for a null currentTeam
-      <div>Temporary bandaid.</div>
     );
-
-    return content;
   }
 }
 

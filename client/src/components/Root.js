@@ -3,6 +3,7 @@ import AdminView from "./AdminView/AdminView";
 import StudentView from "./StudentView/StudentView";
 import Login from "./Login";
 import { get } from "../utils";
+import { MilestoneLoader } from "../utils";
 
 class Root extends React.Component {
   constructor(props) {
@@ -22,9 +23,11 @@ class Root extends React.Component {
   getUser = () => {
     get("/api/whoami")
       .then(userObj => {
-        if (this.isLoggedIn(userObj)) {
+        if (userObj._id) {
+          console.log("hello user:", userObj);
           this.setStateLoggedIn(userObj);
         } else {
+          console.log("not logged in");
           this.setStateNotLoggedIn();
         }
       })
@@ -44,36 +47,46 @@ class Root extends React.Component {
       .catch(err => console.log(err));
   };
 
-  setStateNotLoggedIn() {
+  setStateNotLoggedIn = () => {
     this.setState({
       currentUser: null,
       loading: false
     });
-  }
+  };
 
-  setStateLoggedIn(userObj) {
+  setStateLoggedIn = userObj => {
     if (userObj.team) {
       this.setStateUserWithTeam(userObj);
     } else {
       this.setStateUserWithoutTeam(userObj);
     }
-  }
+  };
 
-  setStateUserWithoutTeam(userObj) {
+  setStateUserWithoutTeam = userObj => {
     this.setState({
       currentUser: userObj,
       loading: false
     });
-  }
+  };
 
   render() {
     const { loading, currentUser, currentTeam } = this.state;
+    console.log("render user:", currentUser, currentTeam);
 
     if (loading) {
-      return this.getLoadingHtml();
+      return (
+        <div className="browserContainer">
+          <div className="greetingContainer">
+            <div className="skeleton graphicCircle" />
+            <h1 className="skeleton skeleton-line--long" />
+            <h2 className="skeleton skeleton-line" />
+          </div>
+          <MilestoneLoader />
+        </div>
+      );
     }
 
-    if (!this.isLoggedIn(currentUser)) {
+    if (!currentUser) {
       return <Login />;
     }
 
@@ -88,41 +101,6 @@ class Root extends React.Component {
             loading={loading}
           />
         )}
-      </div>
-    );
-  }
-
-  isLoggedIn(currentUser) {
-    return currentUser._id !== undefined;
-  }
-
-  getLoadingHtml() {
-    return (
-      <div className="browserContainer">
-        <div className="greetingContainer">
-          <div className="skeleton graphicCircle" />
-          <h1 className="skeleton skeleton-line--long" />
-          <h2 className="skeleton skeleton-line" />
-        </div>
-        {getLoadingMilestonesHtml()}
-      </div>
-    );
-  }
-
-  getLoadingMilestonesHtml() {
-    return (
-      <div className="milestonesContainer">
-        {[0, 1, 2, 3].map((_, index) => {
-          return (
-            <div className="milestone-Container" key={`root-ms-${index}`}>
-              <div className="skeleton milestone-Indicator" />
-              <div className="milestone-Info">
-                <div className="skeleton skeleton-line--short milestone-Name" />
-                <div className="skeleton skeleton-line--long milestone-Due" />
-              </div>
-            </div>
-          );
-        })}
       </div>
     );
   }

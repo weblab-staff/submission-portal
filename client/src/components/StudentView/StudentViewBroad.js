@@ -1,5 +1,6 @@
 import React from "react";
 import { get } from "../../utils";
+import { MilestoneLoader } from "../../utils";
 
 class StudentViewBroad extends React.Component {
   constructor(props) {
@@ -28,45 +29,50 @@ class StudentViewBroad extends React.Component {
   render() {
     const { toggleView, currentTeam } = this.props;
     const { milestones, loading } = this.state;
+    const latestSubmissions = new Map();
+    if (currentTeam) {
+      currentTeam.submissions.forEach(submission => {
+        latestSubmissions.set([submission.milestone], submission);
+      });
+    }
     return (
       <React.Fragment>
-        {loading
-          ? [0, 1, 2, 3].map(() => {
-              return (
-                <div className="milestone-Container">
-                  <div className="skeleton milestone-Indicator" />
-                  <div className="milestone-Info">
-                    <div className="skeleton skeleton-line--short milestone-Name" />
-                    <div className="skeleton skeleton-line--long milestone-Due" />
+        {loading ? (
+          <MilestoneLoader />
+        ) : (
+          milestones.map(mileObj => {
+            return (
+              <div
+                key={mileObj._id}
+                className="milestone-Container"
+                onClick={toggleView}
+              >
+                <div className="milestone-Indicator" />
+                <div className="milestone-Info">
+                  <div className="milestone-Name">
+                    {mileObj.submission_closed ? (
+                      mileObj.title
+                    ) : (
+                      <a href={mileObj.handin_link}>{mileObj.title}</a>
+                    )}
                   </div>
-                </div>
-              );
-            })
-          : milestones.map(mileObj => {
-              // TODO: the below should check for existence of current team before obtaining submissions.
-              const sub = currentTeam.submissions
-                .slice()
-                .reverse()
-                .find(sub => sub.milestone === mileObj._id);
-              return (
-                <div
-                  key={mileObj._id}
-                  className="milestone-Container"
-                  onClick={toggleView}
-                >
-                  <div className="milestone-Indicator" />
-                  <div className="milestone-Info">
-                    <div className="milestone-Name">{mileObj.title}</div>
+                  {!currentTeam ? (
+                    <span>Become part of a team to see your submissions!</span>
+                  ) : (
                     <button onClick={toggleView}>
-                      {sub
-                        ? "last submitted " + sub.timestamp
+                      {latestSubmissions.get(mileObj._id)
+                        ? "last submitted " +
+                          latestSubmissions.get(mileObj._id).timestamp
                         : "no submissions!"}
                     </button>
-                    <div className="milestone-Due">due {mileObj.deadline}</div>
-                  </div>
+                  )}
+
+                  <div className="milestone-Due">due {mileObj.deadline}</div>
                 </div>
-              );
-            })}
+              </div>
+            );
+          })
+        )}
       </React.Fragment>
     );
   }
