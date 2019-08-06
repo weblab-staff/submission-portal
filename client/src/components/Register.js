@@ -18,9 +18,11 @@ class Register extends React.Component {
       // classYear: "", TODO add class year
       livingGroup: "",
       priorExp: "",
-      forCredit: "true",
-      redirect: false
+      forCredit: "",
+      redirect: false,
+      experience: 3
     };
+    this.sliderRef = React.createRef();
   }
 
   componentDidMount() {
@@ -39,7 +41,65 @@ class Register extends React.Component {
       .catch(err => console.log(err));
   };
 
-  handleSubmit = event => {};
+  handleChange = event => {
+    const inputNode = event.target;
+    this.setState({
+      [inputNode.name]: inputNode.value
+    });
+  };
+
+  handleRangeChange = event => {
+    const value = event.target.value;
+    this.setState({ experience: value });
+    this.handleResize();
+  };
+
+  handleSubmit = event => {
+    const {
+      currentUser,
+      firstName,
+      lastName,
+      email,
+      gender,
+      for_credit,
+      livingGroup,
+      experience,
+      forCredit
+    } = this.state;
+    event.preventDefault();
+    post(`/api/users/${currentUser._id}/update`, {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      for_credit: forCredit,
+      statistics: {
+        gender: gender,
+        // class_year: Number,
+        experience: experience,
+        living_group: livingGroup
+      },
+      for_credit: for_credit
+    })
+      .then(response => {
+        console.log(response);
+        this.setState({
+          redirect: response === 204
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
+  handleResize = () => {
+    //TODO: find out where this should actually be called
+    if (!this.sliderRef.current) {
+      return;
+    }
+    const bbox = this.sliderRef.current.getBoundingClientRect();
+    this.sliderRef.current.style.setProperty(
+      "--tick-distance",
+      `${(bbox.width - 20) / 4}px`
+    );
+  };
 
   render() {
     const { redirect } = this.state;
@@ -127,13 +187,13 @@ class Register extends React.Component {
                   <ErrorMessage name="email" component="div" />
                 </div>
               </div>
-              <div className="u-marginBottom-md">
+              <div className="u-marginBottom-md u-positionRelative">
                 <div className="u-formLabel u-marginBottom-sm">
                   Are you taking this class for credit?
                 </div>
-                <div>
+                <div className="formInput-select--arrow">
                   <Field
-                    className="formInput"
+                    className="formInput-select"
                     component="select"
                     name="forCredit"
                   >
@@ -142,10 +202,10 @@ class Register extends React.Component {
                   </Field>
                 </div>
               </div>
-              <div className="u-marginBottom-md">
+              <div className="u-marginBottom-md u-positionRelative">
                 <div className="u-formLabel u-marginBottom-sm">gender</div>
-                <div>
-                  <Field className="formInput" component="select" name="gender">
+                <div className="formInput-select--arrow">
+                  <Field className="formInput-select" component="select" name="gender">
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
@@ -160,7 +220,27 @@ class Register extends React.Component {
                   <Field className="formInput" name="livingGroup" />
                 </div>
               </div>
-              <div className="u-marginBottom-md">
+              <div className="u-marginBottom-md u-positionRelative">
+                <div className="u-formLabel u-marginBottom-sm">
+                  prior experience
+                </div>
+                <div className="formInput-rangeContainer" ref={this.sliderRef}>
+                  <input
+                    type="range"
+                    min="1"
+                    max="5"
+                    name="experience"
+                    value={this.state.experience}
+                    onChange={this.handleRangeChange}
+                    className="formInput-range"
+                  />
+                </div>
+                <div className="u-fontSm u-formLabel u-flex u-flexJustifyBetweeen u-marginTop-sm">
+                  <div>none</div>
+                  <div className="u-textRight">expert</div>
+                </div>
+              </div>
+              {/* <div className="u-marginBottom-md">
                 <div className="u-formLabel u-marginBottom-sm">experience</div>
                 <div>
                   <Field type="radio" name="experience" value="0" />
@@ -169,7 +249,7 @@ class Register extends React.Component {
                   <Field type="radio" name="experience" value="3" />
                   <Field type="radio" name="experience" value="4" />
                 </div>
-              </div>
+              </div> */}
               <button
                 className="studentButton"
                 type="submit"

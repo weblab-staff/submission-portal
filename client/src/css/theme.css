@@ -6,10 +6,15 @@
   height: calc(100vh - var(--top-border) - 10px);
 }
 
-.browserContainer:after {
+.browserContainer--studentView {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.browserContainer::after {
   --radius: 20px;
   --circle-margin: calc(var(--top-border) / 4);
-  
+
   content: "";
   width: var(--radius);
   height: var(--radius);
@@ -24,7 +29,7 @@
 .studentButton {
   background: var(--s-blue);
   border-radius: var(--radius-sm);
-  padding: .8em 1.4em;
+  padding: 0.8em 1.4em;
   color: white;
   text-decoration: none;
   text-align: center;
@@ -37,7 +42,7 @@
 
 .formInput {
   background: var(--grey);
-  padding: .5em;
+  padding: 0.5em;
   border: 1px solid var(--grey);
   border-radius: var(--radius-sm);
   width: calc(100% - 1em);
@@ -46,4 +51,89 @@
 
 .formInput:focus {
   border: 1px solid var(--grey-focus);
+}
+
+.formInput-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; /* remove default arrow */
+
+  background: var(--grey);
+  padding: 0.5em;
+  border: 1px solid var(--grey);
+  border-radius: var(--radius-sm);
+  width: 100%;
+  font-size: 1em;
+}
+
+.formInput-select--arrow::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  border: 6px transparent solid;
+  border-top: 5px black solid;
+  width: 0;
+  height: 0;
+  bottom: 0.6em;
+  right: 0.8em;
+}
+
+.formInput-rangeContainer {
+  --tick-distance: 95px;
+  --range-radius: 10px;
+  --range-height: 20px;
+
+  z-index: 9;
+  width: 100%;
+  padding: 0;
+  margin: 2px 0;
+  background: var(--grey);
+  border-radius: var(--range-radius);
+  height: var(--range-height);
+}
+
+.formInput-range {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; /* remove default arrow */
+
+  z-index: 99;
+  position: relative;
+  width: 100%;
+  height: var(--range-height);
+  margin: 0;
+  border-radius: var(--range-radius);
+  background: rgba(0, 0, 0, 0);
+  outline: none;
+  opacity: 1;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+.formInput-rangeContainer::before {
+  content: "";
+  width: 20px;
+  height: var(--range-height);
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--grey-focus);
+  box-shadow: calc(var(--tick-distance)) 0 0 var(--grey-focus),
+    calc(var(--tick-distance) * 2) 0 0 var(--grey-focus),
+    calc(var(--tick-distance) * 3) 0 0 var(--grey-focus),
+    calc(var(--tick-distance) * 4) 0 0 var(--grey-focus);
+}
+
+.formInput-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; /* remove default arrow */
+}
+
+.formInput-range::-webkit-slider-thumb,
+.formInput-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--s-blue);
 }

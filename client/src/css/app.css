@@ -4,7 +4,8 @@
     --s-pink: #FE82DE;
     --s-yella: #FFC215;
     --grey: #D0E2F4;
-    --grey-focus: #97B8D9;
+    --grey-text: #7D9DBC;
+    --grey-focus: #BAD2E8;
     --dark-grey: #707070;
     
     --milestone-gap: 18px;
@@ -46,6 +47,10 @@ body {
     display: flex;
 }
 
+.u-flexJustifyBetweeen {
+    justify-content: space-between;
+}
+
 .u-flexCenter, .u-flexCenter--browser {
     justify-content: center;
     align-items: center
@@ -59,8 +64,20 @@ body {
     text-align: center;
 }
 
+.u-textRight {
+    text-align: right;
+}
+
+.u-fontSm {
+    font-size: .8em;
+}
+
 .u-formLabel {
     color: var(--dark-grey);
+}
+
+.u-marginTop-sm {
+    margin-top: 4px;
 }
 
 .u-marginBottom-sm {
@@ -69,4 +86,8 @@ body {
 
 .u-marginBottom-md {
     margin-bottom: 10px;
+}
+
+.u-positionRelative {
+    position: relative;
 }

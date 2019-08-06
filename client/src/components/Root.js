@@ -76,7 +76,7 @@ class Root extends React.Component {
 
     if (loading) {
       return (
-        <div className="browserContainer">
+        <div className="browserContainer browserContainer--studentView">
           <div className="greetingContainer">
             <div className="skeleton graphicCircle" />
             <h1 className="skeleton skeleton-line--long" />

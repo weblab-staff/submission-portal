@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import StudentViewBody from "./StudentViewBody";
 
-import "./../../css/theme.css";
 import "./StudentView.css";
 
 class StudentView extends React.Component {

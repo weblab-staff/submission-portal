@@ -10,6 +10,7 @@ import CreateTeam from "./TeamView/CreateTeam.js";
 import JoinTeam from "./TeamView/JoinTeam.js";
 
 import "../css/app.css";
+import "../css/theme.css";
 import "../css/skeleton.css";
 
 library.add(fas);

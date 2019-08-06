@@ -1,8 +1,3 @@
-.browserContainer--studentView {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
 .greetingContainer, .milestonesContainer {
   margin-top: 20vh;
 }
