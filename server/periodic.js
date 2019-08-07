@@ -1,20 +1,20 @@
 /** Functions that run periodically **/
 
-const GoogleSpreadsheet = require('google-spreadsheet');
+const GoogleSpreadsheet = require("google-spreadsheet");
 
-const Team = require('./models/Team');
-const Milestone = require('./models/Milestone');
-const MilestoneSubmission = require('./models/MilestoneSubmission');
+const Team = require("./models/Team");
+const Milestone = require("./models/Milestone");
+const MilestoneSubmission = require("./models/MilestoneSubmission");
 
 const SHEET_POLL_INTERVAL = 10;
 
 function start() {
-  if (process.env.NODE_ENV === 'test') return;
+  if (process.env.NODE_ENV === "test") return;
   setInterval(checkSubmissions, SHEET_POLL_INTERVAL * 1000);
 }
 
 async function checkSubmissions() {
-  const milestones = await Milestone.find({year: 2019}); // TODO: get actual active year
+  const milestones = await Milestone.find({ year: 2019 }); // TODO: get actual active year
 
   milestones
     .filter(milestone => milestone.autograde)
@@ -24,7 +24,7 @@ async function checkSubmissions() {
 
       console.log("New responses:", rows);
       rows.forEach(async row => {
-        const team = await Team.findOne({team_name: row.teamname}, '_id');
+        const team = await Team.findOne({ team_name: row.teamname });
 
         const submission = new MilestoneSubmission({
           team: team._id,
@@ -33,22 +33,19 @@ async function checkSubmissions() {
           form_response: row,
           feedback: []
         });
-
         if (!team.submissions) {
-            team.submissions = [submission];
+          team.submissions = [submission];
         } else {
-            team.submissions.push(submission);
+          team.submissions.push(submission);
         }
 
         submission.save();
         team.save();
       });
 
-
       milestone.submission_count += rows.length;
       milestone.save();
-  });
-
+    });
 }
 
 function connectToSheet(sheetId) {
@@ -57,38 +54,39 @@ function connectToSheet(sheetId) {
   const private_key = process.env.GOOGLE_PRIVATE_KEY;
 
   return new Promise((resolve, reject) => {
-    doc.useServiceAccountAuth({client_email, private_key}, () => {
+    doc.useServiceAccountAuth({ client_email, private_key }, () => {
       doc.getInfo((err, info) => {
         if (err) return reject(err);
-        console.log('Loaded doc: ' + info.title);
+        console.log("Loaded doc: " + info.title);
         resolve(doc.worksheets[0]);
       });
     });
   });
 }
 
-function getRows(sheet, offset=0) {
+function getRows(sheet, offset = 0) {
   const exclude = ["id", "app:edited", "save", "del"];
 
   return new Promise((resolve, reject) => {
-    sheet.getRows({offset}, (err, rows) => {
+    sheet.getRows({ offset }, (err, rows) => {
       if (err) return reject(err);
 
-      resolve(rows.map(row => {
-        const output = {};
-        Object.keys(row)
-          .filter(key => !key.startsWith("_") && !exclude.includes(key))
-          .forEach(key => output[sanitizeKey(key)] = row[key]);
-        return output;
-      }));
-
+      resolve(
+        rows.map(row => {
+          const output = {};
+          Object.keys(row)
+            .filter(key => !key.startsWith("_") && !exclude.includes(key))
+            .forEach(key => (output[sanitizeKey(key)] = row[key]));
+          return output;
+        })
+      );
     });
   });
 }
 
 // delete characters from keys mongo doesn't like
 function sanitizeKey(key) {
-  return key.replace('.', '_');
+  return key.replace(".", "_");
 }
 
 module.exports = { start };
