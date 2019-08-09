@@ -6,6 +6,7 @@ const Team = require("../models/Team");
 const User = require("../models/User");
 const MilestoneSubmission = require("../models/MilestoneSubmission");
 const utils = require("./util.js");
+const ensure = require("./ensure");
 const github = require("../github");
 const errorWrap = require("./errorWrap");
 const ValidationError = require("../errors/ValidationError");
@@ -33,6 +34,7 @@ function get_feedback_subject(milestone_name) {
 //get information about all the teams
 router.get(
   "/",
+  ensure.loggedIn, // TODO: dont show details to non-admins
   errorWrap(async (req, res) => {
     const teams = await find_team(
       req.year,
@@ -48,6 +50,7 @@ router.get(
 //find and get all information about a specific team
 router.get(
   "/:team_id",
+  ensure.onTeam,
   errorWrap(async (req, res) => {
     const team = await find_team(
       req.year,
@@ -65,6 +68,7 @@ router.get(
 //needs validation to see if registration is open, and request is coming from creator_id / admin
 router.post(
   "/",
+  ensure.loggedIn,
   errorWrap(async (req, res) => {
     const team = new Team({
       team_name: req.body.team_name,
@@ -85,10 +89,10 @@ router.post(
 
 //add members to a team
 //TODO NEEDS VALIDATION
-//only team member or admin should be able to do this
 //should not be able to add duplicate team members!
 router.post(
   "/:team_id",
+  ensure.admin,
   errorWrap(async (req, res) => {
     const team = await Team.findByIdAndUpdate(req.params.team_id, {
       $addToSet: { members: req.body.user_id }
@@ -101,6 +105,7 @@ router.post(
 
 router.post(
   "/:team_id/mark-complete",
+  ensure.admin,
   errorWrap(async (req, res) => {
     const submission = new MilestoneSubmission({
       team: req.params.team_id,
@@ -120,6 +125,7 @@ router.post(
 // (this route has no automated tests)
 router.post(
   "/:team_id/generate-github",
+  ensure.onTeam,
   errorWrap(async (req, res) => {
     const team = await Team.findOne({ _id: req.params.team_id }).populate(
       "members",
@@ -137,6 +143,7 @@ router.post(
 // (this route has no automated tests)
 router.post(
   "/:team_id/feedback",
+  ensure.admin,
   errorWrap(async (req, res) => {
     const team_id = req.params.team_id;
     const feedback = req.body.feedback;
@@ -155,6 +162,7 @@ router.post(
 
 router.post(
   "/:team_id/set-competing",
+  ensure.onTeam,
   errorWrap(async (req, res) => {
     await Team.findByIdAndUpdate(req.params.team_id, {
       competing: req.body.competing
@@ -165,11 +173,11 @@ router.post(
 );
 
 //delete a team member from a team
-//needs validation that team_member or admin is making this request
 router.delete(
   "/:team_id/remove-member",
+  ensure.onTeam,
   errorWrap(async (req, res) => {
-    const team = await Team.findByIdAndUpdate(req.params.team_id, {
+    await Team.findByIdAndUpdate(req.params.team_id, {
       $pull: { members: req.body.user_id }
     });
 
@@ -179,9 +187,9 @@ router.delete(
 );
 
 //delete a team, also removes all members that link to that team
-//needs validation that admin is making this request
 router.delete(
   "/:team_id",
+  ensure.admin,
   errorWrap(async (req, res) => {
     const team = await Team.findByIdAndDelete(req.params.team_id);
 
