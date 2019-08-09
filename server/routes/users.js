@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const errorWrap = require("./errorWrap");
+const ensure = require("./ensure");
 const utils = require("./util.js");
 
 function find_user(year, id, populate, callback) {
@@ -18,7 +19,7 @@ function find_user(year, id, populate, callback) {
 }
 
 //gets all users registesred in the current year
-router.get("/", async (req, res) => {
+router.get("/", ensure.admin, async (req, res) => {
   find_user(
     await utils.get_filter_year(req),
     "",
@@ -29,6 +30,7 @@ router.get("/", async (req, res) => {
 
 router.get(
   "/:user_id",
+  ensure.sameUser,
   errorWrap(async (req, res) => {
     find_user(req.year, req.params["user_id"], true, data => res.send(data));
   })

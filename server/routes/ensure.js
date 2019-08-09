@@ -1,8 +1,18 @@
 const connect = require("connect-ensure-login");
 
 function admin(req, res, next) {
+  console.log("woop");
   if (!req.user.is_admin) {
     return res.status(403).send("Admin access required");
+  }
+
+  next();
+}
+
+function sameUser(req, res, next) {
+  const id = req.params.user_id;
+  if (id != req.user._id && !req.user.is_admin) {
+    return res.status(403).send("Forbidden");
   }
 
   next();
@@ -29,5 +39,6 @@ function _ensureWrap(fn) {
 
 module.exports = {
   loggedIn: _ensureWrap(noop),
-  admin: _ensureWrap(admin)
+  admin: _ensureWrap(admin),
+  sameUser: _ensureWrap(sameUser)
 };
