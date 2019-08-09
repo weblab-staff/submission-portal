@@ -117,6 +117,7 @@ router.post(
   })
 );
 
+// (this route has no automated tests)
 router.post(
   "/:team_id/generate-github",
   errorWrap(async (req, res) => {
@@ -133,6 +134,7 @@ router.post(
   })
 );
 
+// (this route has no automated tests)
 router.post(
   "/:team_id/feedback",
   errorWrap(async (req, res) => {

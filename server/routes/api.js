@@ -3,8 +3,9 @@
    Sets up all other modules in this directory
 */
 
-const express = require('express');
-const util = require('./util');
+const express = require("express");
+const util = require("./util");
+const MockLogin = require("../tests/mocklogin");
 const router = express.Router();
 
 // Determine year from request
@@ -18,13 +19,21 @@ router.use(async (req, res, next) => {
   next();
 });
 
-router.use('/teams', require('./teams'));
-router.use('/users', require('./users'));
-router.use('/milestones', require('./milestones'));
-router.use('/emails', require('./emails'));
-router.use('/class', require('./class'));
+if (process.env.NODE_ENV === "test") {
+  // mock req.user if running a test
+  router.use((req, res, next) => {
+    req.user = MockLogin.getUser();
+    next();
+  });
+}
 
-router.get('/whoami', (req, res) => {
+router.use("/teams", require("./teams"));
+router.use("/users", require("./users"));
+router.use("/milestones", require("./milestones"));
+router.use("/emails", require("./emails"));
+router.use("/class", require("./class"));
+
+router.get("/whoami", (req, res) => {
   if (req.isAuthenticated()) {
     return res.send(req.user);
   }
