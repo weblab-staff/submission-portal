@@ -15,6 +15,10 @@ router.get("/", async (req, res) => {
   });
 });
 
+router.get("/:milestone_id", async (req, res) => {
+  res.send(await Milestone.findById(req.params.milestone_id));
+});
+
 // creates a new milestone for the current class year
 // TODO VALIDATION LATER
 router.post(
@@ -34,8 +38,8 @@ router.post(
       submission_count: 0,
       year: active_year
     });
-    new_milestone.save().then(() => {
-      res.sendStatus(204);
+    new_milestone.save().then(m => {
+      return res.send(m);
     });
     // } else {
     //   res.error("user is not an admin!");
