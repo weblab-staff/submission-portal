@@ -1,8 +1,9 @@
 const connect = require("connect-ensure-login");
+const AccessError = require("../errors/AccessError");
 
 function admin(req, res, next) {
   if (!req.user.is_admin) {
-    return res.status(403).send("Admin access required");
+    throw new AccessError();
   }
 
   next();
@@ -11,7 +12,7 @@ function admin(req, res, next) {
 function sameUser(req, res, next) {
   const id = req.params.user_id;
   if (id != req.user._id && !req.user.is_admin) {
-    return res.status(403).send("Forbidden");
+    throw new AccessError();
   }
 
   next();

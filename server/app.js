@@ -73,8 +73,12 @@ app.get("/*", function(req, res) {
 
 //error handler
 app.use(function(err, req, res, next) {
-  console.error(err.stack);
-  res.status(err.status || 500).send(err.message || "Something broke!");
+  const status = err.status || 500;
+  if (status === 500) {
+    console.error(err.stack);
+  }
+
+  res.status(status).send(err.message || "Something broke!");
 });
 
 module.exports = app;
