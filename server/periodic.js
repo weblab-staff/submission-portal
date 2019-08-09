@@ -21,6 +21,7 @@ async function checkSubmissions() {
     .forEach(async milestone => {
       const sheet = await connectToSheet(milestone.responses_id);
       const rows = await getRows(sheet, milestone.submission_count + 1);
+      if (!rows.length) return;
 
       console.log("New responses:", rows);
       rows.forEach(async row => {
@@ -57,7 +58,6 @@ function connectToSheet(sheetId) {
     doc.useServiceAccountAuth({ client_email, private_key }, () => {
       doc.getInfo((err, info) => {
         if (err) return reject(err);
-        console.log("Loaded doc: " + info.title);
         resolve(doc.worksheets[0]);
       });
     });

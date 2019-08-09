@@ -25,6 +25,7 @@ let env = process.env.NODE_ENV || "dev";
 mongoose
   .connect(process.env.MONGO_SRV, {
     useNewUrlParser: true,
+    useCreateIndex: true,
     useFindAndModify: false,
     dbName: env
   })
