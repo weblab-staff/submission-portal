@@ -21,7 +21,11 @@ async function checkSubmissions() {
   milestones
     .filter(milestone => milestone.autograde)
     .forEach(async milestone => {
-      const sheet = await connectToSheet(milestone.responses_id);
+      const responsesId = milestone.responses_link
+        .split("spreadsheets/d/")[1]
+        .split("/")[0];
+
+      const sheet = await connectToSheet(responsesId);
       const rows = await getRows(sheet, milestone.submission_count + 1);
       if (!rows.length) return;
 

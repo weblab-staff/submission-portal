@@ -28,7 +28,7 @@ router.post(
       description: req.body.description,
       deadline: req.body.deadline,
       handin_link: req.body.handin_link,
-      responses_id: req.body.responses_id,
+      responses_link: req.body.responses_link,
       autograde: false,
       submission_closed: false,
       submission_count: 0,

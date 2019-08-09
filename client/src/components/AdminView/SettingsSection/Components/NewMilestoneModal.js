@@ -8,11 +8,11 @@ class NewClassMilestoneModal extends React.Component {
       description: null,
       deadline: null,
       handin_link: null,
-      responses_id: null,
+      responses_link: null
     };
   }
 
-  handleInputChange = (event) => {
+  handleInputChange = event => {
     const target = event.target;
     // Sometimes gets the wrong date but i have no idea why
     const value =
@@ -20,7 +20,7 @@ class NewClassMilestoneModal extends React.Component {
     const name = target.name;
 
     this.setState({
-      [name]: value,
+      [name]: value
     });
   };
 
@@ -41,7 +41,7 @@ class NewClassMilestoneModal extends React.Component {
       top: "10vh",
       width: "300px",
       height: "300px",
-      zIndex: "2",
+      zIndex: "2"
     };
 
     return (
@@ -72,9 +72,9 @@ class NewClassMilestoneModal extends React.Component {
           />
         </div>
         <div>
-          <span>Response id:</span>
+          <span>Response link:</span>
           <input
-            name="responses_id"
+            name="responses_link"
             type="text"
             onChange={this.handleInputChange}
           />
