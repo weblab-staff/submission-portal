@@ -1,7 +1,6 @@
 const connect = require("connect-ensure-login");
 
 function admin(req, res, next) {
-  console.log("woop");
   if (!req.user.is_admin) {
     return res.status(403).send("Admin access required");
   }
