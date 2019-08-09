@@ -3,7 +3,6 @@ const express = require("express");
 
 const router = express.Router();
 const Class = require("../models/Class");
-const utils = require("./util");
 const ensure = require("./ensure");
 const User = require("../models/User");
 const errorWrap = require("./errorWrap");

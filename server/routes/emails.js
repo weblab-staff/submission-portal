@@ -1,7 +1,6 @@
 /* Defines all routes under /api/emails/ */
 
 const express = require("express");
-const connect = require("connect-ensure-login");
 const router = express.Router();
 const utils = require("./util");
 const ensure = require("./ensure");

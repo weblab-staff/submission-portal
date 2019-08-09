@@ -5,13 +5,13 @@ const router = express.Router();
 const Team = require("../models/Team");
 const User = require("../models/User");
 const MilestoneSubmission = require("../models/MilestoneSubmission");
-const utils = require("./util.js");
+const util = require("./util");
 const ensure = require("./ensure");
 const github = require("../github");
 const errorWrap = require("./errorWrap");
 const ValidationError = require("../errors/ValidationError");
 
-async function find_team(year, id, populate, include_content, callback) {
+function find_team(year, id, populate, include_content, callback) {
   const filter = id.length > 0 ? { _id: id } : { year: year };
   const query = Team.find(filter);
   if (populate) {
@@ -152,7 +152,7 @@ router.post(
       _id: req.body.milestone_submission_id
     });
     const subject = get_feedback_subject(submission.milestone.title);
-    email = await utils.send_email([], [team_id], subject, feedback, sender);
+    email = await util.send_email([], [team_id], subject, feedback, sender);
     await MilestoneSubmission.findByIdAndUpdate(submission._id, {
       $push: { feedback: email._id }
     });
