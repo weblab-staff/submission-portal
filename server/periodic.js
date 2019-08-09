@@ -5,6 +5,7 @@ const GoogleSpreadsheet = require("google-spreadsheet");
 const Team = require("./models/Team");
 const Milestone = require("./models/Milestone");
 const MilestoneSubmission = require("./models/MilestoneSubmission");
+const util = require("./routes/util");
 
 const SHEET_POLL_INTERVAL = 10;
 
@@ -14,7 +15,8 @@ function start() {
 }
 
 async function checkSubmissions() {
-  const milestones = await Milestone.find({ year: 2019 }); // TODO: get actual active year
+  const year = await util.get_active_year();
+  const milestones = await Milestone.find({ year }); // TODO: get actual active year
 
   milestones
     .filter(milestone => milestone.autograde)
@@ -26,6 +28,19 @@ async function checkSubmissions() {
       console.log("New responses:", rows);
       rows.forEach(async row => {
         const team = await Team.findOne({ team_name: row.teamname });
+        if (!team) {
+          return console.log("WARNING: Submission with invalid team name");
+        }
+
+        // this really shouldn't be necessary, but just as a sanity check
+        const duplicates = await MilestoneSubmission.find({
+          team: team._id,
+          timestamp: row.timestamp
+        }).countDocuments();
+
+        if (duplicates) {
+          return console.log("WARNING: Duplicate submission detected");
+        }
 
         const submission = new MilestoneSubmission({
           team: team._id,
@@ -34,14 +49,22 @@ async function checkSubmissions() {
           form_response: row,
           feedback: []
         });
-        if (!team.submissions) {
-          team.submissions = [submission];
-        } else {
-          team.submissions.push(submission);
-        }
 
-        submission.save();
-        team.save();
+        // update submission and team atomically (prevents weird state in case of failure)
+        const session = await MilestoneSubmission.startSession();
+        try {
+          await session.withTransaction(async () => {
+            await submission.save({ session });
+            await team.updateOne(
+              { $push: { submissions: submission } },
+              { session }
+            );
+            throw new Error("UwU");
+          });
+        } catch (e) {
+          // changes are rolled back
+          console.log(`ERROR: Submission from ${team._id} failed to save`);
+        }
       });
 
       milestone.submission_count += rows.length;
