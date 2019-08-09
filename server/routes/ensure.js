@@ -24,7 +24,7 @@ function noop(req, res, next) {
 function _ensureWrap(fn) {
   // provides a bypass for testing
   if (process.env.NODE_ENV === "test") {
-    return (req, res, next) => next();
+    return noop;
   }
 
   const baseEnsure = connect.ensureLoggedIn("/auth/github");

@@ -33,6 +33,7 @@ router.get(
 
 router.post(
   "/:user_id/update",
+  ensure.sameUser,
   errorWrap(async (req, res) => {
     const result = await User.findByIdAndUpdate(
       req.params["user_id"],
@@ -46,7 +47,7 @@ router.post(
 
 router.post(
   "/:user_id/tag",
-  ensure.sameUser,
+  ensure.admin,
   errorWrap(async (req, res) => {
     const result = await User.findByIdAndUpdate(req.params["user_id"], {
       $addToSet: { tags: req.body.tag }
@@ -59,6 +60,7 @@ router.post(
 
 router.delete(
   "/:user_id/tag",
+  ensure.admin,
   errorWrap(async (req, res) => {
     const result = await User.findByIdAndUpdate(req.params["user_id"], {
       $pull: { tags: req.body.tag }
@@ -71,6 +73,7 @@ router.delete(
 
 router.delete(
   "/:user_id",
+  ensure.admin,
   errorWrap(async (req, res) => {
     await User.findByIdAndDelete(req.params["user_id"]);
     console.log(`deleted user ${req.params["user_id"]}`);
