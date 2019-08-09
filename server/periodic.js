@@ -26,20 +26,11 @@ async function checkSubmissions() {
       if (!rows.length) return;
 
       console.log("New responses:", rows);
-      rows.forEach(async row => {
+      rows.forEach(async (row, i) => {
+        const rowIndex = milestone.submission_count + i + 1;
         const team = await Team.findOne({ team_name: row.teamname });
         if (!team) {
-          return console.log("WARNING: Submission with invalid team name");
-        }
-
-        // this really shouldn't be necessary, but just as a sanity check
-        const duplicates = await MilestoneSubmission.find({
-          team: team._id,
-          timestamp: row.timestamp
-        }).countDocuments();
-
-        if (duplicates) {
-          return console.log("WARNING: Duplicate submission detected");
+          return console.log("ERROR: Submission with invalid team name");
         }
 
         const submission = new MilestoneSubmission({
@@ -47,7 +38,8 @@ async function checkSubmissions() {
           timestamp: row.timestamp,
           milestone: milestone._id,
           form_response: row,
-          feedback: []
+          feedback: [],
+          key: `${milestone._id}:${rowIndex}` // assert unique, to prevent duplicate submissions
         });
 
         // update submission and team atomically (prevents weird state in case of failure)
@@ -59,11 +51,15 @@ async function checkSubmissions() {
               { $push: { submissions: submission } },
               { session }
             );
-            throw new Error("UwU");
           });
         } catch (e) {
-          // changes are rolled back
-          console.log(`ERROR: Submission from ${team._id} failed to save`);
+          if (e.name === "ValidationError") {
+            console.log(`Ignoring duplicate submission from ${row.teamname}`);
+            return;
+          }
+
+          console.log(e);
+          console.log(`ERROR: Submission from ${row.teamname} failed to save`);
         }
       });
 
