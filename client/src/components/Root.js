@@ -2,8 +2,8 @@ import React from "react";
 import AdminView from "./AdminView/AdminView";
 import StudentView from "./StudentView/StudentView";
 import Login from "./Login";
-import { get } from "../utils";
-import { MilestoneLoader } from "../utils";
+import { get, MilestoneLoader, isRegistered } from "../utils";
+import { Redirect } from "react-router-dom";
 
 class Root extends React.Component {
   constructor(props) {
@@ -94,12 +94,14 @@ class Root extends React.Component {
       <div>
         {currentUser.is_admin ? (
           <AdminView />
-        ) : (
+        ) : isRegistered(currentUser) ? (
           <StudentView
             currentUser={currentUser}
             currentTeam={currentTeam}
             loading={loading}
           />
+        ) : (
+          <Redirect to="/register" />
         )}
       </div>
     );
