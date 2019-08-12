@@ -21,12 +21,14 @@ class GradesSection extends React.Component {
     this.getStuff();
   }
 
-  getStuff = () => {
+  getStuff = (query=null) => {
     Promise.all([
       get("/api/milestones/"),
-      get("/api/teams", { populate: true }),
+      get("/api/teams", query ? { populate: true, searchQuery: query} : { populate: true }),
     ])
       .then((data) => {
+        console.log("getting stuff")
+        console.log(query)
         this.setState({
           loading: false,
           milestones: data[0],
@@ -64,6 +66,7 @@ class GradesSection extends React.Component {
           handleChange={this.handleChange}
           changeMin={this.changeMin}
           changeMax={this.changeMax}
+          getTeams={this.getStuff}
         />
         <GradeableList
           milestones={milestones}

@@ -5,6 +5,7 @@ const router = express.Router();
 const User = require("../models/User");
 const errorWrap = require("./errorWrap");
 const ensure = require("./ensure");
+const utils = require("./util");
 
 function findUser(year, id, populate) {
   const filter = id.length > 0 ? { _id: id } : { year: year };
@@ -19,7 +20,12 @@ function findUser(year, id, populate) {
 //gets all users registesred in the current year
 router.get("/", ensure.admin, async (req, res) => {
   const users = await findUser(req.year, "", req.query.populate === "true");
-  res.send(users);
+  if (req.query.searchQuery != null) {
+    res.send(utils.searchFilter(users, req.query.searchQuery, ["first_name", "last_name", "github_username"]));
+  }
+  else {
+    res.send(users);
+  }
 });
 
 router.get(

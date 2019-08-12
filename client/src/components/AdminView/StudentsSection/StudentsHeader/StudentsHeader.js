@@ -20,6 +20,7 @@ class StudentsHeader extends React.Component {
           <div>
             <div>
               <input style={{ width: "30vw" }} />
+              {/* this input is now useless btw */}
               <button onClick={this.props.showEmailModal}>EMAIL</button>
             </div>
             <div style={{ display: "flex" }}>
@@ -32,7 +33,7 @@ class StudentsHeader extends React.Component {
             </div>
           </div>
           <div>
-            <SearchBar />
+            <SearchBar onChange={event => this.props.getStudents(event.target.value)}/>
           </div>
           <div style={{ display: "flex" }}>
             <StudentsHeaderListButton

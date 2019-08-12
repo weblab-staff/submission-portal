@@ -55,6 +55,30 @@ function query_active_year() {
   return Class.findOne({ is_active: true }).then(cls => cls && cls.year);
 }
 
+function searchFilter(students, query, fields=[]) {
+  return students.filter((s) => {
+    words = query.split(" ")
+    for (i in words) {
+      lw = words[i].toLowerCase()
+      word_passed = false
+      for (k in fields){
+        let field = fields[k]
+        if (s[field] && typeof s[field] === "string") {
+          if (s[field].toLowerCase().includes(lw) && lw) {
+            word_passed = true
+            break;
+          }
+        }
+      }
+      if (!word_passed) {
+        return false
+      }
+    }
+    return true
+  })
+}
+
+
 /**
  * @param {Object} req express route (req) param.
  */
@@ -69,5 +93,6 @@ async function query_filter_year(req) {
 module.exports = {
   get_active_year: query_active_year,
   get_filter_year: query_filter_year,
-  send_email
+  send_email,
+  searchFilter
 };

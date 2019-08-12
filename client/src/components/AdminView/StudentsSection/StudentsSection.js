@@ -85,8 +85,8 @@ class StudentsSection extends React.Component {
     return this.state.selectedStudents.includes(student);
   };
 
-  getStudents = () => {
-    get("/api/users/", { populate: true })
+  getStudents = (query=null) => {
+    get("/api/users/", query ? { populate: true, searchQuery: query} : { populate: true } )
       .then((data) => {
         if (data) {
           let newModalInfo = null;
@@ -180,6 +180,7 @@ class StudentsSection extends React.Component {
           setActiveList={this.setActiveList}
           selectedStudents={selectedStudents}
           students={students}
+          getStudents={this.getStudents}
           deselectStudent={this.deselectStudent}
         />
         <StudentsBody

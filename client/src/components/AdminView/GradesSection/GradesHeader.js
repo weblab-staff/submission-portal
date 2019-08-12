@@ -54,7 +54,7 @@ class GradesHeader extends React.Component {
             />
           </div>
           <div>
-            <SearchBar />
+            <SearchBar onChange={event => this.props.getTeams(event.target.value)}/>
           </div>
         </div>
         <hr />

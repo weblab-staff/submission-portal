@@ -10,6 +10,7 @@ const ensure = require("./ensure");
 const github = require("../github");
 const errorWrap = require("./errorWrap");
 const ValidationError = require("../errors/ValidationError");
+const utils = require("./util");
 
 function find_team(year, id, populate, include_content, callback) {
   const filter = id.length > 0 ? { _id: id } : { year: year };
@@ -43,7 +44,12 @@ router.get(
       req.query.include_content === "true"
     );
 
-    res.send(teams);
+    if (req.query.searchQuery != null) {
+      res.send(utils.searchFilter(teams, req.query.searchQuery, ['team_name']));
+    }
+    else {
+      res.send(teams);
+    }
   })
 );
 

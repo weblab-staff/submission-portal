@@ -5,7 +5,7 @@ class SearchBar extends React.Component {
     return (
       <div>
         <span>Search:</span>
-        <input type="text" />
+        <input onChange={this.props.onChange} type="text" />
       </div>
     );
   }
