@@ -58,5 +58,10 @@ export const MilestoneLoader = () => (
 );
 
 export const isRegistered = user => {
-  return user.first_name && user.last_name && user.email && user.for_credit;
+  return (
+    user.first_name !== undefined &&
+    user.last_name !== undefined &&
+    user.email !== undefined &&
+    user.for_credit !== undefined
+  );
 };

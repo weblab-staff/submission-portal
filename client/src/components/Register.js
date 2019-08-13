@@ -18,7 +18,7 @@ class Register extends React.Component {
       // classYear: "", TODO add class year
       livingGroup: "",
       priorExp: "",
-      forCredit: "",
+      forCredit: "true",
       redirect: false
     };
   }
@@ -51,6 +51,7 @@ class Register extends React.Component {
     return (
       <div className="browserContainer u-flex u-flexCenter">
         <Formik
+          enableReinitialize={true}
           initialValues={this.state}
           validate={values => {
             let errors = {};
