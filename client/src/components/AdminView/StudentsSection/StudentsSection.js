@@ -11,12 +11,13 @@ class StudentsSection extends React.Component {
       activeList: "INDIVIDUAL",
       emailModalActive: false,
       selectedStudents: [],
+      selectedTeams: [],
       students: null,
       loading: false,
       modalInfo: null,
       activeSort: null,
       sortOrder: "NONE",
-      modalActive: false,
+      modalActive: false
     };
   }
 
@@ -55,7 +56,7 @@ class StudentsSection extends React.Component {
     }
   }
 
-  handleSort = (param) => {
+  handleSort = param => {
     let sortOrder = "ASC";
     if (this.state.activeSort === param && this.state.sortOrder === "ASC") {
       sortOrder = "DES";
@@ -69,11 +70,11 @@ class StudentsSection extends React.Component {
     this.setState({
       students: sortedStudents,
       activeSort: param,
-      sortOrder,
+      sortOrder
     });
   };
 
-  showInfoModal = (info) => {
+  showInfoModal = info => {
     this.setState({ modalActive: true, modalInfo: info });
   };
 
@@ -81,75 +82,78 @@ class StudentsSection extends React.Component {
     this.setState({ modalActive: false });
   };
 
-  isSelected = (student) => {
+  isSelected = student => {
     return this.state.selectedStudents.includes(student);
   };
 
-  getStudents = (query=null) => {
-    get("/api/users/", query ? { populate: true, searchQuery: query} : { populate: true } )
-      .then((data) => {
+  getStudents = (query = null) => {
+    get(
+      "/api/users/",
+      query ? { populate: true, searchQuery: query } : { populate: true }
+    )
+      .then(data => {
         if (data) {
           let newModalInfo = null;
           if (this.state.modalInfo) {
             newModalInfo = data.filter(
-              (el) => el._id === this.state.modalInfo._id
+              el => el._id === this.state.modalInfo._id
             )[0];
           }
           this.setState({
             loading: false,
             students: data,
-            modalInfo: newModalInfo,
+            modalInfo: newModalInfo
           });
         } else {
           this.setState({
             loading: false,
-            students: null,
+            students: null
           });
         }
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
-  setActiveList = (list) => {
+  setActiveList = list => {
     this.setState({ activeList: list });
   };
 
   showEmailModal = () => {
     this.setState({
-      emailModalActive: true,
+      emailModalActive: true
     });
   };
 
   hideEmailModal = () => {
     this.setState({
-      emailModalActive: false,
+      emailModalActive: false
     });
   };
 
-  selectStudent = (student) => {
+  selectStudent = student => {
     this.setState({
-      selectedStudents: [...this.state.selectedStudents, student],
+      selectedStudents: [...this.state.selectedStudents, student]
     });
   };
 
-  deselectStudent = (student) => {
+  deselectStudent = student => {
     const current = [...this.state.selectedStudents];
-    const newSelected = current.filter((el) => el._id !== student._id);
+    const newSelected = current.filter(el => el._id !== student._id);
 
     this.setState({
-      selectedStudents: newSelected,
+      selectedStudents: newSelected
     });
   };
 
   deselectAll = () => {
     this.setState({
-      selectedStudents: [],
+      selectedStudents: []
     });
   };
 
-  selectAll = (students) => {
+  selectAll = students => {
     this.setState({
-      selectedStudents: students,
+      selectedStudents: students
     });
   };
 
@@ -158,12 +162,13 @@ class StudentsSection extends React.Component {
       activeList,
       emailModalActive,
       selectedStudents,
+      selectedTeams,
       students,
       loading,
       modalInfo,
       activeSort,
       sortOrder,
-      modalActive,
+      modalActive
     } = this.state;
     console.log(students);
     return (
@@ -179,6 +184,7 @@ class StudentsSection extends React.Component {
           showEmailModal={this.showEmailModal}
           setActiveList={this.setActiveList}
           selectedStudents={selectedStudents}
+          selectedTeams={selectedTeams}
           students={students}
           getStudents={this.getStudents}
           deselectStudent={this.deselectStudent}

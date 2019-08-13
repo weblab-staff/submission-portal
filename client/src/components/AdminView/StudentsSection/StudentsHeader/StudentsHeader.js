@@ -1,16 +1,21 @@
 import React from "react";
 import SearchBar from "../../SearchBar";
 import StudentsHeaderListButton from "./StudentsHeaderListButton";
-
+import ActionButton from "./ActionButton";
 class StudentsHeader extends React.Component {
   render() {
-    const { setActiveList, selectedStudents, deselectStudent } = this.props;
+    const {
+      setActiveList,
+      selectedStudents,
+      selectedTeams,
+      deselectStudent
+    } = this.props;
 
     const styles = {
       marginLeft: "20px",
       display: "flex",
       justifyContent: "space-around",
-      alignItems: "center",
+      alignItems: "center"
     };
 
     return (
@@ -20,8 +25,11 @@ class StudentsHeader extends React.Component {
           <div>
             <div>
               <input style={{ width: "30vw" }} />
-              {/* this input is now useless btw */}
-              <button onClick={this.props.showEmailModal}>EMAIL</button>
+              <ActionButton
+                selectedStudents={selectedStudents}
+                selectedTeams={selectedTeams}
+              />
+              {/* <button onClick={this.props.showEmailModal}>EMAIL</button> */}
             </div>
             <div style={{ display: "flex" }}>
               {selectedStudents.map((student, index) => (
@@ -33,7 +41,9 @@ class StudentsHeader extends React.Component {
             </div>
           </div>
           <div>
-            <SearchBar onChange={event => this.props.getStudents(event.target.value)}/>
+            <SearchBar
+              onChange={event => this.props.getStudents(event.target.value)}
+            />
           </div>
           <div style={{ display: "flex" }}>
             <StudentsHeaderListButton
