@@ -27,8 +27,6 @@ class GradesSection extends React.Component {
       get("/api/teams", query ? { populate: true, searchQuery: query} : { populate: true }),
     ])
       .then((data) => {
-        console.log("getting stuff")
-        console.log(query)
         this.setState({
           loading: false,
           milestones: data[0],

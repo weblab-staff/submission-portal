@@ -51,26 +51,36 @@ async function send_email(user_ids, team_ids, subject, body, sender) {
   });
 }
 
+
 function query_active_year() {
   return Class.findOne({ is_active: true }).then(cls => cls && cls.year);
 }
 
-function searchFilter(students, query, fields=[]) {
-  return students.filter((s) => {
+function filterOnWord(obj, word, fields) {
+  lw = words[i].toLowerCase()
+  word_passed = false
+  for (k in fields){
+    let field = fields[k]
+    if (obj[field] && Array.isArray(obj[field])) {
+      if (obj[field].contains(lw)) {
+        return true
+      }
+    }
+    else if (obj[field] && typeof obj[field] === "string") {
+      if (obj[field].toLowerCase().includes(lw) && lw) {
+        return true
+      }
+    }
+  }
+  return false
+
+}
+
+function searchFilter(objs, query, fields=[]) {
+  return objs.filter((s) => {
     words = query.split(" ")
     for (i in words) {
-      lw = words[i].toLowerCase()
-      word_passed = false
-      for (k in fields){
-        let field = fields[k]
-        if (s[field] && typeof s[field] === "string") {
-          if (s[field].toLowerCase().includes(lw) && lw) {
-            word_passed = true
-            break;
-          }
-        }
-      }
-      if (!word_passed) {
+      if (!filterOnWord(s, words[i].toLowerCase(), fields)) {
         return false
       }
     }

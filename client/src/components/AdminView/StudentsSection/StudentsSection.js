@@ -170,7 +170,6 @@ class StudentsSection extends React.Component {
       sortOrder,
       modalActive
     } = this.state;
-    console.log(students);
     return (
       <div>
         {emailModalActive && (
