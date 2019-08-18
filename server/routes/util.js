@@ -58,12 +58,18 @@ function query_active_year() {
 
 function filterOnWord(obj, word, fields) {
   lw = words[i].toLowerCase()
-  word_passed = false
   for (k in fields){
     let field = fields[k]
-    if (obj[field] && Array.isArray(obj[field])) {
-      if (obj[field].contains(lw)) {
-        return true
+    // check tags first
+    if (field === "tags") {
+      word_passed = false
+      obj[field].forEach(function (item, index) {
+        if (item.toLowerCase().includes(lw) && lw) {
+          word_passed = true
+        }
+      });
+      if (word_passed) {
+        return true;
       }
     }
     else if (obj[field] && typeof obj[field] === "string") {

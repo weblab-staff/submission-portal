@@ -22,7 +22,7 @@ router.get("/", ensure.admin, async (req, res) => {
   const users = await findUser(req.year, "", req.query.populate === "true");
   if (req.query.searchQuery != null) {
     console.log(users)
-    res.send(utils.searchFilter(users, req.query.searchQuery, ["first_name", "last_name", "github_username"]));
+    res.send(utils.searchFilter(users, req.query.searchQuery, ["first_name", "last_name", "github_username", "tags"]));
   }
   else {
     res.send(users);
