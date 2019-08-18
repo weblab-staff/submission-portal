@@ -15,11 +15,11 @@ export const get = (endpoint, params) => {
   return fetch(fullPath).then(res => res.json());
 };
 
-export const post = (endpoint, params) => {
+export const post = (endpoint, body) => {
   return fetch(endpoint, {
     method: "post",
     headers: { "Content-type": "application/json" },
-    body: JSON.stringify(params)
+    body: JSON.stringify(body)
   }).then(res => {
     if (res.status != 204) {
       return res.json();

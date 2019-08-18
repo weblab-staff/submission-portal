@@ -1,4 +1,5 @@
 import React from "react";
+import { post, delet } from "../../../../utils";
 
 class ActionButton extends React.Component {
   constructor(props) {
@@ -77,24 +78,52 @@ class ActionButton extends React.Component {
     alert("remove team");
   };
 
-  addTag = (students, teams) => {
-    alert("add tag");
+  removeTag = (students, teams) => {
+    //todo popup asking for tag
+    const deleteTag = "test"; // todo replace me
+    Promise.all(
+      students.map(student =>
+        post(`/api/users/${student._id}/update`, {
+          tags: student.tags.filter(tag => tag !== deleteTag)
+        })
+      )
+    ).then(alert("removed tag"));
   };
 
-  removeTag = (students, teams) => {
-    alert("remove tag");
+  addTag = (students, teams) => {
+    //todo popup asking for tag
+    const tag = "test";
+    Promise.all(
+      students
+        .filter(student => !student.tags.includes(tag))
+        .map(student =>
+          post(`/api/users/${student._id}/update`, {
+            tags: student.tags.concat(tag)
+          })
+        )
+    ).then(alert("added tag"));
   };
 
   assignTeam = (students, teams) => {
+    //todo modal
     alert("assign team");
   };
 
   dropStudents = (students, teams) => {
-    alert("drop students");
+    //todo github-esque type confirm to delete
+    Promise.all(
+      students.map(student => delet(`/api/users/${student._id}`))
+    ).then(alert("deleted students"));
   };
 
   toggleCredit = (students, teams) => {
-    alert("toggle credit");
+    Promise.all(
+      students.map(student =>
+        post(`/api/users/${student._id}/update`, {
+          for_credit: !student.for_credit
+        })
+      )
+    ).then(alert("toggled credit"));
   };
 
   modifySelectedActions = index => {
@@ -120,7 +149,12 @@ const Dropdown = ({ actionDescriptions, updateSelectedAction }) => (
 );
 
 const Action = ({ action, students, teams }) => (
-  <button onClick={() => action[1](students, teams)}>{action[0]} </button>
+  <button
+    disabled={students.length == 0 && teams.length == 0}
+    onClick={() => action[1](students, teams)}
+  >
+    {action[0]}
+  </button>
 );
 
 export default ActionButton;
