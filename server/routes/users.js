@@ -21,10 +21,16 @@ function findUser(year, id, populate) {
 router.get("/", ensure.admin, async (req, res) => {
   const users = await findUser(req.year, "", req.query.populate === "true");
   if (req.query.searchQuery != null) {
-    console.log(users)
-    res.send(utils.searchFilter(users, req.query.searchQuery, ["first_name", "last_name", "github_username", "tags"]));
-  }
-  else {
+    console.log(users);
+    res.send(
+      utils.searchFilter(users, req.query.searchQuery, [
+        "first_name",
+        "last_name",
+        "github_username",
+        "tags"
+      ])
+    );
+  } else {
     res.send(users);
   }
 });
@@ -82,6 +88,7 @@ router.delete(
   "/:user_id",
   ensure.admin,
   errorWrap(async (req, res) => {
+    //TODO remove user from any teams they may be connected to
     await User.findByIdAndDelete(req.params["user_id"]);
     console.log(`deleted user ${req.params["user_id"]}`);
     res.sendStatus(204);
