@@ -2,8 +2,9 @@ import React from "react";
 import AdminView from "./AdminView/AdminView";
 import StudentView from "./StudentView/StudentView";
 import Login from "./Login";
-import { get, MilestoneLoader, isRegistered } from "../utils";
+import { get, MilestoneLoader } from "../utils";
 import { Redirect } from "react-router-dom";
+import { isRegistered } from "../js/students";
 
 class Root extends React.Component {
   constructor(props) {

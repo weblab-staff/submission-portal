@@ -1,22 +1,55 @@
 import React from "react";
-import { post, delet } from "../../../../utils";
+import { sendEmail } from "../../../../js/global";
+import { createGithub, toggleCompete, removeTeam } from "../../../../js/teams";
+import {
+  addTag,
+  removeTag,
+  toggleCredit,
+  dropStudents
+} from "../../../../js/students";
+
+class Action {
+  constructor(description, action) {
+    this.description = description;
+    this.action = action;
+  }
+
+  getDescription() {
+    return this.description;
+  }
+
+  apply(students, teams) {
+    this.action(students, teams);
+  }
+}
+
+class StudentAction extends Action {
+  apply(students, teams) {
+    this.action(students);
+  }
+}
+
+class TeamAction extends Action {
+  apply(students, teams) {
+    this.action(teams);
+  }
+}
 
 class ActionButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      globalActions: [["Send Email", this.sendEmail]],
+      globalActions: [new Action("Send Email", sendEmail)],
       teamActions: [
-        ["Create Github", this.createGithub],
-        ["Toggle Compete", this.toggleCompete],
-        ["Remove Team", this.removeTeam]
+        new TeamAction("Create Github", createGithub),
+        new TeamAction("Toggle Compete", toggleCompete),
+        new TeamAction("Remove Team", removeTeam)
       ],
       studentActions: [
-        ["Add Tag", this.addTag],
-        ["Remove Tag", this.removeTag],
-        ["Toggle Credit", this.toggleCredit],
-        ["Assign Team", this.assignTeam],
-        ["Drop Students", this.dropStudents]
+        new StudentAction("Add Tag", addTag),
+        new StudentAction("Remove Tag", removeTag),
+        new StudentAction("Toggle Credit", toggleCredit),
+        new StudentAction("Drop Students", dropStudents)
       ],
       selectedAction: null
     };
@@ -26,7 +59,7 @@ class ActionButton extends React.Component {
     const { selectedStudents, selectedTeams } = this.props;
     const availableActions = this.getAvailableActions();
     let { selectedAction } = this.state;
-
+    console.log(availableActions, availableActions[0].description);
     //ensure selected action is in available actions
     if (!availableActions.includes(availableActions[selectedAction])) {
       selectedAction = 0;
@@ -34,13 +67,13 @@ class ActionButton extends React.Component {
 
     return (
       <div>
-        <Action
+        <ActButton
           action={availableActions[selectedAction]}
           students={selectedStudents}
           teams={selectedTeams}
         />
         <Dropdown
-          actionDescriptions={availableActions.map(action => action[0])}
+          actions={availableActions}
           updateSelectedAction={this.modifySelectedActions}
         />
       </div>
@@ -62,98 +95,34 @@ class ActionButton extends React.Component {
     }
   };
 
-  sendEmail = (students, teams) => {
-    alert("email");
-  };
-
-  createGithub = (students, teams) => {
-    alert("github");
-  };
-
-  toggleCompete = (students, teams) => {
-    alert("toggle compete");
-  };
-
-  removeTeam = (students, teams) => {
-    alert("remove team");
-  };
-
-  removeTag = (students, teams) => {
-    //todo popup asking for tag
-    const deleteTag = "test"; // todo replace me
-    Promise.all(
-      students.map(student =>
-        post(`/api/users/${student._id}/update`, {
-          tags: student.tags.filter(tag => tag !== deleteTag)
-        })
-      )
-    ).then(alert("removed tag"));
-  };
-
-  addTag = (students, teams) => {
-    //todo popup asking for tag
-    const tag = "test";
-    Promise.all(
-      students
-        .filter(student => !student.tags.includes(tag))
-        .map(student =>
-          post(`/api/users/${student._id}/update`, {
-            tags: student.tags.concat(tag)
-          })
-        )
-    ).then(alert("added tag"));
-  };
-
-  assignTeam = (students, teams) => {
-    //todo modal
-    alert("assign team");
-  };
-
-  dropStudents = (students, teams) => {
-    //todo github-esque type confirm to delete
-    Promise.all(
-      students.map(student => delet(`/api/users/${student._id}`))
-    ).then(alert("deleted students"));
-  };
-
-  toggleCredit = (students, teams) => {
-    Promise.all(
-      students.map(student =>
-        post(`/api/users/${student._id}/update`, {
-          for_credit: !student.for_credit
-        })
-      )
-    ).then(alert("toggled credit"));
-  };
-
   modifySelectedActions = index => {
     this.setState({ selectedAction: index });
   };
 }
 
-const Dropdown = ({ actionDescriptions, updateSelectedAction }) => (
+const Dropdown = ({ actions, updateSelectedAction }) => (
   <select
     onChange={e => {
       const index = e.target.value;
       updateSelectedAction(index);
     }}
   >
-    {actionDescriptions.map((actionDescription, index) => {
+    {actions.map((action, index) => {
       return (
         <option value={index} key={index}>
-          {actionDescription}
+          {action.getDescription()}
         </option>
       );
     })}
   </select>
 );
 
-const Action = ({ action, students, teams }) => (
+const ActButton = ({ action, students, teams }) => (
   <button
     disabled={students.length == 0 && teams.length == 0}
-    onClick={() => action[1](students, teams)}
+    onClick={() => action.apply(students, teams)}
   >
-    {action[0]}
+    X
   </button>
 );
 
