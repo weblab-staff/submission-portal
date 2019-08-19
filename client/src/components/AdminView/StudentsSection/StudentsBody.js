@@ -21,7 +21,7 @@ class StudentsBody extends React.Component {
       showInfoModal,
       hideInfoModal,
       handleSort,
-      isSelected,
+      isSelected
     } = this.props;
     console.log(students);
     return (
@@ -36,7 +36,6 @@ class StudentsBody extends React.Component {
             activeSort={activeSort}
             sortOrder={sortOrder}
             modalActive={modalActive}
-            getStudents={getStudents}
             getStudents={getStudents}
             deselectStudent={deselectStudent}
             deselectAll={deselectAll}

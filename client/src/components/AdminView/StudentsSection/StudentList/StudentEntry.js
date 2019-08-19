@@ -1,27 +1,19 @@
 import React from "react";
 import { post, delet } from "../../../../utils";
-
+import {
+  dropStudents,
+  removeTag,
+  addTag,
+  toggleCredit
+} from "../../../../js/students";
 class StudentEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       addingTag: false,
-      tag: "",
+      tag: ""
     };
   }
-
-  toggleCredit = () => {
-    const { _id, for_credit } = this.props.info;
-    post(`/api/users/${_id}/update`, { for_credit: !for_credit })
-      .then((status) => {
-        if (status === 204) {
-          this.props.refresh();
-        } else {
-          console.log("you fuked up");
-        }
-      })
-      .catch((err) => console.log(err));
-  };
 
   showInfoModal = () => {
     this.props.showInfoModal(this.props.info);
@@ -35,74 +27,30 @@ class StudentEntry extends React.Component {
     }
   };
 
-  deleteStudent = () => {
-    if (
-      confirm(`Are you sure you want to delete ${this.props.info.first_name}?`)
-    ) {
-      const { _id } = this.props.info;
-      delet(`/api/users/${_id}`)
-        .then((status) => {
-          if (status === 204) {
-            this.props.refresh();
-          } else {
-            console.log("you fuked up");
-          }
-        })
-        .catch((err) => console.log(err));
-    } else {
-      console.log("NOT deleting");
-    }
-  };
-
-  handleChange = (event) => {
+  handleChange = event => {
     const target = event.target;
     const value = target.value;
 
     this.setState({
-      tag: value,
+      tag: value
     });
   };
 
   showTagInput = () => {
     this.setState({
-      addingTag: true,
+      addingTag: true
     });
   };
 
-  addTag = () => {
-    const { _id } = this.props.info;
-    post(`/api/users/${_id}/tag`, { tag: this.state.tag })
-      .then((status) => {
-        if (status === 204) {
-          this.setState({
-            addingTag: false,
-            tag: "",
-          });
-          this.props.refresh();
-        } else {
-          console.log("you fuked up");
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-
-  deleteTag = (tag) => {
-    const { _id } = this.props.info;
-    delet(`/api/users/${_id}/tag`, { tag })
-      .then((status) => {
-        if (status === 204) {
-          this.props.refresh();
-        } else {
-          console.log("you fuked up");
-        }
-      })
-      .catch((err) => console.log(err));
+  addTagAndUpdateState = () => {
+    addTag([this.props.info], this.state.tag);
+    this.setState({ addingTag: false });
   };
 
   hideTagInput = () => {
     this.setState({
       addingTag: false,
-      tag: "",
+      tag: ""
     });
   };
 
@@ -123,12 +71,12 @@ class StudentEntry extends React.Component {
       margin: "3px 40px",
       padding: "5px",
       border: "1px solid gray",
-      borderRadius: "2px",
+      borderRadius: "2px"
     };
 
     const iconStyle = {
       margin: "0 10px",
-      cursor: "pointer",
+      cursor: "pointer"
     };
 
     return (
@@ -158,7 +106,7 @@ class StudentEntry extends React.Component {
           <input
             type="checkbox"
             checked={info.for_credit}
-            onChange={this.toggleCredit}
+            onChange={() => toggleCredit([this.props.info])}
           />
         </div>
         <div style={{ display: "flex", width: "25vw" }}>
@@ -168,14 +116,16 @@ class StudentEntry extends React.Component {
               style={{ border: "1px solid black", borderRadius: "3px" }}
             >
               <span>{tag}</span>
-              <button onClick={() => this.deleteTag(tag)}>X</button>
+              <button onClick={() => removeTag([this.props.info], tag)}>
+                X
+              </button>
             </div>
           ))}
           {this.state.addingTag ? (
             <div>
               <input type="text" onChange={this.handleChange} />
               <button onClick={this.hideTagInput}>cancel</button>
-              <button onClick={this.addTag}>add</button>
+              <button onClick={this.addTagAndUpdateState}>add</button>
             </div>
           ) : (
             <button onClick={this.showTagInput}>+</button>
@@ -190,7 +140,10 @@ class StudentEntry extends React.Component {
           <div style={iconStyle} onClick={() => this.showMilestonesSection()}>
             M
           </div>
-          <div style={iconStyle} onClick={this.deleteStudent}>
+          <div
+            style={iconStyle}
+            onClick={() => dropStudents([this.props.info])}
+          >
             D
           </div>
         </div>

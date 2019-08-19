@@ -4,19 +4,25 @@ import StudentsBody from "./StudentsBody";
 import EmailModal from "./EmailModal";
 import { get } from "../../../utils";
 
+// gets students AND teams, that's it.
+// remove refresh() and all calls to it -> alex will implement socket which will fix this
+// change sorting function to a <Sort> component which takes list + sorting fn
+//    this component will have the Ascending / descending logic
+//    make TeamList as similar structually to StudentList as you can
+
 class StudentsSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeList: "INDIVIDUAL",
+      activeList: "INDIVIDUAL", // move down, use an enum for this
       emailModalActive: false,
       selectedStudents: [],
       selectedTeams: [],
       students: null,
       loading: false,
       modalInfo: null,
-      activeSort: null,
-      sortOrder: "NONE",
+      activeSort: null, // move down
+      sortOrder: "NONE", // move into sort component, use enum for this
       modalActive: false
     };
   }
@@ -136,12 +142,23 @@ class StudentsSection extends React.Component {
     });
   };
 
-  deselectStudent = student => {
-    const current = [...this.state.selectedStudents];
-    const newSelected = current.filter(el => el._id !== student._id);
-
+  selectTeam = team => {
     this.setState({
-      selectedStudents: newSelected
+      selectedTeams: [...this.state.selectedTeams, team]
+    });
+  };
+
+  deselectStudent = student => {
+    this.setState({
+      selectedStudents: this.state.selectedStudents.filter(
+        el => el._id !== student._id
+      )
+    });
+  };
+
+  deselectTeam = team => {
+    this.setState({
+      selectedTeams: this.state.selectedTeams.filter(el => el._id !== team._id)
     });
   };
 
