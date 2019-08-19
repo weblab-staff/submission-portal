@@ -24,6 +24,12 @@ body {
     height: 100%;
 }
 
+button {
+    border: none;
+    position: relative;
+    display: block;
+}
+
 #root {
     height: 100%;
 }
