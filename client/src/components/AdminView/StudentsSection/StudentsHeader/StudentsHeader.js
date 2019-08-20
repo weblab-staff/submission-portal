@@ -24,11 +24,6 @@ class StudentsHeader extends React.Component {
         <div style={styles}>
           <div>
             <div>
-              <input style={{ width: "30vw" }} />
-              <ActionButton
-                selectedStudents={selectedStudents}
-                selectedTeams={selectedTeams}
-              />
               {/* <button onClick={this.props.showEmailModal}>EMAIL</button> */}
             </div>
             <div style={{ display: "flex" }}>
@@ -43,6 +38,10 @@ class StudentsHeader extends React.Component {
           <div>
             <SearchBar
               onChange={event => this.props.getStudents(event.target.value)}
+            />
+            <ActionButton
+              selectedStudents={selectedStudents}
+              selectedTeams={selectedTeams}
             />
           </div>
           <div style={{ display: "flex" }}>

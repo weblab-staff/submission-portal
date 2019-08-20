@@ -9,13 +9,18 @@ import {
 } from "../../../../js/students";
 
 class Action {
-  constructor(description, action) {
+  constructor(description, action, requiresInput) {
     this.description = description;
     this.action = action;
+    this.input = requiresInput ? true : false;
   }
 
   getDescription() {
     return this.description;
+  }
+
+  needsInput() {
+    return this.input;
   }
 
   apply(students, teams) {
@@ -24,14 +29,14 @@ class Action {
 }
 
 class StudentAction extends Action {
-  apply(students, teams) {
-    this.action(students);
+  apply(students, _, input) {
+    this.action(students, input);
   }
 }
 
 class TeamAction extends Action {
-  apply(students, teams) {
-    this.action(teams);
+  apply(_, teams, input) {
+    this.action(teams, input);
   }
 }
 
@@ -46,35 +51,46 @@ class ActionButton extends React.Component {
         new TeamAction("Remove Team", removeTeam)
       ],
       studentActions: [
-        new StudentAction("Add Tag", addTag),
-        new StudentAction("Remove Tag", removeTag),
+        new StudentAction("Add Tag", addTag, true),
+        new StudentAction("Remove Tag", removeTag, true),
         new StudentAction("Toggle Credit", toggleCredit),
         new StudentAction("Drop Students", dropStudents)
       ],
-      selectedAction: null
+      selectedAction: null,
+      inputVal: ""
     };
   }
+
+  updateInputVal = e => {
+    this.setState({ inputVal: e.target.value });
+  };
 
   render() {
     const { selectedStudents, selectedTeams } = this.props;
     const availableActions = this.getAvailableActions();
-    let { selectedAction } = this.state;
+    let { selectedAction, inputVal } = this.state;
     console.log(availableActions, availableActions[0].description);
     //ensure selected action is in available actions
     if (!availableActions.includes(availableActions[selectedAction])) {
       selectedAction = 0;
     }
 
+    const activeAction = availableActions[selectedAction];
+
     return (
       <div>
-        <ActButton
-          action={availableActions[selectedAction]}
-          students={selectedStudents}
-          teams={selectedTeams}
-        />
+        {activeAction.needsInput() && (
+          <input type="text" onChange={this.updateInputVal} value={inputVal} />
+        )}
         <Dropdown
           actions={availableActions}
           updateSelectedAction={this.modifySelectedActions}
+        />
+        <ActButton
+          action={activeAction}
+          students={selectedStudents}
+          teams={selectedTeams}
+          input={inputVal}
         />
       </div>
     );
@@ -117,10 +133,13 @@ const Dropdown = ({ actions, updateSelectedAction }) => (
   </select>
 );
 
-const ActButton = ({ action, students, teams }) => (
+const ActButton = ({ action, students, teams, input }) => (
   <button
-    disabled={students.length == 0 && teams.length == 0}
-    onClick={() => action.apply(students, teams)}
+    disabled={
+      (students.length == 0 && teams.length == 0) ||
+      (action.needsInput() && input.length == 0)
+    }
+    onClick={() => action.apply(students, teams, input)}
   >
     X
   </button>

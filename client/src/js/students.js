@@ -10,10 +10,6 @@ export const isRegistered = user => {
 };
 
 export const removeTag = (students, deleteTag) => {
-  //todo popup asking for tag
-  if (!deleteTag) {
-    deleteTag = "test"; // todo replace me
-  }
   Promise.all(
     students.map(student =>
       post(`/api/users/${student._id}/update`, {
@@ -24,10 +20,6 @@ export const removeTag = (students, deleteTag) => {
 };
 
 export const addTag = (students, tag) => {
-  //todo popup asking for tag
-  if (!tag) {
-    tag = "test"; //if tag not supplied prompt for tag
-  }
   Promise.all(
     students
       .filter(student => !student.tags.includes(tag))
