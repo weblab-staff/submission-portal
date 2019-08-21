@@ -4,8 +4,11 @@ import StudentsBody from "./StudentsBody";
 import EmailModal from "./EmailModal";
 import { get } from "../../../utils";
 
-// gets students AND teams, that's it.
-// remove refresh() and all calls to it -> alex will implement socket which will fix this
+export const ListOptions = {
+  INDIVIDUAL: "INDIVIDUAL",
+  TEAM: "TEAM",
+};
+
 // change sorting function to a <Sort> component which takes list + sorting fn
 //    this component will have the Ascending / descending logic
 //    make TeamList as similar structually to StudentList as you can
@@ -14,216 +17,132 @@ class StudentsSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeList: "INDIVIDUAL", // move down, use an enum for this
-      emailModalActive: false,
+      loading: true,
+      activeList: ListOptions.INDIVIDUAL,
+      students: [],
+      teams: [],
+      milestones: [],
       selectedStudents: [],
       selectedTeams: [],
-      students: null,
-      loading: false,
-      modalInfo: null,
-      activeSort: null, // move down
-      sortOrder: "NONE", // move into sort component, use enum for this
-      modalActive: false
+      emailModalActive: false,
     };
   }
 
   componentDidMount() {
-    this.getStudents();
+    this.getInfo();
   }
 
-  genSortFunction(param, sortOrder) {
-    // This is probably too overcomplicated but im bad
-    if (sortOrder === "ASC") {
-      if (param === "for_credit") {
-        return (a, b) => a[param] - b[param];
-      }
-      if (param === "team_name") {
-        return (a, b) => {
-          const aTeam = a.team ? a.team.team_name : "???";
-          const bTeam = b.team ? b.team.team_name : "???";
-          return aTeam.localeCompare(bTeam);
-        };
-      }
-
-      return (a, b) => a[param].localeCompare(b[param]);
-    } else {
-      if (param === "for_credit") {
-        return (a, b) => b[param] - a[param];
-      }
-      if (param === "team_name") {
-        return (a, b) => {
-          const aTeam = a.team ? a.team.team_name : "???";
-          const bTeam = b.team ? b.team.team_name : "???";
-          return bTeam.localeCompare(aTeam);
-        };
-      }
-
-      return (a, b) => b[param].localeCompare(a[param]);
-    }
-  }
-
-  handleSort = param => {
-    let sortOrder = "ASC";
-    if (this.state.activeSort === param && this.state.sortOrder === "ASC") {
-      sortOrder = "DES";
-    }
-
-    let sortedStudents = [...this.props.students];
-    console.log("sorted:");
-    console.log(sortedStudents);
-    sortedStudents.sort(this.genSortFunction(param, sortOrder));
-
-    this.setState({
-      students: sortedStudents,
-      activeSort: param,
-      sortOrder
-    });
-  };
-
-  showInfoModal = info => {
-    this.setState({ modalActive: true, modalInfo: info });
-  };
-
-  hideInfoModal = () => {
-    this.setState({ modalActive: false });
-  };
-
-  isSelected = student => {
-    return this.state.selectedStudents.includes(student);
-  };
-
-  getStudents = (query = null) => {
-    get(
-      "/api/users/",
-      query ? { populate: true, searchQuery: query } : { populate: true }
-    )
-      .then(data => {
-        if (data) {
-          let newModalInfo = null;
-          if (this.state.modalInfo) {
-            newModalInfo = data.filter(
-              el => el._id === this.state.modalInfo._id
-            )[0];
-          }
-          this.setState({
-            loading: false,
-            students: data,
-            modalInfo: newModalInfo
-          });
-        } else {
-          this.setState({
-            loading: false,
-            students: null
-          });
-        }
+  getInfo = () => {
+    Promise.all([
+      get("/api/users/", { populate: true }),
+      get("/api/teams/", { populate: true }),
+      get("/api/milestones/"),
+    ])
+      .then((data) => {
+        this.setState({
+          loading: false,
+          students: data[0],
+          teams: data[1],
+          milestones: data[2],
+        });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
-  setActiveList = list => {
+  afterSort = (items) => {
+    this.setState({ students: items });
+  };
+
+  setActiveList = (list) => {
     this.setState({ activeList: list });
   };
 
-  showEmailModal = () => {
+  selectStudent = (student) => {
     this.setState({
-      emailModalActive: true
+      selectedStudents: [...this.state.selectedStudents, student],
     });
   };
 
-  hideEmailModal = () => {
-    this.setState({
-      emailModalActive: false
-    });
-  };
-
-  selectStudent = student => {
-    this.setState({
-      selectedStudents: [...this.state.selectedStudents, student]
-    });
-  };
-
-  selectTeam = team => {
-    this.setState({
-      selectedTeams: [...this.state.selectedTeams, team]
-    });
-  };
-
-  deselectStudent = student => {
+  deselectStudent = (student) => {
     this.setState({
       selectedStudents: this.state.selectedStudents.filter(
-        el => el._id !== student._id
-      )
+        (el) => el._id !== student._id
+      ),
     });
   };
 
-  deselectTeam = team => {
+  selectTeam = (team) => {
     this.setState({
-      selectedTeams: this.state.selectedTeams.filter(el => el._id !== team._id)
+      selectedTeams: [...this.state.selectedTeams, team],
+    });
+  };
+
+  deselectTeam = (team) => {
+    this.setState({
+      selectedTeams: this.state.selectedTeams.filter(
+        (el) => el._id !== team._id
+      ),
+    });
+  };
+
+  selectAll = () => {
+    this.setState({
+      selectedStudents: this.state.students,
     });
   };
 
   deselectAll = () => {
     this.setState({
-      selectedStudents: []
+      selectedStudents: [],
     });
   };
 
-  selectAll = students => {
+  showEmailModal = () => {
     this.setState({
-      selectedStudents: students
+      emailModalActive: true,
+    });
+  };
+
+  hideEmailModal = () => {
+    this.setState({
+      emailModalActive: false,
     });
   };
 
   render() {
-    const {
-      activeList,
-      emailModalActive,
-      selectedStudents,
-      selectedTeams,
-      students,
-      loading,
-      modalInfo,
-      activeSort,
-      sortOrder,
-      modalActive
-    } = this.state;
     return (
       <div>
-        {emailModalActive && (
+        {this.state.emailModalActive && (
           <EmailModal
-            selectedStudents={selectedStudents}
+            selectedStudents={this.state.selectedStudents}
             hideEmailModal={this.hideEmailModal}
             deselectAll={this.deselectAll}
           />
         )}
         <StudentsHeader
           showEmailModal={this.showEmailModal}
+          activeList={this.state.activeList}
           setActiveList={this.setActiveList}
-          selectedStudents={selectedStudents}
-          selectedTeams={selectedTeams}
-          students={students}
-          getStudents={this.getStudents}
+          selectedStudents={this.state.selectedStudents}
+          selectedTeams={this.state.selectedTeams}
           deselectStudent={this.deselectStudent}
+          deselectTeam={this.deselectTeam}
         />
         <StudentsBody
-          activeList={activeList}
-          selectedStudents={selectedStudents}
-          getStudents={this.getStudents}
+          loading={this.state.loading}
+          activeList={this.state.activeList}
+          students={this.state.students}
+          teams={this.state.teams}
+          selectedStudents={this.state.selectedStudents}
+          selectedTeams={this.state.selectedTeams}
           selectStudent={this.selectStudent}
-          selectAll={this.selectAll}
-          students={students}
-          loading={loading}
-          modalInfo={modalInfo}
-          activeSort={activeSort}
-          sortOrder={sortOrder}
-          modalActive={modalActive}
           deselectStudent={this.deselectStudent}
+          selectTeam={this.selectTeam}
+          deselectTeam={this.deselectTeam}
+          selectAll={this.selectAll}
           deselectAll={this.deselectAll}
           showMilestonesSection={this.props.showMilestonesSection}
-          hideInfoModal={this.hideInfoModal}
-          showInfoModal={this.showInfoModal}
-          handleSort={this.handleSort}
-          isSelected={this.isSelected}
+          afterSort={this.afterSort}
         />
       </div>
     );

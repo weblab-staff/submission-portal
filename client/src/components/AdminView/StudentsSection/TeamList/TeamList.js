@@ -83,12 +83,9 @@ class TeamList extends React.Component {
   render() {
     const { loading, teams, milestones, activeSort, sortOrder } = this.state;
 
-    if (loading) {
-      return <div>Loading!</div>;
-    }
-
     let list = <div>No teams!</div>;
-    if (teams.length > 0) {
+
+    if (this.props.teams && this.props.teams.length > 0) {
       list = teams.map((el, index) => (
         <TeamEntry
           key={index}

@@ -1,21 +1,7 @@
 import React from "react";
+import SortableHeader from "./SortableHeader";
 
 class StudentListHeader extends React.Component {
-  renderSortIcon = (param) => {
-    const { activeSort, sortOrder } = this.props;
-
-    let text = "O";
-    if (activeSort === param) {
-      if (sortOrder === "ASC") {
-        text = "asc";
-      } else {
-        text = "des";
-      }
-    }
-
-    return <div onClick={() => this.props.handleSort(param)}>{text}</div>;
-  };
-
   areStudentsSelected = () => {
     return this.props.selectedStudents.length > 0;
   };
@@ -45,26 +31,42 @@ class StudentListHeader extends React.Component {
             onChange={this.toggleSelect}
           />
         </div>
-        <div style={{ display: "flex", width: "10vw" }}>
-          <div style={{ marginRight: "5px" }}>First Name</div>
-          {this.renderSortIcon("first_name")}
-        </div>
-        <div style={{ display: "flex", width: "10vw" }}>
-          <div style={{ marginRight: "5px" }}>Last Name</div>
-          {this.renderSortIcon("last_name")}
-        </div>
-        <div style={{ display: "flex", width: "10vw" }}>
-          <div style={{ marginRight: "5px" }}>GitHub</div>
-          {this.renderSortIcon("github_username")}
-        </div>
-        <div style={{ display: "flex", width: "10vw" }}>
-          <div style={{ marginRight: "5px" }}>Team</div>
-          {this.renderSortIcon("team_name")}
-        </div>
-        <div style={{ display: "flex", width: "5vw" }}>
-          <div style={{ marginRight: "5px" }}>Credit</div>
-          {this.renderSortIcon("for_credit")}
-        </div>
+        <SortableHeader
+          label="First Name"
+          items={this.props.students}
+          sortingFn={(a, b) => a.first_name.localeCompare(b.first_name)}
+          afterSort={this.props.afterSort}
+        />
+        <SortableHeader
+          label="Last Name"
+          items={this.props.students}
+          sortingFn={(a, b) => a.last_name.localeCompare(b.last_name)}
+          afterSort={this.props.afterSort}
+        />
+        <SortableHeader
+          label="Github Username"
+          items={this.props.students}
+          sortingFn={(a, b) =>
+            a.github_username.localeCompare(b.github_username)
+          }
+          afterSort={this.props.afterSort}
+        />
+        <SortableHeader
+          label="Team Name"
+          items={this.props.students}
+          sortingFn={(a, b) => {
+            const aTeam = a.team ? a.team.team_name : "???";
+            const bTeam = b.team ? b.team.team_name : "???";
+            return aTeam.localeCompare(bTeam);
+          }}
+          afterSort={this.props.afterSort}
+        />
+        <SortableHeader
+          label="For Credit?"
+          items={this.props.students}
+          sortingFn={(a, b) => a.for_credit - b.for_credit}
+          afterSort={this.props.afterSort}
+        />
         <div style={{ display: "flex", width: "15vw" }}>
           <div>Tags</div>
         </div>

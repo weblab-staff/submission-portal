@@ -1,52 +1,37 @@
 import React from "react";
 import StudentList from "./StudentList/StudentList";
 import TeamList from "./TeamList/TeamList";
+import { ListOptions } from "./StudentsSection";
 
 class StudentsBody extends React.Component {
   render() {
-    const {
-      activeList,
-      selectedStudents,
-      selectStudent,
-      selectAll,
-      students,
-      loading,
-      modalInfo,
-      activeSort,
-      sortOrder,
-      modalActive,
-      getStudents,
-      deselectStudent,
-      deselectAll,
-      showInfoModal,
-      hideInfoModal,
-      handleSort,
-      isSelected
-    } = this.props;
-    console.log(students);
+    if (this.props.loading) {
+      return <div>loading</div>;
+    }
+
     return (
       <div>
-        {activeList === "INDIVIDUAL" ? (
+        {this.props.activeList === ListOptions.INDIVIDUAL ? (
           <StudentList
-            selectedStudents={selectedStudents}
-            selectStudent={selectStudent}
-            selectAll={selectAll}
-            students={students}
-            loading={loading}
-            activeSort={activeSort}
-            sortOrder={sortOrder}
-            modalActive={modalActive}
-            getStudents={getStudents}
-            deselectStudent={deselectStudent}
-            deselectAll={deselectAll}
+            students={this.props.students}
+            selectedStudents={this.props.selectedStudents}
+            selectStudent={this.props.selectStudent}
+            deselectStudent={this.props.deselectStudent}
+            selectAll={this.props.selectAll}
+            deselectAll={this.props.deselectAll}
             showMilestonesSection={this.props.showMilestonesSection}
-            showInfoModal={showInfoModal}
-            hideInfoModal={hideInfoModal}
-            handleSort={handleSort}
-            isSelected={isSelected}
+            afterSort={this.props.afterSort}
           />
         ) : (
-          <TeamList showMilestonesSection={this.props.showMilestonesSection} />
+          <TeamList
+            teams={this.props.teams}
+            selectedTeams={this.props.selectedTeams}
+            selectTeam={this.props.selectTeam}
+            deselectTeam={this.props.deselectTeam}
+            selectAll={this.props.selectAll}
+            deselectAll={this.props.deselectAll}
+            showMilestonesSection={this.props.showMilestonesSection}
+          />
         )}
       </div>
     );

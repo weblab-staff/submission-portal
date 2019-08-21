@@ -6,27 +6,36 @@ import StudentInfoModal from "./StudentInfoModal";
 class StudentList extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      modalActive: false,
+      modalInfo: null,
+    };
   }
 
-  componentDidMount() {}
+  showInfoModal = (info) => {
+    this.setState({ modalActive: true, modalInfo: info });
+  };
+
+  hideInfoModal = () => {
+    this.setState({ modalActive: false });
+  };
+
+  isSelected = (student) => {
+    return this.props.selectedStudents.includes(student);
+  };
 
   render() {
-    if (this.props.loading) {
-      return <div>Loading!</div>;
-    }
-    console.log(this.props.students);
     let list = <div>No students!</div>;
 
     if (this.props.students && this.props.students.length > 0) {
       list = this.props.students.map((el, index) => (
         <StudentEntry
-          key={index}
+          key={`student-${index}`}
           info={el}
-          selected={this.props.isSelected(el)}
+          selected={this.isSelected(el)}
           selectStudent={this.props.selectStudent}
           deselectStudent={this.props.deselectStudent}
-          showInfoModal={this.props.showInfoModal}
-          refresh={this.props.getStudents}
+          showInfoModal={this.showInfoModal}
           showMilestonesSection={this.props.showMilestonesSection}
         />
       ));
@@ -34,20 +43,18 @@ class StudentList extends React.Component {
 
     return (
       <div>
-        {this.props.modalActive && (
+        {this.state.modalActive && (
           <StudentInfoModal
-            info={this.props.modalInfo}
-            hideInfoModal={this.props.hideInfoModal}
-            refresh={this.props.getStudents}
+            info={this.state.modalInfo}
+            hideInfoModal={this.hideInfoModal}
           />
         )}
         <StudentListHeader
-          activeSort={this.props.activeSort}
-          sortOrder={this.props.sortOrder}
-          handleSort={this.props.handleSort}
+          students={this.props.students}
           selectedStudents={this.props.selectedStudents}
           selectAll={() => this.props.selectAll(this.props.students)}
           deselectAll={this.props.deselectAll}
+          afterSort={this.props.afterSort}
         />
         {list}
       </div>

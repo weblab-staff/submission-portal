@@ -14,13 +14,12 @@ class Register extends React.Component {
       lastName: "",
       email: "",
       gender: "",
-      for_credit: true,
       // classYear: "", TODO add class year
       livingGroup: "",
       priorExp: "",
-      forCredit: "",
+      forCredit: true,
       redirect: false,
-      experience: 3
+      experience: 3,
     };
     this.sliderRef = React.createRef();
   }
@@ -31,40 +30,39 @@ class Register extends React.Component {
 
   getUser = () => {
     get("/api/whoami")
-      .then(userObj => {
+      .then((userObj) => {
         this.setState({
           currentUser: userObj,
           firstName: userObj.first_name ? userObj.first_name : "",
-          lastName: userObj.last_name ? userObj.last_name : ""
+          lastName: userObj.last_name ? userObj.last_name : "",
         });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     const inputNode = event.target;
     this.setState({
-      [inputNode.name]: inputNode.value
+      [inputNode.name]: inputNode.value,
     });
   };
 
-  handleRangeChange = event => {
+  handleRangeChange = (event) => {
     const value = event.target.value;
     this.setState({ experience: value });
     this.handleResize();
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     const {
       currentUser,
       firstName,
       lastName,
       email,
       gender,
-      for_credit,
       livingGroup,
       experience,
-      forCredit
+      forCredit,
     } = this.state;
     event.preventDefault();
     post(`/api/users/${currentUser._id}/update`, {
@@ -76,17 +74,16 @@ class Register extends React.Component {
         gender: gender,
         // class_year: Number,
         experience: experience,
-        living_group: livingGroup
+        living_group: livingGroup,
       },
-      for_credit: for_credit
     })
-      .then(response => {
+      .then((response) => {
         console.log(response);
         this.setState({
-          redirect: response === 204
+          redirect: response === 204,
         });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   handleResize = () => {
@@ -113,7 +110,7 @@ class Register extends React.Component {
         <Formik
           enableReinitialize={true}
           initialValues={this.state}
-          validate={values => {
+          validate={(values) => {
             let errors = {};
             if (!values.firstName) {
               errors.firstName = "Required";
@@ -139,7 +136,7 @@ class Register extends React.Component {
               gender,
               livingGroup,
               experience,
-              forCredit
+              forCredit,
             } = values;
             post(`/api/users/${currentUser._id}/update`, {
               first_name: firstName,
@@ -150,16 +147,16 @@ class Register extends React.Component {
                 gender: gender,
                 // class_year: classYear,
                 experience: experience,
-                living_group: livingGroup
-              }
+                living_group: livingGroup,
+              },
             })
-              .then(response => {
+              .then((response) => {
                 console.log(response);
                 this.setState({
-                  redirect: response === 204
+                  redirect: response === 204,
                 });
               })
-              .catch(err => console.log(err));
+              .catch((err) => console.log(err));
           }}
         >
           {({ isSubmitting }) => (
@@ -205,7 +202,11 @@ class Register extends React.Component {
               <div className="u-marginBottom-md u-positionRelative">
                 <div className="u-formLabel u-marginBottom-sm">gender</div>
                 <div className="formInput-select--arrow">
-                  <Field className="formInput-select" component="select" name="gender">
+                  <Field
+                    className="formInput-select"
+                    component="select"
+                    name="gender"
+                  >
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>

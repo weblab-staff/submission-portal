@@ -27,7 +27,7 @@ router.get("/", ensure.admin, async (req, res) => {
         "first_name",
         "last_name",
         "github_username",
-        "tags"
+        "tags",
       ])
     );
   } else {
@@ -65,7 +65,7 @@ router.post(
   ensure.admin,
   errorWrap(async (req, res) => {
     const result = await User.findByIdAndUpdate(req.params["user_id"], {
-      $addToSet: { tags: req.body.tag }
+      $addToSet: { tags: req.body.tag },
     });
 
     if (!result) return res.sendStatus(404);
@@ -78,7 +78,7 @@ router.delete(
   ensure.admin,
   errorWrap(async (req, res) => {
     const result = await User.findByIdAndUpdate(req.params["user_id"], {
-      $pull: { tags: req.body.tag }
+      $pull: { tags: req.body.tag },
     });
 
     if (!result) return res.sendStatus(404);
