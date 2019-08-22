@@ -49,8 +49,12 @@ class StudentsSection extends React.Component {
       .catch((err) => console.log(err));
   };
 
-  afterSort = (items) => {
-    this.setState({ students: items });
+  setInfo = (category, info) => {
+    if (category === ListOptions.INDIVIDUAL) {
+      this.setState({ students: info });
+    } else {
+      this.setState({ teams: info });
+    }
   };
 
   setActiveList = (list) => {
@@ -85,16 +89,20 @@ class StudentsSection extends React.Component {
     });
   };
 
-  selectAll = () => {
-    this.setState({
-      selectedStudents: this.state.students,
-    });
+  selectAll = (category) => {
+    if (category === ListOptions.INDIVIDUAL) {
+      this.setState({ selectedStudents: this.state.students });
+    } else {
+      this.setState({ selectedTeams: this.state.teams });
+    }
   };
 
-  deselectAll = () => {
-    this.setState({
-      selectedStudents: [],
-    });
+  deselectAll = (category) => {
+    if (category === ListOptions.INDIVIDUAL) {
+      this.setState({ selectedStudents: [] });
+    } else {
+      this.setState({ selectedTeams: [] });
+    }
   };
 
   showEmailModal = () => {
@@ -133,6 +141,7 @@ class StudentsSection extends React.Component {
           activeList={this.state.activeList}
           students={this.state.students}
           teams={this.state.teams}
+          milestones={this.state.milestones}
           selectedStudents={this.state.selectedStudents}
           selectedTeams={this.state.selectedTeams}
           selectStudent={this.selectStudent}
@@ -142,7 +151,7 @@ class StudentsSection extends React.Component {
           selectAll={this.selectAll}
           deselectAll={this.deselectAll}
           showMilestonesSection={this.props.showMilestonesSection}
-          afterSort={this.afterSort}
+          setInfo={this.setInfo}
         />
       </div>
     );

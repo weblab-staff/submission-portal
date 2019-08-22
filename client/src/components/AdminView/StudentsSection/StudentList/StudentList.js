@@ -52,9 +52,9 @@ class StudentList extends React.Component {
         <StudentListHeader
           students={this.props.students}
           selectedStudents={this.props.selectedStudents}
-          selectAll={() => this.props.selectAll(this.props.students)}
+          selectAll={this.props.selectAll}
           deselectAll={this.props.deselectAll}
-          afterSort={this.props.afterSort}
+          setInfo={this.props.setInfo}
         />
         {list}
       </div>

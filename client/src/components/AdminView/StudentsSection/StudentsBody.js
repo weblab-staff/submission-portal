@@ -20,17 +20,19 @@ class StudentsBody extends React.Component {
             selectAll={this.props.selectAll}
             deselectAll={this.props.deselectAll}
             showMilestonesSection={this.props.showMilestonesSection}
-            afterSort={this.props.afterSort}
+            setInfo={this.props.setInfo}
           />
         ) : (
           <TeamList
             teams={this.props.teams}
+            milestones={this.props.milestones}
             selectedTeams={this.props.selectedTeams}
             selectTeam={this.props.selectTeam}
             deselectTeam={this.props.deselectTeam}
             selectAll={this.props.selectAll}
             deselectAll={this.props.deselectAll}
             showMilestonesSection={this.props.showMilestonesSection}
+            setInfo={this.props.setInfo}
           />
         )}
       </div>

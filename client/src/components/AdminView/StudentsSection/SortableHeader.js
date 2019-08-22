@@ -1,7 +1,6 @@
 import React from "react";
 
 export const SortOrder = {
-  NONE: "NONE",
   ASCENDING: "ASCENDING",
   DESCENDING: "DESCENDING",
 };
@@ -11,7 +10,7 @@ class SortableHeader extends React.Component {
     super(props);
 
     this.state = {
-      sortOrder: SortOrder.NONE,
+      sortOrder: SortOrder.ASCENDING,
     };
   }
 
@@ -25,7 +24,7 @@ class SortableHeader extends React.Component {
       this.setState({ sortOrder: SortOrder.ASCENDING });
     }
 
-    this.props.afterSort(newItems);
+    this.props.setInfo(newItems);
   };
 
   render() {
@@ -39,16 +38,10 @@ class SortableHeader extends React.Component {
 
   renderSortIcon = () => {
     let text;
-    switch (this.state.sortOrder) {
-      case SortOrder.ASCENDING:
-        text = "ASC";
-        break;
-      case SortOrder.DESCENDING:
-        text = "DES";
-        break;
-      default:
-        text = "O";
-        break;
+    if (this.state.sortOrder === SortOrder.ASCENDING) {
+      text = "ASC";
+    } else {
+      text = "DES";
     }
 
     return <div>{text}</div>;

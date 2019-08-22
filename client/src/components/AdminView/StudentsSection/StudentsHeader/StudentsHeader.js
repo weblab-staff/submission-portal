@@ -66,7 +66,7 @@ class StudentsHeader extends React.Component {
       <div style={{ display: "flex" }}>
         {this.props.selectedTeams.map((team, index) => (
           <div key={`selected-${index}`}>
-            <span>{team}</span>
+            <span>{team.team_name}</span>
             <button onClick={() => this.props.deselectTeam(team)}>X</button>
           </div>
         ))}

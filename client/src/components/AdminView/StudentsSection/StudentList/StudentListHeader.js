@@ -1,5 +1,6 @@
 import React from "react";
-import SortableHeader from "./SortableHeader";
+import SortableHeader from "../SortableHeader";
+import { ListOptions } from "../StudentsSection";
 
 class StudentListHeader extends React.Component {
   areStudentsSelected = () => {
@@ -8,10 +9,14 @@ class StudentListHeader extends React.Component {
 
   toggleSelect = () => {
     if (this.areStudentsSelected()) {
-      this.props.deselectAll();
+      this.props.deselectAll(ListOptions.INDIVIDUAL);
     } else {
-      this.props.selectAll();
+      this.props.selectAll(ListOptions.INDIVIDUAL);
     }
+  };
+
+  setInfo = (items) => {
+    this.props.setInfo(ListOptions.INDIVIDUAL, items);
   };
 
   render() {
@@ -35,13 +40,13 @@ class StudentListHeader extends React.Component {
           label="First Name"
           items={this.props.students}
           sortingFn={(a, b) => a.first_name.localeCompare(b.first_name)}
-          afterSort={this.props.afterSort}
+          setInfo={this.setInfo}
         />
         <SortableHeader
           label="Last Name"
           items={this.props.students}
           sortingFn={(a, b) => a.last_name.localeCompare(b.last_name)}
-          afterSort={this.props.afterSort}
+          setInfo={this.setInfo}
         />
         <SortableHeader
           label="Github Username"
@@ -49,7 +54,7 @@ class StudentListHeader extends React.Component {
           sortingFn={(a, b) =>
             a.github_username.localeCompare(b.github_username)
           }
-          afterSort={this.props.afterSort}
+          setInfo={this.setInfo}
         />
         <SortableHeader
           label="Team Name"
@@ -59,13 +64,13 @@ class StudentListHeader extends React.Component {
             const bTeam = b.team ? b.team.team_name : "???";
             return aTeam.localeCompare(bTeam);
           }}
-          afterSort={this.props.afterSort}
+          setInfo={this.setInfo}
         />
         <SortableHeader
           label="For Credit?"
           items={this.props.students}
           sortingFn={(a, b) => a.for_credit - b.for_credit}
-          afterSort={this.props.afterSort}
+          setInfo={this.setInfo}
         />
         <div style={{ display: "flex", width: "15vw" }}>
           <div>Tags</div>

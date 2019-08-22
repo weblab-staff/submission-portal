@@ -1,19 +1,22 @@
 import React from "react";
+import SortableHeader from "../SortableHeader";
+import { ListOptions } from "../StudentsSection";
 
 class TeamListHeader extends React.Component {
-  renderSortIcon = (param) => {
-    const { activeSort, sortOrder } = this.props;
+  areTeamsSelected = () => {
+    return this.props.selectedTeams.length > 0;
+  };
 
-    let text = "O";
-    if (activeSort === param) {
-      if (sortOrder === "ASC") {
-        text = "asc";
-      } else {
-        text = "des";
-      }
+  toggleSelect = () => {
+    if (this.areTeamsSelected()) {
+      this.props.deselectAll(ListOptions.TEAM);
+    } else {
+      this.props.selectAll(ListOptions.TEAM);
     }
+  };
 
-    return <div onClick={() => this.props.handleSort(param)}>{text}</div>;
+  setInfo = (items) => {
+    this.props.setInfo(ListOptions.TEAM, items);
   };
 
   render() {
@@ -27,23 +30,37 @@ class TeamListHeader extends React.Component {
     return (
       <div style={styles}>
         <div style={{ display: "flex", width: "3vw" }}>
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            checked={this.areTeamsSelected()}
+            onChange={this.toggleSelect}
+          />
         </div>
-        <div style={{ display: "flex", width: "15vw" }}>
-          <div style={{ marginRight: "5px" }}>Team Name</div>
-          {this.renderSortIcon("team_name")}
-        </div>
-        <div style={{ display: "flex", width: "10vw" }}>
-          <div style={{ marginRight: "5px" }}>GitHub</div>
-          {this.renderSortIcon("github_url")}
-        </div>
+        <SortableHeader
+          label="Team Name"
+          items={this.props.teams}
+          sortingFn={(a, b) => a.team_name.localeCompare(b.team_name)}
+          setInfo={this.setInfo}
+        />
+        <SortableHeader
+          label="Github URL"
+          items={this.props.teams}
+          sortingFn={(a, b) => {
+            const aGit = a.github_url || "undefined";
+            const bGit = b.github_url || "undefined";
+            return aGit.localeCompare(bGit);
+          }}
+          setInfo={this.setInfo}
+        />
         <div style={{ display: "flex", width: "20vw" }}>
           <div>Members</div>
         </div>
-        <div style={{ display: "flex", width: "10vw" }}>
-          <div style={{ marginRight: "5px" }}>Competing?</div>
-          {this.renderSortIcon("competing")}
-        </div>
+        <SortableHeader
+          label="Competing?"
+          items={this.props.teams}
+          sortingFn={(a, b) => a.competing - b.competing}
+          setInfo={this.setInfo}
+        />
         <div style={{ display: "flex", width: "15vw" }}>
           <div>Progress</div>
         </div>
