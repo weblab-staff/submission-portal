@@ -1,12 +1,14 @@
 import React from "react";
+import { ListOptions } from "../StudentsSection";
 
 class StudentsHeaderListButton extends React.Component {
   render() {
-    const { tabLabel, onClick } = this.props;
+    const { tabLabel, activeList, onClick } = this.props;
 
     const styles = {
       margin: "0 10px",
       cursor: "pointer",
+      border: activeList === this.props.tabLabel ? "1px solid blue" : "",
     };
 
     return (

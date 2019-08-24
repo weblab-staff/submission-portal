@@ -33,10 +33,12 @@ class StudentsHeader extends React.Component {
           <div style={{ display: "flex" }}>
             <StudentsHeaderListButton
               tabLabel={ListOptions.INDIVIDUAL}
+              activeList={this.props.activeList}
               onClick={setActiveList}
             />
             <StudentsHeaderListButton
               tabLabel={ListOptions.TEAM}
+              activeList={this.props.activeList}
               onClick={setActiveList}
             />
           </div>
