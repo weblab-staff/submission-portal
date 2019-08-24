@@ -2,6 +2,7 @@ import React from "react";
 import GradesHeader from "./GradesHeader";
 import GradeableList from "./GradeableList";
 import { get } from "../../../utils";
+import { hasSubmission } from "../../../js/teams";
 
 class GradesSection extends React.Component {
   constructor(props) {
@@ -9,46 +10,73 @@ class GradesSection extends React.Component {
     this.state = {
       loading: true,
       milestones: [],
-      teams: [],
+      allTeams: [],
+      selectedTeams: [],
       selectedSubmit: "submit",
-      selectedMilestone: "",
       rangeMin: 1,
-      rangeMax: 1,
+      rangeMax: 1
     };
   }
 
   componentDidMount() {
-    this.getStuff();
+    this.loadData();
   }
 
-  getStuff = (query=null) => {
+  loadData = (query = null) => {
     Promise.all([
       get("/api/milestones/"),
-      get("/api/teams", query ? { populate: true, searchQuery: query} : { populate: true }),
+      get(
+        "/api/teams",
+        query ? { populate: true, searchQuery: query } : { populate: true }
+      )
     ])
-      .then((data) => {
+      .then(data => {
         this.setState({
           loading: false,
           milestones: data[0],
-          teams: data[1],
-          rangeMax: data[1].length,
+          allTeams: data[1],
+          selectedTeams: data[1], //TODO how will this integrate with search?
+          rangeMax: data[1].length
         });
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
-  handleChange = (event) => {
+  updateRange = event => {
     const target = event.target;
     const value =
       target.type === "number" ? parseInt(target.value) : target.value;
+    this.setState({
+      [target.name]: value
+    });
+  };
+
+  updateSelectedTeams = event => {
+    const { allTeams } = this.state;
+    const selectedMilestoneId = event.target.value;
+    let newSelectedTeams = allTeams;
+    console.log("selected:" + selectedMilestoneId);
+    if (selectedMilestoneId !== "") {
+      newSelectedTeams = allTeams.filter(team => {
+        return hasSubmission(team, selectedMilestoneId);
+      });
+    }
 
     this.setState({
-      [target.name]: value,
+      selectedTeams: newSelectedTeams,
+      rangeMax: newSelectedTeams.length == 0 ? 1 : newSelectedTeams.length,
+      rangeMin: 1
     });
   };
 
   render() {
-    const { loading, milestones, teams, rangeMin, rangeMax } = this.state;
+    const {
+      loading,
+      milestones,
+      selectedTeams,
+      rangeMin,
+      rangeMax
+    } = this.state;
 
     if (loading) {
       return <div>Loading!</div>;
@@ -58,19 +86,22 @@ class GradesSection extends React.Component {
       <div>
         <GradesHeader
           milestones={milestones}
-          teams={teams}
+          teams={selectedTeams}
           rangeMin={rangeMin}
           rangeMax={rangeMax}
-          handleChange={this.handleChange}
-          changeMin={this.changeMin}
-          changeMax={this.changeMax}
-          getTeams={this.getStuff}
+          handleChange={this.updateRange}
+          changeSelectedMilestone={this.updateSelectedTeams}
+          getTeams={this.loadData}
         />
         <GradeableList
           milestones={milestones}
-          teams={teams}
-          rangeMin={rangeMin}
-          rangeMax={rangeMax}
+          teams={selectedTeams}
+          rangeMin={Number.isNaN(rangeMin) ? 1 : rangeMin}
+          rangeMax={
+            Number.isNaN(rangeMax) || rangeMax < rangeMin
+              ? rangeMin + 1
+              : rangeMax
+          }
           showMilestonesSection={this.props.showMilestonesSection}
         />
       </div>

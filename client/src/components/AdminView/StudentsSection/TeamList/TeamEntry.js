@@ -1,5 +1,6 @@
 import React from "react";
 import { post, delet } from "../../../../utils";
+import { hasSubmission } from "../../../../js/teams";
 
 class TeamEntry extends React.Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class TeamEntry extends React.Component {
     this.state = {
       selected: false,
       addingMember: false,
-      member: "",
+      member: ""
     };
   }
 
@@ -27,53 +28,53 @@ class TeamEntry extends React.Component {
     }
   };
 
-  handleChange = (event) => {
+  handleChange = event => {
     const target = event.target;
     const value = target.value;
 
     this.setState({
-      member: value,
+      member: value
     });
   };
 
   showMemberInput = () => {
     this.setState({
-      addingMember: true,
+      addingMember: true
     });
   };
 
   hideMemberInput = () => {
     this.setState({
       addingMember: false,
-      member: "",
+      member: ""
     });
   };
 
-  removeMember = (member) => {
+  removeMember = member => {
     const { _id } = this.props.info;
     const user_id = member._id;
     delet(`/api/teams/${_id}/remove-member`, { user_id })
-      .then((status) => {
+      .then(status => {
         if (status === 204) {
           this.props.refresh();
         } else {
           console.log("you fuked up");
         }
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
   toggleCompeting = () => {
     const { _id, competing } = this.props.info;
     post(`/api/teams/${_id}/set-competing`, { competing: !competing })
-      .then((status) => {
+      .then(status => {
         if (status === 204) {
           this.props.refresh();
         } else {
           console.log("you fuked up");
         }
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
   deleteTeam = () => {
@@ -82,38 +83,33 @@ class TeamEntry extends React.Component {
     ) {
       const { _id } = this.props.info;
       delet(`/api/teams/${_id}`)
-        .then((status) => {
+        .then(status => {
           if (status === 204) {
             this.props.refresh();
           } else {
             console.log("you fuked up");
           }
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
     } else {
       console.log("NOT deleting");
     }
   };
 
-  submittedMilestone = (team, milestone) => {
-    return team.submissions.some((el) => el.milestone._id === milestone._id);
-  };
-
   render() {
     const { info, milestones, selected } = this.props;
-
     const styles = {
       display: "flex",
       alignItems: "center",
       margin: "3px 40px",
       padding: "5px",
       border: "1px solid gray",
-      borderRadius: "2px",
+      borderRadius: "2px"
     };
 
     const iconStyle = {
       margin: "0 10px",
-      cursor: "pointer",
+      cursor: "pointer"
     };
 
     return (
@@ -161,9 +157,9 @@ class TeamEntry extends React.Component {
           />
         </div>
         <div style={{ display: "flex", width: "15vw" }}>
-          {milestones.map((el, index) => (
+          {milestones.map((milestone, index) => (
             <div key={`ms-progress-${index}`}>
-              1-{this.submittedMilestone(info, el) ? "Y" : "N"}
+              {hasSubmission(info, milestone._id) ? "[ Y ]" : "[ N ]"}
             </div>
           ))}
         </div>

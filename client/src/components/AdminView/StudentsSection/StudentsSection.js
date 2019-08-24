@@ -6,12 +6,8 @@ import { get } from "../../../utils";
 
 export const ListOptions = {
   INDIVIDUAL: "INDIVIDUAL",
-  TEAM: "TEAM",
+  TEAM: "TEAM"
 };
-
-// change sorting function to a <Sort> component which takes list + sorting fn
-//    this component will have the Ascending / descending logic
-//    make TeamList as similar structually to StudentList as you can
 
 class StudentsSection extends React.Component {
   constructor(props) {
@@ -24,7 +20,7 @@ class StudentsSection extends React.Component {
       milestones: [],
       selectedStudents: [],
       selectedTeams: [],
-      emailModalActive: false,
+      emailModalActive: false
     };
   }
 
@@ -36,17 +32,25 @@ class StudentsSection extends React.Component {
     Promise.all([
       get("/api/users/", { populate: true }),
       get("/api/teams/", { populate: true }),
-      get("/api/milestones/"),
+      get("/api/milestones/")
     ])
-      .then((data) => {
+      .then(data => {
         this.setState({
           loading: false,
           students: data[0],
           teams: data[1],
-          milestones: data[2],
+          milestones: data[2]
         });
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
+  };
+
+  getStudents = async query => {
+    const students = await get("/api/users/", {
+      populate: true,
+      searchQuery: query
+    });
+    this.setState({ students: students });
   };
 
   setInfo = (category, info) => {
@@ -57,39 +61,37 @@ class StudentsSection extends React.Component {
     }
   };
 
-  setActiveList = (list) => {
+  setActiveList = list => {
     this.setState({ activeList: list });
   };
 
-  selectStudent = (student) => {
+  selectStudent = student => {
     this.setState({
-      selectedStudents: [...this.state.selectedStudents, student],
+      selectedStudents: [...this.state.selectedStudents, student]
     });
   };
 
-  deselectStudent = (student) => {
+  deselectStudent = student => {
     this.setState({
       selectedStudents: this.state.selectedStudents.filter(
-        (el) => el._id !== student._id
-      ),
+        el => el._id !== student._id
+      )
     });
   };
 
-  selectTeam = (team) => {
+  selectTeam = team => {
     this.setState({
-      selectedTeams: [...this.state.selectedTeams, team],
+      selectedTeams: [...this.state.selectedTeams, team]
     });
   };
 
-  deselectTeam = (team) => {
+  deselectTeam = team => {
     this.setState({
-      selectedTeams: this.state.selectedTeams.filter(
-        (el) => el._id !== team._id
-      ),
+      selectedTeams: this.state.selectedTeams.filter(el => el._id !== team._id)
     });
   };
 
-  selectAll = (category) => {
+  selectAll = category => {
     if (category === ListOptions.INDIVIDUAL) {
       this.setState({ selectedStudents: this.state.students });
     } else {
@@ -97,7 +99,7 @@ class StudentsSection extends React.Component {
     }
   };
 
-  deselectAll = (category) => {
+  deselectAll = category => {
     if (category === ListOptions.INDIVIDUAL) {
       this.setState({ selectedStudents: [] });
     } else {
@@ -107,13 +109,13 @@ class StudentsSection extends React.Component {
 
   showEmailModal = () => {
     this.setState({
-      emailModalActive: true,
+      emailModalActive: true
     });
   };
 
   hideEmailModal = () => {
     this.setState({
-      emailModalActive: false,
+      emailModalActive: false
     });
   };
 
@@ -135,6 +137,7 @@ class StudentsSection extends React.Component {
           selectedTeams={this.state.selectedTeams}
           deselectStudent={this.deselectStudent}
           deselectTeam={this.deselectTeam}
+          getStudents={this.getStudents}
         />
         <StudentsBody
           loading={this.state.loading}

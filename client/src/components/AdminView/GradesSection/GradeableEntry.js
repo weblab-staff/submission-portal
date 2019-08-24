@@ -1,13 +1,9 @@
 import React from "react";
-
+import { hasSubmission } from "../../../js/teams";
 class GradeableEntry extends React.Component {
   // showMilestonesSection = () => {
   //   this.props.showMilestonesSection();
   // };
-
-  submittedMilestone = (team, milestone) => {
-    return team.submissions.some((el) => el.milestone._id === milestone._id);
-  };
 
   render() {
     const { num, team, milestones } = this.props;
@@ -17,12 +13,12 @@ class GradeableEntry extends React.Component {
       boxShadow: "2px 1px 1px",
       margin: "20px 20px",
       width: "250px",
-      padding: "20px",
+      padding: "20px"
     };
 
     const iconStyle = {
       margin: "0 10px",
-      cursor: "pointer",
+      cursor: "pointer"
     };
 
     return (
@@ -31,9 +27,9 @@ class GradeableEntry extends React.Component {
           {team.team_name} #{num}
         </span>
         <div>
-          {milestones.map((ms, index) => (
+          {milestones.map((milestone, index) => (
             <div key={`${team.team_name}-ms-${index}`}>
-              <span>{ms.title}</span>
+              <span>{milestone.title}</span>
               <span
                 style={iconStyle}
                 onClick={() => this.props.showMilestonesSection(team._id)}
@@ -41,7 +37,7 @@ class GradeableEntry extends React.Component {
                 I
               </span>
               <span style={{ margin: "0 10px" }}>
-                {this.submittedMilestone(team, ms) ? "Y" : "N"}
+                {hasSubmission(team, milestone._id) ? "Y" : "N"}
               </span>
             </div>
           ))}
