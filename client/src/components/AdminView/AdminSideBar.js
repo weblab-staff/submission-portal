@@ -1,6 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import "./../../css/admin.css";
+
 class AdminTabButton extends React.Component {
   render() {
     const {
@@ -9,33 +11,20 @@ class AdminTabButton extends React.Component {
       tabLabel,
       icon,
       onClick,
-      showingMilestones,
+      showingMilestones
     } = this.props;
-
-    const styles = {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "100%",
-      height: "100px",
-      color: "#6d6d6d",
-      cursor: "pointer",
-    };
-    if (!showingMilestones && activeTab === tabName) {
-      styles.color = "#ffffff";
-      styles.backgroundColor = "#3b66ff";
-    }
+    const active = !showingMilestones && activeTab === tabName;
 
     return (
       <div
-        style={styles}
+        className={`u-flex u-flexCenter u-pointer adminSidebar-iconContainer ${active &&
+          "adminSidebar-iconContainer--active"}`}
         onClick={() => {
           onClick(tabName);
         }}
       >
         <FontAwesomeIcon icon={["fas", icon]} size="2x" />
-        <span style={{ marginTop: "10px" }}>{tabLabel}</span>
+        <span className="adminSidebar-iconLabel">{tabLabel}</span>
       </div>
     );
   }
@@ -45,18 +34,10 @@ class AdminSideBar extends React.Component {
   render() {
     const { activeTab, year, setActiveTab, showingMilestones } = this.props;
 
-    const styles = {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      paddingTop: "20px",
-      width: "120px",
-      minHeight: "calc(100vh - 20px)",
-      backgroundColor: "#000000",
-    };
-
     return (
-      <div style={styles}>
+      <div
+        className={`u-flex u-flexAlignCenter u-darkGrey adminSidebar-container`}
+      >
         <AdminTabButton
           activeTab={activeTab}
           tabName="iteration"
