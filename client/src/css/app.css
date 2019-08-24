@@ -1,99 +1,123 @@
 :root {
-    --s-blue: #26C1FC;
-    --s-blue-focus: #26ACFC;
-    --s-pink: #FE82DE;
-    --s-yella: #FFC215;
-    --grey: #D0E2F4;
-    --grey-text: #7D9DBC;
-    --grey-focus: #BAD2E8;
-    --dark-grey: #707070;
-    
-    --milestone-gap: 18px;
-    --top-border: 40px;
+  --s-blue: #26c1fc;
+  --s-blue-focus: #26acfc;
+  --s-pink: #fe82de;
+  --s-yella: #ffc215;
 
-    --radius-sm: 4px;
-  }
+  --a-blue: #4b80ff;
+  --a-blue-text: #4774d7;
+  --a-white: #ffffff;
+  --a-black: #000000;
+  --a-shadow: rgba(0, 0, 0, 0.16);
+
+  --grey: #d0e2f4;
+  --grey-text: #7d9dbc;
+  --grey-focus: #bad2e8;
+  --dark-grey: #707070;
+
+  --milestone-gap: 18px;
+  --top-border: 40px;
+
+  --radius-sm: 4px;
+}
 
 html {
-    height: 100%;
-    font-family: sans-serif;
+  height: 100%;
+  font-family: sans-serif;
 }
 
 body {
-    margin: 0;
-    height: 100%;
+  margin: 0;
+  height: 100%;
 }
 
 button {
-    border: none;
-    position: relative;
-    display: block;
+  border: none;
+  position: relative;
+  display: block;
 }
 
 #root {
-    height: 100%;
+  height: 100%;
 }
 
 .center {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    text-align: center;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  text-align: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
 }
 
 .u-blue {
-    color: var(--s-blue);
+  color: var(--s-blue);
 }
 
 .u-flex {
-    display: flex;
+  display: flex;
 }
 
 .u-flexJustifyBetweeen {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
-.u-flexCenter, .u-flexCenter--browser {
-    justify-content: center;
-    align-items: center
+.u-flexJustifyCenter {
+  justify-content: center;
+}
+
+.u-flexAlignCenter {
+  align-items: center;
+}
+
+.u-flexCenter,
+.u-flexCenter--browser {
+  justify-content: center;
+  align-items: center;
 }
 
 .u-flexCenter--browser div {
-    transform: translateY(-40px);
+  transform: translateY(-40px);
 }
 
 .u-textCenter {
-    text-align: center;
+  text-align: center;
 }
 
 .u-textRight {
-    text-align: right;
+  text-align: right;
 }
 
 .u-fontSm {
-    font-size: .8em;
+  font-size: 0.8em;
 }
 
 .u-formLabel {
-    color: var(--dark-grey);
+  color: var(--dark-grey);
 }
 
 .u-marginTop-sm {
-    margin-top: 4px;
+  margin-top: 4px;
 }
 
 .u-marginBottom-sm {
-    margin-bottom: 4px;
+  margin-bottom: 4px;
 }
 
 .u-marginBottom-md {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .u-positionRelative {
-    position: relative;
+  position: relative;
+}
+
+.u-pointer {
+  cursor: pointer;
+}
+
+.u-darkGrey {
+  color: var(--dark-grey);
 }

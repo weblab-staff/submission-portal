@@ -1,0 +1,30 @@
+:root {
+  --adminSidebar-iconHeight: 114px;
+  --adminSidebar-containerWidth: 120px;
+  --adminSidebar-containerPadding: 20px;
+}
+
+.adminSidebar-container {
+  flex-direction: column;
+  background-color: var(--a-black);
+  padding-top: var(--adminSidebar-containerPadding);
+  width: var(--adminSidebar-containerWidth);
+  min-height: calc(100vh - var(--adminSidebar-containerPadding));
+  box-shadow: 2px 0 20px var(--a-shadow);
+}
+
+.adminSidebar-iconLabel {
+  margin-top: 16px;
+  font-size: 0.9em;
+}
+
+.adminSidebar-iconContainer {
+  flex-direction: column;
+  width: 100%;
+  height: var(--adminSidebar-iconHeight);
+}
+
+.adminSidebar-iconContainer--active {
+  color: var(--a-white);
+  background-color: var(--a-blue);
+}
