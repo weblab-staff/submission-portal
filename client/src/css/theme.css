@@ -137,3 +137,8 @@
   border-radius: 50%;
   background-color: var(--s-blue);
 }
+
+.bottomShadow {
+  border-bottom: 1px solid var(--a-grey);
+  box-shadow: 0 0 6px var(--a-shadow);
+}

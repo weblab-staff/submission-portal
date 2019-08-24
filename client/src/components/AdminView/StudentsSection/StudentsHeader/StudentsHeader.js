@@ -11,7 +11,7 @@ class StudentsHeader extends React.Component {
     const { setActiveList, selectedStudents, selectedTeams } = this.props;
 
     return (
-      <div className="adminHeader-container">
+      <div className="adminHeader-container bottomShadow">
         <h1 className="adminHeader-head">Students</h1>
         <div className="u-flex u-flexJustifyBetweeen u-flexAlignCenter">
           <div>

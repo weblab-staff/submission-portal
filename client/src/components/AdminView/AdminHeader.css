@@ -6,6 +6,5 @@
   padding-top: var(--admin-topPadding);
   padding-left: var(--admin-sidePadding);
   padding-right: var(--admin-sidePadding);
-  border-bottom: 1px solid var(--a-grey);
-  box-shadow: 0 0 6px var(--a-shadow);
+  padding-bottom: var(--admin-bottomPadding);
 }

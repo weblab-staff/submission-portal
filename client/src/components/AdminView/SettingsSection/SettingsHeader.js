@@ -1,11 +1,12 @@
 import React from "react";
 
+import "./../AdminHeader.css";
+
 class SettingsHeader extends React.Component {
   render() {
     return (
-      <div>
-        <h1 className="tabHeader">Settings</h1>
-        <hr />
+      <div className="adminHeader-container">
+        <h1 className="adminHeader-head">Settings</h1>
       </div>
     );
   }

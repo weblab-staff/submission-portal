@@ -1,6 +1,8 @@
 import React from "react";
 import SearchBar from "../SearchBar";
 
+import "./../AdminHeader.css";
+
 class GradesHeader extends React.Component {
   render() {
     const styles = {
@@ -22,9 +24,9 @@ class GradesHeader extends React.Component {
     );
 
     return (
-      <div>
-        <h1 className="tabHeader">Grade Teams</h1>
-        <div style={styles}>
+      <div className="adminHeader-container">
+        <h1 className="adminHeader-head">Grade Teams</h1>
+        <div className="u-flex u-flexJustifyBetweeen u-flexAlignCenter">
           <div>
             <span>Show teams that</span>
             <select name="selectedSubmit" onChange={this.props.handleChange}>
@@ -55,7 +57,6 @@ class GradesHeader extends React.Component {
             />
           </div>
         </div>
-        <hr />
       </div>
     );
   }
