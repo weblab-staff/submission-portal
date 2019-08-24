@@ -37,19 +37,17 @@ router.get(
   "/",
   ensure.loggedIn, // TODO: dont show details to non-admins
   errorWrap(async (req, res) => {
-    const teams = await find_team(
+    let teams = await find_team(
       req.year,
       "",
       req.query.populate === "true",
       req.query.include_content === "true"
     );
+    if (req.query.searchQuery && req.query.searchQuery.length > 1) {
+      teams = utils.searchFilter(teams, req.query.searchQuery, ["team_name"]);
+    }
 
-    if (req.query.searchQuery != null) {
-      res.send(utils.searchFilter(teams, req.query.searchQuery, ['team_name']));
-    }
-    else {
-      res.send(teams);
-    }
+    res.send(teams.map(flipTeamSubmissions));
   })
 );
 
@@ -58,12 +56,13 @@ router.get(
   "/:team_id",
   ensure.onTeam,
   errorWrap(async (req, res) => {
-    const team = await find_team(
+    let team = await find_team(
       req.year,
       req.params.team_id,
       true, //populate always true for individual team
       true //always include content for individual team
     );
+    team = team.map(flipTeamSubmissions);
 
     res.send(team.length == 0 ? undefined : team[0]);
   })
@@ -207,5 +206,26 @@ router.delete(
     res.sendStatus(204);
   })
 );
+
+const flipTeamSubmissions = team => {
+  const flippedSubmissions = {};
+  if (team) {
+    team.submissions.forEach(submission => {
+      if (
+        submission.milestone !== undefined &&
+        submission.milestone._id !== undefined
+      ) {
+        flippedSubmissions[submission.milestone._id] = flippedSubmissions[
+          submission.milestone._id
+        ]
+          ? flippedSubmissions[submission.milestone._id].concat(submission)
+          : [];
+      }
+    });
+  }
+  let teamJson = team.toJSON();
+  teamJson.submissions = flippedSubmissions;
+  return teamJson;
+};
 
 module.exports = router;

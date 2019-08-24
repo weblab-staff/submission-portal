@@ -13,7 +13,7 @@ router.get(
   ensure.loggedIn,
   errorWrap(async (req, res) => {
     let year_filter = { year: req.year };
-    res.send(await Milestone.find(year_filter));
+    res.send(await Milestone.find(year_filter).sort({ deadline: "asc" }));
   })
 );
 

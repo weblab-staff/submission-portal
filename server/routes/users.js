@@ -20,14 +20,13 @@ function findUser(year, id, populate) {
 //gets all users registesred in the current year
 router.get("/", ensure.admin, async (req, res) => {
   const users = await findUser(req.year, "", req.query.populate === "true");
-  if (req.query.searchQuery != null) {
-    console.log(users);
+  if (req.query.searchQuery && req.query.searchQuery.length > 1) {
     res.send(
       utils.searchFilter(users, req.query.searchQuery, [
         "first_name",
         "last_name",
         "github_username",
-        "tags",
+        "tags"
       ])
     );
   } else {
@@ -65,7 +64,7 @@ router.post(
   ensure.admin,
   errorWrap(async (req, res) => {
     const result = await User.findByIdAndUpdate(req.params["user_id"], {
-      $addToSet: { tags: req.body.tag },
+      $addToSet: { tags: req.body.tag }
     });
 
     if (!result) return res.sendStatus(404);
@@ -78,7 +77,7 @@ router.delete(
   ensure.admin,
   errorWrap(async (req, res) => {
     const result = await User.findByIdAndUpdate(req.params["user_id"], {
-      $pull: { tags: req.body.tag },
+      $pull: { tags: req.body.tag }
     });
 
     if (!result) return res.sendStatus(404);
