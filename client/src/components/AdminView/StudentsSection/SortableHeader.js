@@ -15,16 +15,13 @@ class SortableHeader extends React.Component {
   }
 
   handleSort = () => {
-    let newItems;
     if (this.state.sortOrder === SortOrder.ASCENDING) {
-      newItems = this.props.items.sort(this.props.sortingFn).reverse();
+      this.props.handleSort((a, b) => -this.props.sortingFn(a, b));
       this.setState({ sortOrder: SortOrder.DESCENDING });
     } else {
-      newItems = this.props.items.sort(this.props.sortingFn);
+      this.props.handleSort(this.props.sortingFn);
       this.setState({ sortOrder: SortOrder.ASCENDING });
     }
-
-    this.props.setInfo(newItems);
   };
 
   render() {

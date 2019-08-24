@@ -9,14 +9,10 @@ class StudentListHeader extends React.Component {
 
   toggleSelect = () => {
     if (this.areStudentsSelected()) {
-      this.props.deselectAll(ListOptions.INDIVIDUAL);
+      this.props.deselectAll();
     } else {
-      this.props.selectAll(ListOptions.INDIVIDUAL);
+      this.props.selectAll();
     }
-  };
-
-  setInfo = (items) => {
-    this.props.setInfo(ListOptions.INDIVIDUAL, items);
   };
 
   render() {
@@ -40,13 +36,13 @@ class StudentListHeader extends React.Component {
           label="First Name"
           items={this.props.students}
           sortingFn={(a, b) => a.first_name.localeCompare(b.first_name)}
-          setInfo={this.setInfo}
+          handleSort={this.props.handleSort}
         />
         <SortableHeader
           label="Last Name"
           items={this.props.students}
           sortingFn={(a, b) => a.last_name.localeCompare(b.last_name)}
-          setInfo={this.setInfo}
+          handleSort={this.props.handleSort}
         />
         <SortableHeader
           label="Github Username"
@@ -54,7 +50,7 @@ class StudentListHeader extends React.Component {
           sortingFn={(a, b) =>
             a.github_username.localeCompare(b.github_username)
           }
-          setInfo={this.setInfo}
+          handleSort={this.props.handleSort}
         />
         <SortableHeader
           label="Team Name"
@@ -64,13 +60,13 @@ class StudentListHeader extends React.Component {
             const bTeam = b.team ? b.team.team_name : "???";
             return aTeam.localeCompare(bTeam);
           }}
-          setInfo={this.setInfo}
+          handleSort={this.props.handleSort}
         />
         <SortableHeader
           label="For Credit?"
           items={this.props.students}
           sortingFn={(a, b) => a.for_credit - b.for_credit}
-          setInfo={this.setInfo}
+          handleSort={this.props.handleSort}
         />
         <div style={{ display: "flex", width: "15vw" }}>
           <div>Tags</div>

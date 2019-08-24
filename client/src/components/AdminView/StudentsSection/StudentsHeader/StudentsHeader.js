@@ -16,13 +16,15 @@ class StudentsHeader extends React.Component {
         <div className="u-flex u-flexJustifyBetweeen u-flexAlignCenter">
           <div>
             {/* Make the below a FE filter, not a requery. */}
-            <SearchBar
-              onChange={event => this.props.getStudents(event.target.value)}
-            />
-            <ActionButton
-              selectedStudents={selectedStudents}
-              selectedTeams={selectedTeams}
-            />
+            <div style={{ display: "flex" }}>
+              <SearchBar
+                onChange={(event) => this.props.setFilter(event.target.value)}
+              />
+              <ActionButton
+                selectedStudents={selectedStudents}
+                selectedTeams={selectedTeams}
+              />
+            </div>
             <div>{this.renderSelected()}</div>
           </div>
           <div style={{ display: "flex" }}>

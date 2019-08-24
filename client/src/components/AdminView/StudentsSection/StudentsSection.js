@@ -6,7 +6,7 @@ import { get } from "../../../utils";
 
 export const ListOptions = {
   INDIVIDUAL: "INDIVIDUAL",
-  TEAM: "TEAM"
+  TEAM: "TEAM",
 };
 
 class StudentsSection extends React.Component {
@@ -18,9 +18,10 @@ class StudentsSection extends React.Component {
       students: [],
       teams: [],
       milestones: [],
+      filter: "",
       selectedStudents: [],
       selectedTeams: [],
-      emailModalActive: false
+      emailModalActive: false,
     };
   }
 
@@ -32,75 +33,77 @@ class StudentsSection extends React.Component {
     Promise.all([
       get("/api/users/", { populate: true }),
       get("/api/teams/", { populate: true }),
-      get("/api/milestones/")
+      get("/api/milestones/"),
     ])
-      .then(data => {
+      .then((data) => {
         this.setState({
           loading: false,
           students: data[0],
           teams: data[1],
-          milestones: data[2]
+          milestones: data[2],
         });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
-  getStudents = async query => {
+  getStudents = async (query) => {
     const students = await get("/api/users/", {
       populate: true,
-      searchQuery: query
+      searchQuery: query,
     });
     this.setState({ students: students });
   };
 
-  setInfo = (category, info) => {
-    if (category === ListOptions.INDIVIDUAL) {
-      this.setState({ students: info });
+  handleSort = (sortingFn) => {
+    if (this.state.activeList === ListOptions.INDIVIDUAL) {
+      this.setState({ students: this.state.students.sort(sortingFn) });
     } else {
-      this.setState({ teams: info });
+      this.setState({ teams: this.state.teams.sort(sortingFn) });
     }
   };
 
-  setActiveList = list => {
+  setActiveList = (list) => {
     this.setState({ activeList: list });
   };
 
-  selectStudent = student => {
+  selectStudent = (student) => {
     this.setState({
-      selectedStudents: [...this.state.selectedStudents, student]
+      selectedStudents: [...this.state.selectedStudents, student],
     });
   };
 
-  deselectStudent = student => {
+  deselectStudent = (student) => {
     this.setState({
       selectedStudents: this.state.selectedStudents.filter(
-        el => el._id !== student._id
-      )
+        (el) => el._id !== student._id
+      ),
     });
   };
 
-  selectTeam = team => {
+  selectTeam = (team) => {
     this.setState({
-      selectedTeams: [...this.state.selectedTeams, team]
+      selectedTeams: [...this.state.selectedTeams, team],
     });
   };
 
-  deselectTeam = team => {
+  deselectTeam = (team) => {
     this.setState({
-      selectedTeams: this.state.selectedTeams.filter(el => el._id !== team._id)
+      selectedTeams: this.state.selectedTeams.filter(
+        (el) => el._id !== team._id
+      ),
     });
   };
 
-  selectAll = category => {
-    if (category === ListOptions.INDIVIDUAL) {
+  selectAll = () => {
+    if (this.state.activeList === ListOptions.INDIVIDUAL) {
       this.setState({ selectedStudents: this.state.students });
     } else {
       this.setState({ selectedTeams: this.state.teams });
     }
   };
 
-  deselectAll = category => {
-    if (category === ListOptions.INDIVIDUAL) {
+  deselectAll = () => {
+    if (this.state.activeList === ListOptions.INDIVIDUAL) {
       this.setState({ selectedStudents: [] });
     } else {
       this.setState({ selectedTeams: [] });
@@ -109,14 +112,34 @@ class StudentsSection extends React.Component {
 
   showEmailModal = () => {
     this.setState({
-      emailModalActive: true
+      emailModalActive: true,
     });
   };
 
   hideEmailModal = () => {
     this.setState({
-      emailModalActive: false
+      emailModalActive: false,
     });
+  };
+
+  setFilter = (term) => {
+    this.setState({
+      filter: term,
+    });
+  };
+
+  withFilter = (category, list, term) => {
+    term = term.toLowerCase();
+
+    if (category === ListOptions.INDIVIDUAL) {
+      return list.filter(
+        (el) =>
+          el.first_name.toLowerCase().includes(term) ||
+          el.last_name.toLowerCase().includes(term)
+      );
+    } else {
+      return list.filter((el) => el.team_name.toLowerCase().includes(term));
+    }
   };
 
   render() {
@@ -138,12 +161,21 @@ class StudentsSection extends React.Component {
           deselectStudent={this.deselectStudent}
           deselectTeam={this.deselectTeam}
           getStudents={this.getStudents}
+          setFilter={this.setFilter}
         />
         <StudentsBody
           loading={this.state.loading}
           activeList={this.state.activeList}
-          students={this.state.students}
-          teams={this.state.teams}
+          students={this.withFilter(
+            ListOptions.INDIVIDUAL,
+            this.state.students,
+            this.state.filter
+          )}
+          teams={this.withFilter(
+            ListOptions.TEAM,
+            this.state.teams,
+            this.state.filter
+          )}
           milestones={this.state.milestones}
           selectedStudents={this.state.selectedStudents}
           selectedTeams={this.state.selectedTeams}
@@ -154,7 +186,7 @@ class StudentsSection extends React.Component {
           selectAll={this.selectAll}
           deselectAll={this.deselectAll}
           showMilestonesSection={this.props.showMilestonesSection}
-          setInfo={this.setInfo}
+          handleSort={this.handleSort}
         />
       </div>
     );

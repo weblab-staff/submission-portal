@@ -54,7 +54,7 @@ class StudentList extends React.Component {
           selectedStudents={this.props.selectedStudents}
           selectAll={this.props.selectAll}
           deselectAll={this.props.deselectAll}
-          setInfo={this.props.setInfo}
+          handleSort={this.props.handleSort}
         />
         {list}
       </div>

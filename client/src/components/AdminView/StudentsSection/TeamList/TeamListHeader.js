@@ -9,14 +9,10 @@ class TeamListHeader extends React.Component {
 
   toggleSelect = () => {
     if (this.areTeamsSelected()) {
-      this.props.deselectAll(ListOptions.TEAM);
+      this.props.deselectAll();
     } else {
-      this.props.selectAll(ListOptions.TEAM);
+      this.props.selectAll();
     }
-  };
-
-  setInfo = (items) => {
-    this.props.setInfo(ListOptions.TEAM, items);
   };
 
   render() {
@@ -40,7 +36,7 @@ class TeamListHeader extends React.Component {
           label="Team Name"
           items={this.props.teams}
           sortingFn={(a, b) => a.team_name.localeCompare(b.team_name)}
-          setInfo={this.setInfo}
+          handleSort={this.props.handleSort}
         />
         <SortableHeader
           label="Github URL"
@@ -50,7 +46,7 @@ class TeamListHeader extends React.Component {
             const bGit = b.github_url || "undefined";
             return aGit.localeCompare(bGit);
           }}
-          setInfo={this.setInfo}
+          handleSort={this.props.handleSort}
         />
         <div style={{ display: "flex", width: "20vw" }}>
           <div>Members</div>
@@ -59,7 +55,7 @@ class TeamListHeader extends React.Component {
           label="Competing?"
           items={this.props.teams}
           sortingFn={(a, b) => a.competing - b.competing}
-          setInfo={this.setInfo}
+          handleSort={this.props.handleSort}
         />
         <div style={{ display: "flex", width: "15vw" }}>
           <div>Progress</div>

@@ -31,7 +31,7 @@ class TeamList extends React.Component {
           selectedTeams={this.props.selectedTeams}
           selectAll={this.props.selectAll}
           deselectAll={this.props.deselectAll}
-          setInfo={this.props.setInfo}
+          handleSort={this.props.handleSort}
         />
         {list}
       </div>
