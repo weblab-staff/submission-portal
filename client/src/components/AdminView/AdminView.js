@@ -1,7 +1,6 @@
 import React from "react";
 import AdminSideBar from "./AdminSideBar";
 import AdminBody from "./AdminBody";
-import "./AdminView.css";
 
 class AdminView extends React.Component {
   constructor(props) {
@@ -10,22 +9,22 @@ class AdminView extends React.Component {
       activeTab: "iteration",
       viewedYear: 2019,
       showingMilestones: false,
-      msTeam: "",
+      msTeam: ""
     };
   }
 
-  setActiveTab = (tab) => {
+  setActiveTab = tab => {
     this.setState({ activeTab: tab, showingMilestones: false });
   };
 
-  setViewedYear = (year) => {
+  setViewedYear = year => {
     this.setState({ viewedYear: year });
   };
 
-  showMilestonesSection = (team) => {
+  showMilestonesSection = team => {
     this.setState({
       showingMilestones: true,
-      msTeam: team,
+      msTeam: team
     });
   };
 
@@ -35,7 +34,7 @@ class AdminView extends React.Component {
 
   render() {
     return (
-      <div style={{ display: "flex" }}>
+      <div className="u-flex">
         <AdminSideBar
           activeTab={this.state.activeTab}
           setActiveTab={this.setActiveTab}
