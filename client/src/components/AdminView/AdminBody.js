@@ -5,13 +5,11 @@ import GradesSection from "./GradesSection/GradesSection";
 import SettingsSection from "./SettingsSection/SettingsSection";
 import MilestonesSection from "./MilestonesSection/MilestonesSection";
 
+import "./AdminBody.css";
+
 class AdminBody extends React.Component {
   render() {
-    const styles = {
-      width: "calc(100vw - 120px)",
-    };
-
-    return <div style={styles}>{this.renderContent()}</div>;
+    return <div className="adminBody-container">{this.renderContent()}</div>;
   }
 
   renderContent() {

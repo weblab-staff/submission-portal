@@ -4,25 +4,20 @@ import StudentsHeaderListButton from "./StudentsHeaderListButton";
 import ActionButton from "./ActionButton";
 import { ListOptions } from "../StudentsSection";
 
+import "./../../AdminHeader.css";
+
 class StudentsHeader extends React.Component {
   render() {
     const { setActiveList, selectedStudents, selectedTeams } = this.props;
 
-    const styles = {
-      marginLeft: "20px",
-      display: "flex",
-      justifyContent: "space-around",
-      alignItems: "center",
-    };
-
     return (
-      <div>
-        <h1 className="tabHeader">Students</h1>
-        <div style={styles}>
+      <div className="adminHeader-container">
+        <h1 className="adminHeader-head">Students</h1>
+        <div className="u-flex u-flexJustifyBetweeen u-flexAlignCenter">
           <div>
             {/* Make the below a FE filter, not a requery. */}
             <SearchBar
-              onChange={(event) => this.props.getStudents(event.target.value)}
+              onChange={event => this.props.getStudents(event.target.value)}
             />
             <ActionButton
               selectedStudents={selectedStudents}
@@ -43,7 +38,6 @@ class StudentsHeader extends React.Component {
             />
           </div>
         </div>
-        <hr />
       </div>
     );
   }
@@ -51,7 +45,7 @@ class StudentsHeader extends React.Component {
   renderSelected = () => {
     if (this.props.activeList === ListOptions.INDIVIDUAL) {
       return (
-        <div style={{ display: "flex" }}>
+        <div className="u-flex">
           {this.props.selectedStudents.map((student, index) => (
             <div key={`selected-${index}`}>
               <span>{student.first_name}</span>
@@ -65,7 +59,7 @@ class StudentsHeader extends React.Component {
     }
 
     return (
-      <div style={{ display: "flex" }}>
+      <div className="u-flex">
         {this.props.selectedTeams.map((team, index) => (
           <div key={`selected-${index}`}>
             <span>{team.team_name}</span>

@@ -1,0 +1,3 @@
+.adminBody-container {
+  width: calc(100vw - var(--adminSidebar-containerWidth));
+}

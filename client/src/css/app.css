@@ -6,6 +6,7 @@
 
   --a-blue: #4b80ff;
   --a-blue-text: #4774d7;
+  --a-grey: #f0efef;
   --a-white: #ffffff;
   --a-black: #000000;
   --a-shadow: rgba(0, 0, 0, 0.16);
@@ -15,10 +16,14 @@
   --grey-focus: #bad2e8;
   --dark-grey: #707070;
 
+  --radius-sm: 4px;
+
   --milestone-gap: 18px;
   --top-border: 40px;
 
-  --radius-sm: 4px;
+  --admin-sidePadding: 80px;
+  --admin-topPadding: 60px;
+  --adminSidebar-containerWidth: 120px;
 }
 
 html {
@@ -58,6 +63,10 @@ button {
 
 .u-flex {
   display: flex;
+}
+
+.u-flexJustifyAround {
+  justify-content: space-around;
 }
 
 .u-flexJustifyBetweeen {
