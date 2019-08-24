@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "./../../css/admin.css";
+import "./AdminSideBar.css";
 
 class AdminTabButton extends React.Component {
   render() {
