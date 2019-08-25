@@ -20,11 +20,10 @@ class Feedback extends React.Component {
 
   sendFeedback = () => {
     post(`api/teams/${this.props.team._id}/feedback`, {
-      from: "matt",
       milestone_submission_id: this.props.submission._id,
       feedback: this.state.feedback,
     })
-      .then((res) => console.log(res))
+      .then((res) => console.log("Success!"))
       .catch((err) => console.log(err));
   };
 
@@ -35,7 +34,16 @@ class Feedback extends React.Component {
       <div style={{ flexGrow: 1 }}>
         <div>Feedback</div>
         {submission.feedback &&
-          submission.feedback.map((el, index) => <div>Feedback {index}</div>)}
+          submission.feedback.map((el, index) => (
+            <div
+              key={`feedback-${index}`}
+              style={{ margin: "10px 0", border: "1px solid black" }}
+            >
+              <div>{el.from}</div>
+              <br />
+              <div>{el.body}</div>
+            </div>
+          ))}
         <input onChange={this.handleChange} />
         <button onClick={this.sendFeedback}>send</button>
       </div>

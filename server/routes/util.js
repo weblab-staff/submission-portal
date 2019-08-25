@@ -8,8 +8,8 @@ const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
     user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASSWORD
-  }
+    pass: process.env.GMAIL_PASSWORD,
+  },
 });
 
 async function send_email(user_ids, team_ids, subject, body, sender) {
@@ -19,11 +19,11 @@ async function send_email(user_ids, team_ids, subject, body, sender) {
     $or: [
       {
         _id: {
-          $in: teams.map(team => team.members).reduce((a, b) => a.concat(b))
-        }
+          $in: teams.map((team) => team.members).reduce((a, b) => a.concat(b)),
+        },
       },
-      { _id: { $in: user_ids } }
-    ]
+      { _id: { $in: user_ids } },
+    ],
   });
   const mailOptions = {
     from: process.env.GMAIL_USER,
@@ -31,7 +31,7 @@ async function send_email(user_ids, team_ids, subject, body, sender) {
       return recipient.email;
     }),
     subject: subject,
-    text: body
+    text: body,
   };
   const email = new Email({
     timestamp: Date.now(),
@@ -39,61 +39,59 @@ async function send_email(user_ids, team_ids, subject, body, sender) {
     body: body,
     from: sender.first_name + " " + sender.last_name,
     user_targets: users,
-    team_targets: teams
+    team_targets: teams,
   });
   await email.save();
-  transporter.sendMail(mailOptions, function(error, _) {
-    if (error) {
-      return error;
-    } else {
-      return email;
-    }
+  return new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, function(error, _) {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(email);
+      }
+    });
   });
 }
 
-
 function query_active_year() {
-  return Class.findOne({ is_active: true }).then(cls => cls && cls.year);
+  return Class.findOne({ is_active: true }).then((cls) => cls && cls.year);
 }
 
 function filterOnWord(obj, word, fields) {
-  lw = words[i].toLowerCase()
-  for (k in fields){
-    let field = fields[k]
+  lw = words[i].toLowerCase();
+  for (k in fields) {
+    let field = fields[k];
     // check tags first
     if (field === "tags") {
-      word_passed = false
-      obj[field].forEach(function (item, index) {
+      word_passed = false;
+      obj[field].forEach(function(item, index) {
         if (item.toLowerCase().includes(lw) && lw) {
-          word_passed = true
+          word_passed = true;
         }
       });
       if (word_passed) {
         return true;
       }
-    }
-    else if (obj[field] && typeof obj[field] === "string") {
+    } else if (obj[field] && typeof obj[field] === "string") {
       if (obj[field].toLowerCase().includes(lw) && lw) {
-        return true
+        return true;
       }
     }
   }
-  return false
-
+  return false;
 }
 
-function searchFilter(objs, query, fields=[]) {
+function searchFilter(objs, query, fields = []) {
   return objs.filter((s) => {
-    words = query.split(" ")
+    words = query.split(" ");
     for (i in words) {
       if (!filterOnWord(s, words[i].toLowerCase(), fields)) {
-        return false
+        return false;
       }
     }
-    return true
-  })
+    return true;
+  });
 }
-
 
 /**
  * @param {Object} req express route (req) param.
@@ -110,5 +108,5 @@ module.exports = {
   get_active_year: query_active_year,
   get_filter_year: query_filter_year,
   send_email,
-  searchFilter
+  searchFilter,
 };

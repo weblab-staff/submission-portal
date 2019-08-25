@@ -2,6 +2,14 @@ import React from "react";
 import { hasSubmission } from "../../../js/teams";
 
 class MilestoneSelector extends React.Component {
+  countSubmissions = (team, id) => {
+    if (hasSubmission(team, id)) {
+      return team.submissions[id].length;
+    }
+
+    return 0;
+  };
+
   render() {
     const { team, milestones } = this.props;
     console.log(team, milestones);
@@ -9,7 +17,7 @@ class MilestoneSelector extends React.Component {
       background: "#3b66ff",
       color: "white",
       flexGrow: 1,
-      minHeight: "100vh"
+      minHeight: "100vh",
     };
 
     return (
@@ -19,11 +27,12 @@ class MilestoneSelector extends React.Component {
             <button onClick={this.props.hideMilestonesSection}>{"<-"}</button>
             <div>Milestones</div>
           </div>
-          <div>{team.team_name}</div>
+          <div>Team {team.team_name}</div>
         </div>
         <div>
           {milestones.map((milestone, index) => (
             <div
+              style={{ cursor: "pointer", marginBottom: "10px" }}
               key={`milestone-${index}`}
               onClick={() => this.props.selectMilestone(milestone)}
             >
@@ -31,10 +40,7 @@ class MilestoneSelector extends React.Component {
                 <div>{milestone.title}</div>
               </div>
               <div>
-                {hasSubmission(team, milestone._id)
-                  ? team.submissions[milestone._id].length
-                  : "0"}
-                submissions
+                {`${this.countSubmissions(team, milestone._id)} submissions`}
               </div>
             </div>
           ))}

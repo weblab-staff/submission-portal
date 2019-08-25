@@ -6,11 +6,11 @@ class MilestoneDetails extends React.Component {
     super(props);
 
     this.state = {
-      selectedSubmission: 0
+      selectedSubmission: 0,
     };
   }
 
-  selectSubmission = index => {
+  selectSubmission = (index) => {
     this.setState({ selectedSubmission: index });
   };
 
@@ -18,7 +18,7 @@ class MilestoneDetails extends React.Component {
     const { team, milestone } = this.props;
     const styles = {
       display: "flex",
-      flexGrow: 3
+      flexGrow: 3,
     };
 
     if (!this.props.milestone) {
@@ -26,7 +26,7 @@ class MilestoneDetails extends React.Component {
     }
 
     const submissions = team.submissions[milestone._id];
-    if (submissions.length === 0) {
+    if (!submissions || submissions.length === 0) {
       return <div style={styles}>No submissions!</div>;
     }
 
