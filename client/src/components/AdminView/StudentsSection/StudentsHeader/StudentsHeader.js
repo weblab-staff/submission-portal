@@ -15,9 +15,8 @@ class StudentsHeader extends React.Component {
         <h1 className="adminHeader-head">Students</h1>
         <div className="u-flex u-flexJustifyBetweeen u-flexAlignCenter">
           <div className="massAction-container">
-            {/* Make the below a FE filter, not a requery. */}
             <div className="u-flex">
-              <SearchBar onChange={(event) => this.props.setFilter(event.target.value)} />
+              <SearchBar onChange={(event) => this.props.getStudents(event.target.value)} />
               <ActionButton selectedStudents={selectedStudents} selectedTeams={selectedTeams} />
             </div>
             <div>{this.renderSelected()}</div>
