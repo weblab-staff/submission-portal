@@ -1,0 +1,25 @@
+.massAction-container {
+  width: 100%;
+  max-width: 600px;
+}
+
+.massAction-search {
+  flex: 1;
+}
+
+.studentsHeader-listButton {
+  margin: 0 10px;
+  position: relative;
+}
+
+.studentsHeader-listButton--active::after {
+  content: "";
+  width: 100%;
+  height: 4px;
+  background-color: var(--a-black);
+  position: absolute;
+  bottom: calc(-1 * var(--admin-bottomPadding) - 5px);
+  left: 0px;
+
+  box-shadow: 0 0 6px var(--a-shadow);
+}

@@ -5,6 +5,8 @@ import EmailModal from "./EmailModal";
 import { get } from "../../../utils";
 import MilestonesSection from "../MilestonesSection/MilestonesSection";
 
+import "./StudentSection.css";
+
 export const ListOptions = {
   INDIVIDUAL: "INDIVIDUAL",
   TEAM: "TEAM"

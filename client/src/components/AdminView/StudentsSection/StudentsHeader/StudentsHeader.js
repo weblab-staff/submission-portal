@@ -14,11 +14,11 @@ class StudentsHeader extends React.Component {
       <div className="adminHeader-container bottomShadow">
         <h1 className="adminHeader-head">Students</h1>
         <div className="u-flex u-flexJustifyBetweeen u-flexAlignCenter">
-          <div>
+          <div className="massAction-container">
             {/* Make the below a FE filter, not a requery. */}
-            <div style={{ display: "flex" }}>
+            <div className="u-flex">
               <SearchBar
-                onChange={(event) => this.props.setFilter(event.target.value)}
+                onChange={event => this.props.setFilter(event.target.value)}
               />
               <ActionButton
                 selectedStudents={selectedStudents}
@@ -27,7 +27,7 @@ class StudentsHeader extends React.Component {
             </div>
             <div>{this.renderSelected()}</div>
           </div>
-          <div style={{ display: "flex" }}>
+          <div className="u-flex">
             <StudentsHeaderListButton
               tabLabel={ListOptions.INDIVIDUAL}
               activeList={this.props.activeList}

@@ -3,13 +3,15 @@ import ClassEntry from "./ClassEntry";
 import NewClassIterationModal from "./NewClassIterationModal";
 import { get, post } from "../../../utils";
 
+import "./ClassIteration.css";
+
 class ClassList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
       years: null,
-      modalActive: false,
+      modalActive: false
     };
   }
 
@@ -19,41 +21,41 @@ class ClassList extends React.Component {
 
   getYears = () => {
     get("/api/class", { complete: true })
-      .then((data) => {
+      .then(data => {
         data.sort((a, b) => b.year - a.year); // possible error point xd
         this.setState({
           loading: false,
-          years: data,
+          years: data
         });
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
-  makeYearActive = (id) => {
+  makeYearActive = id => {
     post(`/api/class/${id}/set-active-year`)
-      .then((status) => {
+      .then(status => {
         if (status === 204) {
           this.getYears();
         }
         return "You fuked up.";
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
   openNewIterationModal = () => {
     this.setState({ modalActive: true });
   };
 
-  confirmNewIteration = (body) => {
+  confirmNewIteration = body => {
     console.log("Making new iteration!");
     post("/api/class", body)
-      .then((status) => {
+      .then(status => {
         if (status === 204) {
           this.getYears();
         }
         return "You fucked up";
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
     this.setState({ modalActive: false });
   };
 
@@ -86,7 +88,7 @@ class ClassList extends React.Component {
 
     return (
       <div>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <div className="u-flex u-flexJustifyAround bottomShadow classIteration-header">
           <div>Year</div>
           <div>Active</div>
           <button onClick={this.openNewIterationModal}>New Iteration</button>
@@ -98,7 +100,6 @@ class ClassList extends React.Component {
             cancelNewIteration={this.cancelNewIteration}
           />
         )}
-        <hr />
         {years.map((el, index) => (
           <ClassEntry
             key={index}

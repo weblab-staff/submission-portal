@@ -140,5 +140,5 @@
 
 .bottomShadow {
   border-bottom: 1px solid var(--a-grey);
-  box-shadow: 0 0 6px var(--a-shadow);
+  box-shadow: 0 5px 6px -6px var(--a-shadow);
 }

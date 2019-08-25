@@ -5,7 +5,7 @@ import {
   addTag,
   removeTag,
   toggleCredit,
-  dropStudents,
+  dropStudents
 } from "../../../../js/students";
 
 class Action {
@@ -48,20 +48,20 @@ class ActionButton extends React.Component {
       teamActions: [
         new TeamAction("Create Github", createGithub),
         new TeamAction("Toggle Compete", toggleCompete),
-        new TeamAction("Remove Team", removeTeam),
+        new TeamAction("Remove Team", removeTeam)
       ],
       studentActions: [
         new StudentAction("Add Tag", addTag, true),
         new StudentAction("Remove Tag", removeTag, true),
         new StudentAction("Toggle Credit", toggleCredit),
-        new StudentAction("Drop Students", dropStudents),
+        new StudentAction("Drop Students", dropStudents)
       ],
       selectedAction: null,
-      inputVal: "",
+      inputVal: ""
     };
   }
 
-  updateInputVal = (e) => {
+  updateInputVal = e => {
     this.setState({ inputVal: e.target.value });
   };
 
@@ -78,7 +78,7 @@ class ActionButton extends React.Component {
     const activeAction = availableActions[selectedAction];
 
     return (
-      <div>
+      <>
         {activeAction.needsInput() && (
           <input type="text" onChange={this.updateInputVal} value={inputVal} />
         )}
@@ -92,7 +92,7 @@ class ActionButton extends React.Component {
           teams={selectedTeams}
           input={inputVal}
         />
-      </div>
+      </>
     );
   }
 
@@ -111,14 +111,14 @@ class ActionButton extends React.Component {
     }
   };
 
-  modifySelectedActions = (index) => {
+  modifySelectedActions = index => {
     this.setState({ selectedAction: index });
   };
 }
 
 const Dropdown = ({ actions, updateSelectedAction }) => (
   <select
-    onChange={(e) => {
+    onChange={e => {
       const index = e.target.value;
       updateSelectedAction(index);
     }}

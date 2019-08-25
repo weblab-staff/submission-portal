@@ -3,10 +3,14 @@ import React from "react";
 class SearchBar extends React.Component {
   render() {
     return (
-      <div>
-        <span>Search:</span>
-        <input onChange={this.props.onChange} type="text" />
-      </div>
+      <>
+        <input
+          className="massAction-search"
+          onChange={this.props.onChange}
+          placeholder="Search"
+          type="text"
+        />
+      </>
     );
   }
 }
