@@ -42,7 +42,7 @@ class StudentList extends React.Component {
     }
 
     return (
-      <div>
+      <div className="u-marginBottom-xxxl">
         {this.state.modalActive && (
           <StudentInfoModal info={this.state.modalInfo} hideInfoModal={this.hideInfoModal} />
         )}

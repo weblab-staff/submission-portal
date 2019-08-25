@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { post, delet } from "../../../../utils";
 import { hasSubmission } from "../../../../js/teams";
 
@@ -136,8 +138,15 @@ class TeamEntry extends React.Component {
           ))}
         </div>
         <div className="u-flex u-flexJustifyEnd">
-          <div onClick={this.showMilestonesSection}>M</div>
-          <div onClick={this.deleteTeam}>D</div>
+          <div
+            className="u-pointer u-marginRight-lg entry-icon"
+            onClick={this.showMilestonesSection}
+          >
+            <FontAwesomeIcon icon={["fas", "file-alt"]} size="sm" />
+          </div>
+          <div className="u-pointer u-marginRight-lg entry-icon" onClick={this.deleteTeam}>
+            <FontAwesomeIcon icon={["fas", "trash"]} size="sm" />
+          </div>
         </div>
       </div>
     );

@@ -41,14 +41,17 @@
 .studentEntry-header {
   font-size: 0.9em;
   color: var(--a-grey-text);
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 999;
 
   display: grid;
   grid-template-columns: var(--individualGrid);
   grid-column-gap: var(--gridGap);
   margin: var(--entryMargin);
-  margin-top: 1.8em;
-  margin-bottom: 0.8em;
-  padding: 0 6px;
+  padding: 1.6em 6px 0.6em;
+  background-color: var(--a-white);
 }
 
 .studentEntry-container {
@@ -108,14 +111,17 @@
 .teamEntry-header {
   font-size: 0.9em;
   color: var(--a-grey-text);
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 999;
 
   display: grid;
   grid-template-columns: var(--teamGrid);
   grid-column-gap: var(--gridGap);
   margin: var(--entryMargin);
-  margin-top: 1.8em;
-  margin-bottom: 0.8em;
-  padding: 0 6px;
+  padding: 1.6em 6px 0.6em;
+  background-color: var(--a-white);
 }
 
 .teamEntry-container {

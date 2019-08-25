@@ -25,7 +25,7 @@ class TeamList extends React.Component {
     }
 
     return (
-      <div>
+      <div className="u-marginBottom-xxxl">
         <TeamListHeader
           teams={this.props.teams}
           selectedTeams={this.props.selectedTeams}
