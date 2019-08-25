@@ -98,8 +98,8 @@ class TeamEntry extends React.Component {
         <TagList
           tags={team.members}
           displayTags={team.members.map((member) => `${member.first_name} ${member.last_name}`)}
-          add={(member) => {
-            addMember(this.props.team, member);
+          add={(userId) => {
+            addMember(this.props.team, userId);
           }}
           datalist={students.reduce((data, student) => {
             data[student._id] = `${student.first_name} ${student.last_name}`;

@@ -105,6 +105,7 @@ router.post(
     });
 
     await User.findByIdAndUpdate(req.body.user_id, { team: team._id });
+    console.log(`added user ${req.body.user_id} to ${team.team_name}`);
     res.sendStatus(204);
   })
 );

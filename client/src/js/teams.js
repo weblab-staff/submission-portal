@@ -24,8 +24,8 @@ export const hasSubmission = (team, milestoneId) => {
   return !!team.submissions[milestoneId] && team.submissions[milestoneId].length > 0;
 };
 
-export const addMember = (team, user) => {
-  console.log(`TODO: This isn't implemeneted${user}`);
+export const addMember = (team, userId) => {
+  post(`api/teams/${team._id}`, { user_id: userId }).then(alert(`joined team ${team.team_name}`));
 };
 
 export const removeMember = (team, user) => {

@@ -69,6 +69,7 @@ export default class TagList extends React.Component {
         {this.props.tags.map((tag, index) => (
           <Tag
             tag={tag}
+            key={index}
             display={this.props.displayTags && this.props.displayTags[index]}
             index={index}
             remove={this.props.remove}
