@@ -31,7 +31,7 @@ class StudentList extends React.Component {
       list = this.props.students.map((el, index) => (
         <StudentEntry
           key={`student-${index}`}
-          info={el}
+          student={el}
           selected={this.isSelected(el)}
           selectStudent={this.props.selectStudent}
           deselectStudent={this.props.deselectStudent}

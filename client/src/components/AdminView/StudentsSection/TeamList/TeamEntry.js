@@ -17,17 +17,17 @@ class TeamEntry extends React.Component {
 
   toggleSelection = () => {
     if (this.props.selected) {
-      this.props.deselectTeam(this.props.info);
+      this.props.deselectTeam(this.props.team);
     } else {
-      this.props.selectTeam(this.props.info);
+      this.props.selectTeam(this.props.team);
     }
   };
 
   showMilestonesSection = () => {
-    if (this.props.info) {
-      this.props.showMilestonesSection(this.props.info._id);
+    if (this.props.team) {
+      this.props.showMilestonesSection(this.props.team._id);
     } else {
-      console.log("no info");
+      console.log("cannot show milestone section, no team._id");
     }
   };
 
@@ -58,25 +58,25 @@ class TeamEntry extends React.Component {
   };
 
   removeMember = (member) => {
-    const { _id } = this.props.info;
+    const { _id } = this.props.team;
     const user_id = member._id;
     delet(`/api/teams/${_id}/remove-member`, { user_id })
       .then((status) => {
         if (status === 204) {
-          this.props.refresh();
+          alert("removed team member, plx refresh page");
         } else {
-          console.log("you fuked up");
+          console.log("failed to remove student from team");
         }
       })
       .catch((err) => console.log(err));
   };
 
   toggleCompeting = () => {
-    const { _id, competing } = this.props.info;
+    const { _id, competing } = this.props.team;
     post(`/api/teams/${_id}/set-competing`, { competing: !competing })
       .then((status) => {
         if (status === 204) {
-          this.props.refresh();
+          alert("toggled competing, please refresh");
         } else {
           console.log("you fuked up");
         }
@@ -85,12 +85,12 @@ class TeamEntry extends React.Component {
   };
 
   deleteTeam = () => {
-    if (confirm(`Are you sure you want to delete ${this.props.info.team_name}?`)) {
-      const { _id } = this.props.info;
+    if (confirm(`Are you sure you want to delete ${this.props.team.team_name}?`)) {
+      const { _id } = this.props.team;
       delet(`/api/teams/${_id}`)
         .then((status) => {
           if (status === 204) {
-            this.props.refresh();
+            alert("deleted team, please refresh");
           } else {
             console.log("you fuked up");
           }
@@ -102,34 +102,34 @@ class TeamEntry extends React.Component {
   };
 
   render() {
-    const { info, milestones, selected } = this.props;
+    const { team, milestones, selected } = this.props;
 
     return (
       <div className="teamEntry-container">
         <div>
           <input type="checkbox" checked={selected} onChange={this.toggleSelection} />
         </div>
-        <div>{info.team_name}</div>
+        <div>{team.team_name}</div>
         <div>
-          <a href={info.github_url}>{info.github_url ? info.github_url.substring(27) : "-"}</a>
+          <a href={team.github_url}>{team.github_url ? team.github_url.substring(27) : "-"}</a>
         </div>
         <TagList
-          tags={info.members}
-          displayTags={info.members.map((member) => `${member.first_name} ${member.last_name}`)}
+          tags={team.members}
+          displayTags={team.members.map((member) => `${member.first_name} ${member.last_name}`)}
           add={(member) => {
             this.addMember(member);
           }}
           remove={(member) => this.removeMember(member)}
         />
         <div>
-          <Switch checked={info.competing} onChange={this.toggleCompeting} />
+          <Switch checked={team.competing} onChange={this.toggleCompeting} />
         </div>
         <div>
           {milestones.map((milestone, index) => (
             <div
               key={`ms-progress-${index}`}
               className={`u-flex u-flexCenter teamEntry-progress ${hasSubmission(
-                info,
+                team,
                 milestone._id
               ) && "teamEntry-progress--complete"}`}
             >
