@@ -18,8 +18,6 @@ class SettingsAdmin extends React.Component {
   getUsers = () => {
     get("/api/users")
       .then((data) => {
-        // console.log(data);
-
         this.setState({
           loading: false,
           users: data,

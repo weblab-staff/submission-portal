@@ -21,7 +21,6 @@ class MilestonesSection extends React.Component {
   loadData = () => {
     Promise.all([get(`/api/teams/${this.props.teamId}`), get("/api/milestones/")])
       .then((data) => {
-        console.log(data);
         this.setState({
           loading: false,
           team: data[0],

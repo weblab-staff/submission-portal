@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { post, delet } from "../../../../utils";
-import { hasSubmission } from "../../../../js/teams";
+import { hasSubmission, addMember, removeMember } from "../../../../js/teams";
 
 import TagList from "./../../Tag";
 import Switch from "./../../Switch";
@@ -53,24 +53,6 @@ class TeamEntry extends React.Component {
     });
   };
 
-  addMember = (member) => {
-    console.log("TODO: This isn't implemeneted");
-  };
-
-  removeMember = (member) => {
-    const { _id } = this.props.team;
-    const user_id = member._id;
-    delet(`/api/teams/${_id}/remove-member`, { user_id })
-      .then((status) => {
-        if (status === 204) {
-          alert("removed team member, plx refresh page");
-        } else {
-          console.log("failed to remove student from team");
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-
   toggleCompeting = () => {
     const { _id, competing } = this.props.team;
     post(`/api/teams/${_id}/set-competing`, { competing: !competing })
@@ -102,7 +84,7 @@ class TeamEntry extends React.Component {
   };
 
   render() {
-    const { team, milestones, selected } = this.props;
+    const { team, milestones, selected, students } = this.props;
 
     return (
       <div className="teamEntry-container">
@@ -117,9 +99,13 @@ class TeamEntry extends React.Component {
           tags={team.members}
           displayTags={team.members.map((member) => `${member.first_name} ${member.last_name}`)}
           add={(member) => {
-            this.addMember(member);
+            addMember(this.props.team, member);
           }}
-          remove={(member) => this.removeMember(member)}
+          datalist={students.reduce((data, student) => {
+            data[student._id] = `${student.first_name} ${student.last_name}`;
+            return data;
+          }, {})}
+          remove={(member) => removeMember(this.props.team, member)}
         />
         <div>
           <Switch checked={team.competing} onChange={this.toggleCompeting} />

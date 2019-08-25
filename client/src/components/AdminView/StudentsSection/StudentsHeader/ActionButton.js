@@ -64,7 +64,6 @@ class ActionButton extends React.Component {
     const { selectedStudents, selectedTeams } = this.props;
     const availableActions = this.getAvailableActions();
     let { selectedAction, inputVal } = this.state;
-    console.log(availableActions, availableActions[0].description);
     //ensure selected action is in available actions
     if (!availableActions.includes(availableActions[selectedAction])) {
       selectedAction = 0;

@@ -14,6 +14,7 @@ class TeamList extends React.Component {
       list = this.props.teams.map((el, index) => (
         <TeamEntry
           key={`team-${index}`}
+          students={this.props.students}
           team={el}
           milestones={this.props.milestones}
           selected={this.isSelected(el)}

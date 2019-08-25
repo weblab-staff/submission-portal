@@ -10,27 +10,22 @@ import "./Tag.css";
  * remove         (tag) => void  // called when click an X on a tag
  * tags           any[]       // used to identify tag to add/remove
  * displayTags?   string[]
+ * datalist?      {string: string} // if provided will generate a datalist on add input
  */
 
-export class Tag extends React.Component {
-  render() {
-    return (
-      <div key={this.props.index} className="u-flex u-marginRight-sm">
-        <div className="tag">
-          {this.props.display != undefined ? this.props.display : this.props.tag}
-        </div>
-        <button
-          className="tag-delete u-pointer"
-          onClick={() => {
-            this.props.remove(this.props.tag);
-          }}
-        >
-          <FontAwesomeIcon icon={["fas", "times"]} size="sm" />
-        </button>
-      </div>
-    );
-  }
-}
+export const Tag = ({ tag, display, index, remove }) => (
+  <div key={index} className="u-flex u-marginRight-sm">
+    <div className="tag">{display != undefined ? display : tag}</div>
+    <button
+      className="tag-delete u-pointer"
+      onClick={() => {
+        remove(tag);
+      }}
+    >
+      <FontAwesomeIcon icon={["fas", "times"]} size="sm" />
+    </button>
+  </div>
+);
 
 export default class TagList extends React.Component {
   constructor(props) {
@@ -81,7 +76,20 @@ export default class TagList extends React.Component {
         ))}
         {this.state.addingTag ? (
           <div>
-            <input type="text" onChange={this.handleChange} />
+            <input
+              list={this.props.datalist ? "data" : null}
+              type="text"
+              onChange={this.handleChange}
+            />
+            {this.props.datalist && (
+              <datalist id="data">
+                {Object.entries(this.props.datalist).map(([key, description], index) => (
+                  <option key={index} value={key}>
+                    {description}
+                  </option>
+                ))}
+              </datalist>
+            )}
             <button onClick={this.hideTagInput}>cancel</button>
             <button onClick={this.addTagAndUpdateState}>add</button>
           </div>

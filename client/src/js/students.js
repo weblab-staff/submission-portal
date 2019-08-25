@@ -32,7 +32,7 @@ export const addTag = (students, tag) => {
 };
 
 export const assignTeam = (students) => {
-  //todo modal
+  //call to teams join team
   alert("assign team");
 };
 

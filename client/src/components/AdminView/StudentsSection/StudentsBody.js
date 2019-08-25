@@ -25,6 +25,7 @@ class StudentsBody extends React.Component {
         ) : (
           <TeamList
             teams={this.props.teams}
+            students={this.props.students}
             milestones={this.props.milestones}
             selectedTeams={this.props.selectedTeams}
             selectTeam={this.props.selectTeam}
