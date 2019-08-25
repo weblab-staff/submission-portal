@@ -4,12 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { post, delet } from "../../../../utils";
 import Switch from "./../../Switch";
 import TagList from "./../../Tag";
-import {
-  dropStudents,
-  toggleCredit,
-  addTag,
-  removeTag,
-} from "../../../../js/students";
+import { dropStudents, toggleCredit, addTag, removeTag } from "../../../../js/students";
 class StudentEntry extends React.Component {
   showInfoModal = () => {
     this.props.showInfoModal(this.props.info);
@@ -37,25 +32,16 @@ class StudentEntry extends React.Component {
     return (
       <div className="studentEntry-container">
         <div>
-          <input
-            type="checkbox"
-            checked={selected}
-            onChange={this.toggleSelection}
-          />
+          <input type="checkbox" checked={selected} onChange={this.toggleSelection} />
         </div>
         <div>{info.first_name}</div>
         <div>{info.last_name}</div>
         <div>
-          <a href={`https://github.com/${info.github_username}`}>
-            {info.github_username}
-          </a>
+          <a href={`https://github.com/${info.github_username}`}>{info.github_username}</a>
         </div>
         <div>{info.team ? info.team.team_name : "-"}</div>
         <div>
-          <Switch
-            checked={info.for_credit}
-            onChange={() => toggleCredit([this.props.info])}
-          />
+          <Switch checked={info.for_credit} onChange={() => toggleCredit([this.props.info])} />
         </div>
         <TagList
           tags={info.tags}
@@ -63,10 +49,7 @@ class StudentEntry extends React.Component {
           remove={(tag) => removeTag([this.props.info], tag)}
         />
         <div className="u-flex u-flexJustifyEnd">
-          <div
-            className="u-pointer u-marginRight-lg entry-icon"
-            onClick={this.showInfoModal}
-          >
+          <div className="u-pointer u-marginRight-lg entry-icon" onClick={this.showInfoModal}>
             <FontAwesomeIcon icon={["fas", "info"]} size="sm" />
           </div>
           <div

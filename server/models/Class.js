@@ -5,7 +5,7 @@ const classSchema = new mongoose.Schema({
   admins: [String], // GITHUB IDs
   year: Number,
   is_active: Boolean,
-  registration_open: Boolean
+  registration_open: Boolean,
 });
 
 module.exports = mongoose.model("Class", classSchema);

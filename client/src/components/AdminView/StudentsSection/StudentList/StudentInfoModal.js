@@ -120,10 +120,7 @@ class StudentInfoModal extends React.Component {
           <span>tags</span>
           <div>
             {info.tags.map((tag, index) => (
-              <div
-                key={index}
-                style={{ border: "1px solid black", borderRadius: "3px" }}
-              >
+              <div key={index} style={{ border: "1px solid black", borderRadius: "3px" }}>
                 <span>{tag}</span>
                 <button onClick={() => this.deleteTag(tag)}>X</button>
               </div>

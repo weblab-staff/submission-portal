@@ -11,7 +11,7 @@ class StudentViewBody extends React.Component {
       expanded: false,
       milestones: [],
       loading: true,
-      selectedMilestoneId: -1
+      selectedMilestoneId: -1,
     };
   }
 
@@ -21,20 +21,20 @@ class StudentViewBody extends React.Component {
 
   getMilestones = () => {
     get(`/api/milestones`)
-      .then(milestones => {
+      .then((milestones) => {
         this.setState({
           milestones: milestones,
-          loading: false
+          loading: false,
         });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
-  toggleView = selectedMilestone => {
+  toggleView = (selectedMilestone) => {
     const stateSwitch = () => {
       this.setState({
         expanded: !this.state.expanded,
-        selectedMilestoneId: selectedMilestone
+        selectedMilestoneId: selectedMilestone,
       });
     };
     return stateSwitch;
@@ -53,9 +53,7 @@ class StudentViewBody extends React.Component {
             {expanded ? (
               <StudentViewDetailed
                 submissions={currentTeam ? currentTeam.submissions : []}
-                milestone={milestones.find(
-                  milestone => milestone._id === selectedMilestoneId
-                )}
+                milestone={milestones.find((milestone) => milestone._id === selectedMilestoneId)}
                 toggleView={this.toggleView}
               />
             ) : (

@@ -27,11 +27,11 @@ mongoose
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
-    dbName: env
+    dbName: env,
   })
   .then(
     () => console.log("Connected to MongoDB"),
-    err => console.log("Error connecting to MongoDB: " + err)
+    (err) => console.log("Error connecting to MongoDB: " + err)
   );
 
 periodic.start(); // start periodic tasks (e.g. read spreadsheets)
@@ -40,7 +40,7 @@ app.use(
   session({
     secret: "session-secret",
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
   })
 );
 

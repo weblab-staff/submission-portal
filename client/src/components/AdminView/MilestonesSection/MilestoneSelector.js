@@ -39,9 +39,7 @@ class MilestoneSelector extends React.Component {
               <div style={{ display: "flex" }}>
                 <div>{milestone.title}</div>
               </div>
-              <div>
-                {`${this.countSubmissions(team, milestone._id)} submissions`}
-              </div>
+              <div>{`${this.countSubmissions(team, milestone._id)} submissions`}</div>
             </div>
           ))}
         </div>

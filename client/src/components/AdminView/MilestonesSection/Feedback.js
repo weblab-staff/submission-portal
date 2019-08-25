@@ -35,10 +35,7 @@ class Feedback extends React.Component {
         <div>Feedback</div>
         {submission.feedback &&
           submission.feedback.map((el, index) => (
-            <div
-              key={`feedback-${index}`}
-              style={{ margin: "10px 0", border: "1px solid black" }}
-            >
+            <div key={`feedback-${index}`} style={{ margin: "10px 0", border: "1px solid black" }}>
               <div>{el.from}</div>
               <br />
               <div>{el.body}</div>

@@ -12,15 +12,7 @@ router.post(
   errorWrap(async (req, res) => {
     const user_ids = req.body.students || [];
     const team_ids = req.body.teams || [];
-    res.send(
-      await utils.send_email(
-        user_ids,
-        team_ids,
-        req.body.subject,
-        req.body.body,
-        req.user
-      )
-    );
+    res.send(await utils.send_email(user_ids, team_ids, req.body.subject, req.body.body, req.user));
   })
 );
 

@@ -80,9 +80,7 @@ class TeamEntry extends React.Component {
   };
 
   deleteTeam = () => {
-    if (
-      confirm(`Are you sure you want to delete ${this.props.info.team_name}?`)
-    ) {
+    if (confirm(`Are you sure you want to delete ${this.props.info.team_name}?`)) {
       const { _id } = this.props.info;
       delet(`/api/teams/${_id}`)
         .then((status) => {
@@ -104,11 +102,7 @@ class TeamEntry extends React.Component {
     return (
       <div className="teamEntry-container">
         <div>
-          <input
-            type="checkbox"
-            checked={selected}
-            onChange={this.toggleSelection}
-          />
+          <input type="checkbox" checked={selected} onChange={this.toggleSelection} />
         </div>
         <div>{info.team_name}</div>
         <div>
@@ -118,10 +112,7 @@ class TeamEntry extends React.Component {
         </div>
         <div className="u-flex">
           {info.members.map((member, index) => (
-            <div
-              key={index}
-              style={{ border: "1px solid black", borderRadius: "3px" }}
-            >
+            <div key={index} style={{ border: "1px solid black", borderRadius: "3px" }}>
               <span>{`${member.first_name} ${member.last_name}`}</span>
               <button onClick={() => this.removeMember(member)}>X</button>
             </div>
@@ -137,11 +128,7 @@ class TeamEntry extends React.Component {
           )}
         </div>
         <div>
-          <input
-            type="checkbox"
-            checked={info.competing}
-            onChange={this.toggleCompeting}
-          />
+          <input type="checkbox" checked={info.competing} onChange={this.toggleCompeting} />
         </div>
         <div>
           {milestones.map((milestone, index) => (

@@ -44,10 +44,7 @@ class StudentList extends React.Component {
     return (
       <div>
         {this.state.modalActive && (
-          <StudentInfoModal
-            info={this.state.modalInfo}
-            hideInfoModal={this.hideInfoModal}
-          />
+          <StudentInfoModal info={this.state.modalInfo} hideInfoModal={this.hideInfoModal} />
         )}
         <StudentListHeader
           students={this.props.students}

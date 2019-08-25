@@ -13,9 +13,7 @@ class AdminBody extends React.Component {
   renderContent() {
     switch (this.props.activeTab) {
       case "iteration":
-        return (
-          <ClassIterationsSection setViewedYear={this.props.setViewedYear} />
-        );
+        return <ClassIterationsSection setViewedYear={this.props.setViewedYear} />;
       case "students":
         return (
           <StudentsSection

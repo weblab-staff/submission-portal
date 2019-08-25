@@ -54,5 +54,5 @@ module.exports = {
   loggedIn: _ensureWrap(noop),
   admin: _ensureWrap(admin),
   sameUser: _ensureWrap(sameUser),
-  onTeam: _ensureWrap(onTeam)
+  onTeam: _ensureWrap(onTeam),
 };

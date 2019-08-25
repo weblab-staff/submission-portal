@@ -111,9 +111,10 @@ class SettingsAdmin extends React.Component {
           />
           <datalist id="users">
             {this.state.users.map((user, index) => (
-              <option key={index} value={user.github_username}>{`${
-                user.first_name
-              } ${user.last_name}`}</option>
+              <option
+                key={index}
+                value={user.github_username}
+              >{`${user.first_name} ${user.last_name}`}</option>
             ))}
           </datalist>
           <button onClick={this.addAdmin}>Add</button>
@@ -122,9 +123,7 @@ class SettingsAdmin extends React.Component {
           {admins.map((el, index) => (
             <div key={index}>
               {`${el.first_name} ${el.last_name}`}
-              <button onClick={() => this.deleteAdmin(el.github_username)}>
-                X
-              </button>
+              <button onClick={() => this.deleteAdmin(el.github_username)}>X</button>
             </div>
           ))}
         </div>

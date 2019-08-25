@@ -14,14 +14,14 @@ const milestoneObj = {
   title: "memestone",
   description: "sql is for monkeys",
   handin_link: "http://handin.link",
-  responses_link: "http://responses.link"
+  responses_link: "http://responses.link",
 };
 
 const otherMilestoneObj = {
   title: "worthless milestone",
   description: "sql is for monkeys",
   handin_link: "http://handin.link",
-  responses_link: "http://responses.link"
+  responses_link: "http://responses.link",
 };
 
 describe("Milestone API tests", () => {
@@ -31,7 +31,7 @@ describe("Milestone API tests", () => {
     // Create a mock class
     const testClass = new Class({
       year: 2019,
-      is_active: true
+      is_active: true,
     });
 
     await testClass.save();
@@ -43,13 +43,13 @@ describe("Milestone API tests", () => {
       .expect(200);
   };
 
-  it("should create a new milestone", done => {
+  it("should create a new milestone", (done) => {
     request(app)
       .post(`/api/milestones`)
       .set("Accept", "application/json")
       .send(milestoneObj)
       .expect(200)
-      .then(res => {
+      .then((res) => {
         _id = res.body._id;
         assert(_id);
         for (const key of Object.keys(milestoneObj)) {
@@ -60,7 +60,7 @@ describe("Milestone API tests", () => {
       });
   });
 
-  it("should get all milestones", done => {
+  it("should get all milestones", (done) => {
     request(app)
       .post(`/api/milestones`)
       .set("Accept", "application/json")
@@ -70,47 +70,47 @@ describe("Milestone API tests", () => {
         request(app)
           .get(`/api/milestones`)
           .expect(200)
-          .then(res => {
+          .then((res) => {
             assert.strictEqual(res.body.length, 2);
             done();
           });
       });
   });
 
-  it("should set autograde", done => {
+  it("should set autograde", (done) => {
     request(app)
       .post(`/api/milestones/${_id}/set-autograde`)
       .set("Accept", "application/json")
       .send({ autograde: true })
       .expect(204)
       .then(getMilestone)
-      .then(res => {
+      .then((res) => {
         assert(res.body._id);
         assert(res.body.autograde);
         done();
       });
   });
 
-  it("should update a milestone", done => {
+  it("should update a milestone", (done) => {
     request(app)
       .post(`/api/milestones/${_id}/update`)
       .set("Accept", "application/json")
       .send({ description: "uwu" })
       .expect(204)
       .then(getMilestone)
-      .then(res => {
+      .then((res) => {
         assert(res.body._id);
         assert.strictEqual(res.body.description, "uwu");
         done();
       });
   });
 
-  it("should delete a milestone", done => {
+  it("should delete a milestone", (done) => {
     request(app)
       .delete(`/api/milestones/${_id}`)
       .expect(204)
       .then(getMilestone)
-      .then(res => {
+      .then((res) => {
         assert(!res.body._id);
         done();
       });

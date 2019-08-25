@@ -9,7 +9,7 @@ const milestoneSchema = new mongoose.Schema({
   autograde: Boolean,
   submission_closed: Boolean,
   submission_count: Number,
-  year: Number
+  year: Number,
 });
 
 module.exports = mongoose.model("Milestone", milestoneSchema);

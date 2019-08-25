@@ -5,14 +5,7 @@ import "./AdminSideBar.css";
 
 class AdminTabButton extends React.Component {
   render() {
-    const {
-      activeTab,
-      tabName,
-      tabLabel,
-      icon,
-      onClick,
-      showingMilestones
-    } = this.props;
+    const { activeTab, tabName, tabLabel, icon, onClick, showingMilestones } = this.props;
     const active = !showingMilestones && activeTab === tabName;
 
     return (
@@ -35,9 +28,7 @@ class AdminSideBar extends React.Component {
     const { activeTab, year, setActiveTab, showingMilestones } = this.props;
 
     return (
-      <div
-        className={`u-flex u-flexAlignCenter u-darkGrey adminSidebar-container`}
-      >
+      <div className={`u-flex u-flexAlignCenter u-darkGrey adminSidebar-container`}>
         <AdminTabButton
           activeTab={activeTab}
           tabName="iteration"

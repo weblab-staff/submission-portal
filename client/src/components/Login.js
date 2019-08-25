@@ -9,11 +9,12 @@ class Login extends React.Component {
       <div className="browserContainer u-flex u-flexCenter--browser">
         <div className="u-textCenter">
           <h1 className="u-blue">Enter the Portal</h1>
-          <a className="studentButton" href="/auth/github">login with github</a>
+          <a className="studentButton" href="/auth/github">
+            login with github
+          </a>
         </div>
       </div>
-    )
-    ;
+    );
   }
 }
 

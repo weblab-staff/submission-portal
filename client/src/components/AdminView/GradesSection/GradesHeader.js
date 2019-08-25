@@ -9,7 +9,7 @@ class GradesHeader extends React.Component {
       marginLeft: "20px",
       display: "flex",
       justifyContent: "space-around",
-      alignItems: "center"
+      alignItems: "center",
     };
 
     const options = this.props.milestones.map((el, index) => (
@@ -33,9 +33,7 @@ class GradesHeader extends React.Component {
               <option value="submit">submitted</option>
               <option value="nosubmit">did not submit</option>
             </select>
-            <select onChange={this.props.changeSelectedMilestone}>
-              {options}
-            </select>
+            <select onChange={this.props.changeSelectedMilestone}>{options}</select>
             <span>from range</span>
             <input
               name="rangeMin"
@@ -52,9 +50,7 @@ class GradesHeader extends React.Component {
             />
           </div>
           <div>
-            <SearchBar
-              onChange={event => this.props.getTeams(event.target.value)}
-            />
+            <SearchBar onChange={(event) => this.props.getTeams(event.target.value)} />
           </div>
         </div>
       </div>

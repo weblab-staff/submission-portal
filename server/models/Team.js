@@ -9,15 +9,13 @@ const teamSchema = new mongoose.Schema({
     maxlength: maxTeamLength,
     required: true,
     unique: true,
-    uniqueCaseInsensitive: true
+    uniqueCaseInsensitive: true,
   },
   github_url: String,
   competing: { type: Boolean, required: true },
   members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  submissions: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "MilestoneSubmission" }
-  ],
-  year: Number // year the team was created
+  submissions: [{ type: mongoose.Schema.Types.ObjectId, ref: "MilestoneSubmission" }],
+  year: Number, // year the team was created
 });
 teamSchema.plugin(uniqueValidator);
 module.exports = mongoose.model("Team", teamSchema);

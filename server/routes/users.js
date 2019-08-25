@@ -26,7 +26,7 @@ router.get("/", ensure.admin, async (req, res) => {
         "first_name",
         "last_name",
         "github_username",
-        "tags"
+        "tags",
       ])
     );
   } else {
@@ -49,10 +49,7 @@ router.post(
   errorWrap(async (req, res) => {
     delete req.body.is_admin; //safety check -- ensure this is never updated from API route
     //TODO -- on registration break up user extra info fields into tags. notably class year & living group.
-    const result = await User.findByIdAndUpdate(
-      req.params["user_id"],
-      req.body
-    );
+    const result = await User.findByIdAndUpdate(req.params["user_id"], req.body);
 
     if (!result) return res.sendStatus(404);
     res.sendStatus(204);
@@ -64,7 +61,7 @@ router.post(
   ensure.admin,
   errorWrap(async (req, res) => {
     const result = await User.findByIdAndUpdate(req.params["user_id"], {
-      $addToSet: { tags: req.body.tag }
+      $addToSet: { tags: req.body.tag },
     });
 
     if (!result) return res.sendStatus(404);
@@ -77,7 +74,7 @@ router.delete(
   ensure.admin,
   errorWrap(async (req, res) => {
     const result = await User.findByIdAndUpdate(req.params["user_id"], {
-      $pull: { tags: req.body.tag }
+      $pull: { tags: req.body.tag },
     });
 
     if (!result) return res.sendStatus(404);

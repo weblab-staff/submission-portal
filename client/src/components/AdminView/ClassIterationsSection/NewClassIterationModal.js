@@ -22,8 +22,7 @@ class NewClassIterationModal extends React.Component {
 
   handleInputChange = (event) => {
     const target = event.target;
-    const value =
-      target.type === "number" ? parseInt(target.value) : target.value;
+    const value = target.type === "number" ? parseInt(target.value) : target.value;
     const name = target.name;
 
     this.setState({

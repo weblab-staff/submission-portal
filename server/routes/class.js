@@ -23,13 +23,13 @@ router.post(
   ensure.admin,
   errorWrap(async (req, res) => {
     const indiv_class = await Class.findByIdAndUpdate(req.params["class_id"], {
-      $addToSet: { admins: req.body.admin_github_username }
+      $addToSet: { admins: req.body.admin_github_username },
     });
 
     await User.updateOne(
       {
         year: indiv_class.year,
-        github_username: req.body.admin_github_username
+        github_username: req.body.admin_github_username,
       },
       { is_admin: true }
     );
@@ -44,13 +44,13 @@ router.delete(
   ensure.admin,
   errorWrap(async (req, res) => {
     const indiv_class = await Class.findByIdAndUpdate(req.params["class_id"], {
-      $pull: { admins: req.body.admin_github_username }
+      $pull: { admins: req.body.admin_github_username },
     });
 
     await User.updateOne(
       {
         year: indiv_class.year,
-        github_username: req.body.admin_github_username
+        github_username: req.body.admin_github_username,
       },
       { is_admin: false }
     );
@@ -66,7 +66,7 @@ router.post(
   errorWrap(async (req, res) => {
     await Class.updateMany({ is_active: true }, { is_active: false });
     await Class.findByIdAndUpdate(req.params["class_id"], {
-      is_active: true
+      is_active: true,
     });
 
     res.sendStatus(204);
@@ -79,7 +79,7 @@ router.post(
   ensure.admin,
   errorWrap(async (req, res) => {
     await Class.findByIdAndUpdate(req.params["class_id"], {
-      team_size_cap: req.body.team_size_cap
+      team_size_cap: req.body.team_size_cap,
     });
 
     res.sendStatus(204);
@@ -92,7 +92,7 @@ router.post(
   ensure.admin,
   errorWrap(async (req, res) => {
     await Class.findByIdAndUpdate(req.params["class_id"], {
-      registration_open: req.body.registration_open
+      registration_open: req.body.registration_open,
     });
 
     return res.sendStatus(204);
@@ -114,14 +114,14 @@ router.post(
         year: req.body["year"],
         team_size_cap: req.body["team_size_cap"],
         admins: req.body["admins"],
-        is_active: false
+        is_active: false,
       });
 
       await newClass.save();
       await User.updateMany(
         {
           year: req.body.year,
-          github_username: { $in: req.body.admins }
+          github_username: { $in: req.body.admins },
         },
         { is_admin: true }
       );

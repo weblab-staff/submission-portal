@@ -1,8 +1,8 @@
 import React from "react";
 import Route from "react-router-dom/es/Route";
 import Switch from "react-router-dom/es/Switch";
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 import Root from "./Root";
 import Register from "./Register";
 import TeamView from "./TeamView/TeamView.js";
@@ -16,7 +16,6 @@ import "../css/skeleton.css";
 library.add(fas);
 
 class App extends React.Component {
-  
   render() {
     return (
       <div>
@@ -28,8 +27,7 @@ class App extends React.Component {
           <Route exact path="/join-team" component={JoinTeam} />
         </Switch>
       </div>
-    )
-    ;
+    );
   }
 }
 

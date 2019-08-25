@@ -12,15 +12,15 @@ function formatParams(params) {
 // params is given as a JSON
 export const get = (endpoint, params) => {
   const fullPath = endpoint + (params ? `?${formatParams(params)}` : "");
-  return fetch(fullPath).then(res => res.json());
+  return fetch(fullPath).then((res) => res.json());
 };
 
 export const post = (endpoint, body) => {
   return fetch(endpoint, {
     method: "post",
     headers: { "Content-type": "application/json" },
-    body: JSON.stringify(body)
-  }).then(res => {
+    body: JSON.stringify(body),
+  }).then((res) => {
     if (res.status != 204) {
       return res.json();
     }
@@ -32,8 +32,8 @@ export const delet = (endpoint, params) => {
   return fetch(endpoint, {
     method: "delete",
     headers: { "Content-type": "application/json" },
-    body: JSON.stringify(params)
-  }).then(res => {
+    body: JSON.stringify(params),
+  }).then((res) => {
     if (res.status != 204) {
       return res.json();
     }

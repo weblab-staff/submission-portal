@@ -19,11 +19,7 @@ class TeamListHeader extends React.Component {
     return (
       <div className="teamEntry-header">
         <div className="u-flex">
-          <input
-            type="checkbox"
-            checked={this.areTeamsSelected()}
-            onChange={this.toggleSelect}
-          />
+          <input type="checkbox" checked={this.areTeamsSelected()} onChange={this.toggleSelect} />
         </div>
         <SortableHeader
           label="Team Name"

@@ -40,7 +40,7 @@ router.post(
       autograde: false,
       submission_closed: false,
       submission_count: 0,
-      year: req.year
+      year: req.year,
     });
 
     res.send(await new_milestone.save());
@@ -54,7 +54,7 @@ router.post(
   ensure.admin,
   errorWrap(async (req, res) => {
     await Milestone.findByIdAndUpdate(req.params.milestone_id, {
-      autograde: req.body.autograde // TODO VALIDATION
+      autograde: req.body.autograde, // TODO VALIDATION
     });
 
     res.sendStatus(204);

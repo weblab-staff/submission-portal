@@ -18,11 +18,7 @@ class StudentView extends React.Component {
     const {} = this.state;
     const { currentUser, currentTeam, loading } = this.props;
     if (loading) {
-      return (
-        <div className="browserContainer browserContainer--studentView">
-          LOADING
-        </div>
-      );
+      return <div className="browserContainer browserContainer--studentView">LOADING</div>;
     }
     return (
       <div className="browserContainer browserContainer--studentView">
@@ -32,9 +28,7 @@ class StudentView extends React.Component {
             <li><a href="/auth/logout">Logout</a></li>
           </ul> */}
           <div className="graphicCircle" />
-          <h1>
-            Welcome, {currentUser.first_name + " " + currentUser.last_name}
-          </h1>
+          <h1>Welcome, {currentUser.first_name + " " + currentUser.last_name}</h1>
           <h2>
             {currentTeam !== null ? (
               <React.Fragment>
@@ -44,8 +38,8 @@ class StudentView extends React.Component {
                     pathname: "/team",
                     state: {
                       currentUser,
-                      currentTeam
-                    }
+                      currentTeam,
+                    },
                   }}
                 >
                   {currentTeam.team_name}
@@ -58,8 +52,8 @@ class StudentView extends React.Component {
                   to={{
                     pathname: "/create-team",
                     state: {
-                      currentUser
-                    }
+                      currentUser,
+                    },
                   }}
                 >
                   Create Team
@@ -69,8 +63,8 @@ class StudentView extends React.Component {
                   to={{
                     pathname: "/join-team",
                     state: {
-                      currentUser
-                    }
+                      currentUser,
+                    },
                   }}
                 >
                   Join Team

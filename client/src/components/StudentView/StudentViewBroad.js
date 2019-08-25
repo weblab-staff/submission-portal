@@ -9,20 +9,16 @@ class StudentViewBroad extends React.Component {
     const { toggleView, currentTeam, milestones } = this.props;
     const latestSubmissions = new Map();
     if (currentTeam) {
-      currentTeam.submissions.forEach(submission => {
+      currentTeam.submissions.forEach((submission) => {
         latestSubmissions.set(submission.milestone._id, submission);
       });
     }
     console.log("latest submission map", latestSubmissions);
     return (
       <React.Fragment>
-        {milestones.map(mileObj => {
+        {milestones.map((mileObj) => {
           return (
-            <div
-              key={mileObj._id}
-              className="milestone-Container"
-              onClick={toggleView}
-            >
+            <div key={mileObj._id} className="milestone-Container" onClick={toggleView}>
               <div className="milestone-Indicator" />
               <div className="milestone-Info">
                 <div className="milestone-Name">
@@ -37,8 +33,7 @@ class StudentViewBroad extends React.Component {
                 ) : (
                   <button onClick={toggleView(mileObj._id)}>
                     {latestSubmissions.get(mileObj._id)
-                      ? "last submitted " +
-                        latestSubmissions.get(mileObj._id).timestamp
+                      ? "last submitted " + latestSubmissions.get(mileObj._id).timestamp
                       : "no submissions!"}
                   </button>
                 )}

@@ -40,9 +40,7 @@ class StudentListHeader extends React.Component {
         <SortableHeader
           label="Github"
           items={this.props.students}
-          sortingFn={(a, b) =>
-            a.github_username.localeCompare(b.github_username)
-          }
+          sortingFn={(a, b) => a.github_username.localeCompare(b.github_username)}
           handleSort={this.props.handleSort}
         />
         <SortableHeader

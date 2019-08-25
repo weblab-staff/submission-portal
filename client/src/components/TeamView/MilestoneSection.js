@@ -5,8 +5,8 @@ class MilestoneSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      milestones: []
-    }
+      milestones: [],
+    };
   }
 
   componentDidMount() {
@@ -15,34 +15,30 @@ class MilestoneSection extends React.Component {
 
   getMilestones = () => {
     get(`/api/milestones`)
-      .then(mileObjs => {
+      .then((mileObjs) => {
         this.setState({
           milestones: mileObjs,
-          loading: false
+          loading: false,
         });
       })
-      .catch(err => console.log(err));
-  }
+      .catch((err) => console.log(err));
+  };
 
   render() {
-    const {
-      milestones
-    } = this.state;
+    const { milestones } = this.state;
     return (
       <div>
         MilestoneSection!
-        {milestones.map(mileObj => {
-            return <div
-              key={mileObj._id}
-              >
+        {milestones.map((mileObj) => {
+          return (
+            <div key={mileObj._id}>
               {mileObj.title}
               <div>due: {mileObj.deadline}</div>
             </div>
-          })
-        }
+          );
+        })}
       </div>
-    )
-    ;
+    );
   }
 }
 

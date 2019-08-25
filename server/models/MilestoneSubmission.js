@@ -7,11 +7,8 @@ const milestoneSubmissionSchema = new mongoose.Schema({
   timestamp: Date,
   form_response: mongoose.Schema.Types.Mixed,
   feedback: [{ type: mongoose.Schema.Types.ObjectId, ref: "Email" }],
-  key: { type: mongoose.Schema.Types.String, unique: true }
+  key: { type: mongoose.Schema.Types.String, unique: true },
 });
 
 milestoneSubmissionSchema.plugin(uniqueValidator);
-module.exports = mongoose.model(
-  "MilestoneSubmission",
-  milestoneSubmissionSchema
-);
+module.exports = mongoose.model("MilestoneSubmission", milestoneSubmissionSchema);

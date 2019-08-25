@@ -17,13 +17,8 @@ class StudentsHeader extends React.Component {
           <div className="massAction-container">
             {/* Make the below a FE filter, not a requery. */}
             <div className="u-flex">
-              <SearchBar
-                onChange={event => this.props.setFilter(event.target.value)}
-              />
-              <ActionButton
-                selectedStudents={selectedStudents}
-                selectedTeams={selectedTeams}
-              />
+              <SearchBar onChange={(event) => this.props.setFilter(event.target.value)} />
+              <ActionButton selectedStudents={selectedStudents} selectedTeams={selectedTeams} />
             </div>
             <div>{this.renderSelected()}</div>
           </div>
@@ -51,9 +46,7 @@ class StudentsHeader extends React.Component {
           {this.props.selectedStudents.map((student, index) => (
             <div key={`selected-${index}`}>
               <span>{student.first_name}</span>
-              <button onClick={() => this.props.deselectStudent(student)}>
-                X
-              </button>
+              <button onClick={() => this.props.deselectStudent(student)}>X</button>
             </div>
           ))}
         </div>

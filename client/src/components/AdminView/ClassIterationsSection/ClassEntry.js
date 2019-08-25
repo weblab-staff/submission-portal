@@ -15,15 +15,8 @@ class ClassEntry extends React.Component {
     return (
       <div style={{ display: "flex", justifyContent: "space-around" }}>
         <div>{`${year} Class`}</div>
-        {active ? (
-          <span>ACTIVE!</span>
-        ) : (
-          <button onClick={this.makeYearActive}>make active</button>
-        )}
-        <div
-          style={{ color: "blue", cursor: "pointer" }}
-          onClick={this.setViewedYear}
-        >
+        {active ? <span>ACTIVE!</span> : <button onClick={this.makeYearActive}>make active</button>}
+        <div style={{ color: "blue", cursor: "pointer" }} onClick={this.setViewedYear}>
           View
         </div>
       </div>

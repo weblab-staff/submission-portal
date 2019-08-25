@@ -12,7 +12,7 @@ class Root extends React.Component {
     this.state = {
       loading: true,
       currentUser: null,
-      currentTeam: null
+      currentTeam: null,
     };
   }
 
@@ -23,7 +23,7 @@ class Root extends React.Component {
   // clean l8er
   getUser = () => {
     get("/api/whoami")
-      .then(userObj => {
+      .then((userObj) => {
         if (userObj._id) {
           console.log("hello user:", userObj);
           this.setStateLoggedIn(userObj);
@@ -32,30 +32,30 @@ class Root extends React.Component {
           this.setStateNotLoggedIn();
         }
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
-  setStateUserWithTeam = userObj => {
+  setStateUserWithTeam = (userObj) => {
     const team_id = userObj.team;
     get(`/api/teams/${team_id}`)
-      .then(teamObj => {
+      .then((teamObj) => {
         this.setState({
           currentTeam: teamObj,
           currentUser: userObj,
-          loading: false
+          loading: false,
         });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   setStateNotLoggedIn = () => {
     this.setState({
       currentUser: null,
-      loading: false
+      loading: false,
     });
   };
 
-  setStateLoggedIn = userObj => {
+  setStateLoggedIn = (userObj) => {
     if (userObj.team) {
       this.setStateUserWithTeam(userObj);
     } else {
@@ -63,10 +63,10 @@ class Root extends React.Component {
     }
   };
 
-  setStateUserWithoutTeam = userObj => {
+  setStateUserWithoutTeam = (userObj) => {
     this.setState({
       currentUser: userObj,
-      loading: false
+      loading: false,
     });
   };
 
@@ -96,11 +96,7 @@ class Root extends React.Component {
         {currentUser.is_admin ? (
           <AdminView />
         ) : isRegistered(currentUser) ? (
-          <StudentView
-            currentUser={currentUser}
-            currentTeam={currentTeam}
-            loading={loading}
-          />
+          <StudentView currentUser={currentUser} currentTeam={currentTeam} loading={loading} />
         ) : (
           <Redirect to="/register" />
         )}

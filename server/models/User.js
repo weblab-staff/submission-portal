@@ -6,29 +6,29 @@ const userSchema = new mongoose.Schema({
   first_name: {
     type: String,
     minlength: 1,
-    maxlength: maxFieldLength
+    maxlength: maxFieldLength,
   },
   last_name: {
     type: String,
     minlength: 1,
-    maxlength: maxFieldLength
+    maxlength: maxFieldLength,
   },
   email: {
     type: String,
     minlength: 1,
-    maxlength: maxFieldLength
+    maxlength: maxFieldLength,
   },
   for_credit: { type: Boolean },
   statistics: {
     gender: String,
     class_year: Number,
     experience: Number,
-    living_group: String
+    living_group: String,
   },
   is_admin: Boolean,
   tags: [String],
   team: { type: mongoose.Schema.Types.ObjectId, ref: "Team" },
-  year: Number //year the student registered under
+  year: Number, //year the student registered under
 });
 userSchema.plugin(uniqueValidator);
 module.exports = mongoose.model("User", userSchema);

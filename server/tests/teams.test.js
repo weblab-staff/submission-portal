@@ -14,7 +14,7 @@ const members = [];
 const teamObj = {
   team_name: "meme team",
   is_competing: true,
-  year: 2019
+  year: 2019,
 };
 
 describe("Team API tests", () => {
@@ -24,7 +24,7 @@ describe("Team API tests", () => {
     // Create a mock class
     const testClass = new Class({
       year: 2019,
-      is_active: true
+      is_active: true,
     });
 
     await testClass.save();
@@ -34,21 +34,21 @@ describe("Team API tests", () => {
       github_username: "cory2067",
       first_name: "Cory",
       last_name: "Lynch",
-      year: 2019
+      year: 2019,
     });
 
     const user2 = await new User({
       github_username: "jynnie",
       first_name: "Jessica",
       last_name: "Tang",
-      year: 2019
+      year: 2019,
     }).save();
 
     const user3 = await new User({
       github_username: "aspiser",
       first_name: "Aaron",
       last_name: "Sipser",
-      year: 2019
+      year: 2019,
     }).save();
 
     members.push(user1);
@@ -62,13 +62,19 @@ describe("Team API tests", () => {
       .expect(200);
   };
 
-  it("should create a new team", done => {
+  const getFromMap = (map) => {
+    for (const item of Object.values(map)) {
+      return item;
+    }
+  };
+
+  it("should create a new team", (done) => {
     request(app)
       .post(`/api/teams`)
       .set("Accept", "application/json")
       .send(teamObj)
       .expect(200)
-      .then(res => {
+      .then((res) => {
         _id = res.body._id;
         assert(_id);
         assert.strictEqual(res.body.team_name, teamObj.team_name);
@@ -78,8 +84,8 @@ describe("Team API tests", () => {
       });
   });
 
-  it("should get a team", done => {
-    getTeam().then(res => {
+  it("should get a team", (done) => {
+    getTeam().then((res) => {
       assert.strictEqual(res.body.team_name, teamObj.team_name);
       assert.strictEqual(res.body.members.length, 1);
       assert.strictEqual(res.body.members[0]._id, members[0]._id.toString());
@@ -87,22 +93,22 @@ describe("Team API tests", () => {
     });
   });
 
-  it("should get all teams", done => {
+  it("should get all teams", (done) => {
     // add a second team
     new Team({
       team_name: "bad team",
       competing: false,
       year: 2019,
-      members: [members[2]]
+      members: [members[2]],
     })
       .save()
       .then(() => {
         return request(app)
           .get(`/api/teams`)
           .expect(200)
-          .then(res => {
+          .then((res) => {
             assert.strictEqual(res.body.length, 2);
-            const teams = res.body.map(t => t.team_name);
+            const teams = res.body.map((t) => t.team_name);
             assert(teams[0] === "meme team" || teams[0] === "bad team");
             assert(teams[1] === "meme team" || teams[1] === "bad team");
             assert.notStrictEqual(teams[0], teams[1]);
@@ -111,57 +117,55 @@ describe("Team API tests", () => {
       });
   });
 
-  it("should add a new team member", done => {
+  it("should add a new team member", (done) => {
     request(app)
       .post(`/api/teams/${_id}`)
       .set("Accept", "application/json")
       .send({ user_id: members[1]._id.toString() })
       .expect(204)
       .then(getTeam)
-      .then(res => {
+      .then((res) => {
         assert.strictEqual(res.body.members.length, 2);
-        assert.strictEqual(
-          res.body.members[1].github_username,
-          members[1].github_username
-        );
+        assert.strictEqual(res.body.members[1].github_username, members[1].github_username);
         done();
       });
   });
 
-  it("should mark milestone complete", done => {
+  it("should mark milestone complete", (done) => {
     new Milestone({
       title: "stone",
-      year: 2019
+      year: 2019,
     })
       .save()
-      .then(milestone => {
+      .then((milestone) => {
         request(app)
           .post(`/api/teams/${_id}/mark-complete`)
           .set("Accept", "application/json")
           .send({
-            milestone_id: milestone._id
+            milestone_id: milestone._id,
           })
           .expect(204)
-          .then(() => getTeam())
-          .then(res => {
-            assert.strictEqual(res.body.submissions.length, 1);
-            assert.strictEqual(
-              res.body.submissions[0].milestone.title,
-              "stone"
-            );
+          .then(getTeam)
+          .then((res) => {
+            const submissionsMap = res.body.submissions;
+            assert.strictEqual(submissionsMap[milestone._id].length, 1);
+            assert.strictEqual(submissionsMap[milestone._id][0].milestone.title, "stone");
             done();
           });
       });
   });
 
-  it("should get all teams and populate", done => {
+  it("should get all teams and populate", (done) => {
     // add a second team
     request(app)
       .get(`/api/teams?populate=true`)
       .expect(200)
-      .then(res => {
+      .then((res) => {
         assert.strictEqual(res.body.length, 2);
-        const sub = res.body[0].submissions[0];
+        const submissionsMap = res.body[0].submissions;
+        // Since changing from list to map, it's not easy to get the submission...
+        // TODO(mattf/cor): figure out more robust way to get this
+        const sub = getFromMap(submissionsMap)[0];
         assert.strictEqual("stone", sub.milestone.title);
         assert(sub.timestamp);
         assert(!sub.form_response);
@@ -169,14 +173,16 @@ describe("Team API tests", () => {
       });
   });
 
-  it("should get all teams and populate with content", done => {
+  it("should get all teams and populate with content", (done) => {
     // add a second team
     request(app)
       .get(`/api/teams?populate=true&include_content=true`)
       .expect(200)
-      .then(res => {
+      .then((res) => {
         assert.strictEqual(res.body.length, 2);
-        const sub = res.body[0].submissions[0];
+        const submissionsMap = res.body[0].submissions;
+        // Since changing from list to map, it's not easy to get the submission...
+        const sub = getFromMap(submissionsMap)[0];
         assert.strictEqual("stone", sub.milestone.title);
         assert(sub.timestamp);
         assert(sub.form_response);
@@ -184,49 +190,46 @@ describe("Team API tests", () => {
       });
   });
 
-  it("should set competing", done => {
+  it("should set competing", (done) => {
     request(app)
       .post(`/api/teams/${_id}/set-competing`)
       .set("Accept", "application/json")
       .send({ competing: false })
       .expect(204)
       .then(getTeam)
-      .then(res => {
+      .then((res) => {
         assert(!res.body.competing);
         done();
       });
   });
 
-  it("should remove a member", done => {
+  it("should remove a member", (done) => {
     request(app)
       .delete(`/api/teams/${_id}/remove-member`)
       .send({ user_id: members[1]._id })
       .expect(204)
       .then(getTeam)
-      .then(res => {
+      .then((res) => {
         assert.strictEqual(res.body.members.length, 1);
-        assert.strictEqual(
-          res.body.members[0].github_username,
-          members[0].github_username
-        );
+        assert.strictEqual(res.body.members[0].github_username, members[0].github_username);
         return User.findById(members[1]._id);
       })
-      .then(user => {
+      .then((user) => {
         assert(!user.team);
         done();
       });
   });
 
-  it("should delete a team", done => {
+  it("should delete a team", (done) => {
     request(app)
       .delete(`/api/teams/${_id}`)
       .expect(204)
       .then(getTeam)
-      .then(res => {
+      .then((res) => {
         assert(!res._id);
         return User.findById(members[0]._id);
       })
-      .then(user => {
+      .then((user) => {
         assert(!user.team);
         done();
       });

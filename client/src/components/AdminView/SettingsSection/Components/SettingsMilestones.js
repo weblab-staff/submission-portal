@@ -70,11 +70,7 @@ class MilestoneRow extends React.Component {
           <div>{info.title}</div>
         </div>
         <div style={{ display: "flex", width: "20vw" }}>
-          <input
-            type="text"
-            onChange={this.changeHandinLink}
-            value={info.handin_link}
-          />
+          <input type="text" onChange={this.changeHandinLink} value={info.handin_link} />
         </div>
         <div style={{ display: "flex", width: "10vw" }}>
           <input
@@ -91,11 +87,7 @@ class MilestoneRow extends React.Component {
           />
         </div>
         <div style={{ display: "flex", width: "10vw" }}>
-          <input
-            type="checkbox"
-            onChange={this.changeAutogradeStatus}
-            checked={info.autograde}
-          />
+          <input type="checkbox" onChange={this.changeAutogradeStatus} checked={info.autograde} />
         </div>
       </div>
     );
@@ -189,18 +181,11 @@ class SettingsMilestones extends React.Component {
               <div>Auto-grade</div>
             </div>
             <div style={{ display: "flex", width: "10vw" }}>
-              <button onClick={this.openNewMilestoneModal}>
-                NEW MILESTONE
-              </button>
+              <button onClick={this.openNewMilestoneModal}>NEW MILESTONE</button>
             </div>
           </div>
           {milestones.map((el, index) => (
-            <MilestoneRow
-              key={index}
-              refresh={this.getMilestones}
-              index={index}
-              info={el}
-            />
+            <MilestoneRow key={index} refresh={this.getMilestones} index={index} info={el} />
           ))}
         </div>
       </div>

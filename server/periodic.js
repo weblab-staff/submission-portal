@@ -19,11 +19,9 @@ async function checkSubmissions() {
   const milestones = await Milestone.find({ year }); // TODO: get actual active year
 
   milestones
-    .filter(milestone => milestone.autograde)
-    .forEach(async milestone => {
-      const responsesId = milestone.responses_link
-        .split("spreadsheets/d/")[1]
-        .split("/")[0];
+    .filter((milestone) => milestone.autograde)
+    .forEach(async (milestone) => {
+      const responsesId = milestone.responses_link.split("spreadsheets/d/")[1].split("/")[0];
 
       const sheet = await connectToSheet(responsesId);
       const rows = await getRows(sheet, milestone.submission_count + 1);
@@ -43,7 +41,7 @@ async function checkSubmissions() {
           milestone: milestone._id,
           form_response: row,
           feedback: [],
-          key: `${milestone._id}:${rowIndex}` // assert unique, to prevent duplicate submissions
+          key: `${milestone._id}:${rowIndex}`, // assert unique, to prevent duplicate submissions
         });
 
         // update submission and team atomically (prevents weird state in case of failure)
@@ -51,10 +49,7 @@ async function checkSubmissions() {
         try {
           await session.withTransaction(async () => {
             await submission.save({ session });
-            await team.updateOne(
-              { $push: { submissions: submission } },
-              { session }
-            );
+            await team.updateOne({ $push: { submissions: submission } }, { session });
           });
         } catch (e) {
           if (e.name === "ValidationError") {
@@ -95,11 +90,11 @@ function getRows(sheet, offset = 0) {
       if (err) return reject(err);
 
       resolve(
-        rows.map(row => {
+        rows.map((row) => {
           const output = {};
           Object.keys(row)
-            .filter(key => !key.startsWith("_") && !exclude.includes(key))
-            .forEach(key => (output[sanitizeKey(key)] = row[key]));
+            .filter((key) => !key.startsWith("_") && !exclude.includes(key))
+            .forEach((key) => (output[sanitizeKey(key)] = row[key]));
           return output;
         })
       );

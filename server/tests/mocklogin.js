@@ -13,5 +13,5 @@ function getUser() {
 
 module.exports = {
   login,
-  getUser
+  getUser,
 };

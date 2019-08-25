@@ -11,7 +11,7 @@ class ClassList extends React.Component {
     this.state = {
       loading: true,
       years: null,
-      modalActive: false
+      modalActive: false,
     };
   }
 
@@ -21,41 +21,41 @@ class ClassList extends React.Component {
 
   getYears = () => {
     get("/api/class", { complete: true })
-      .then(data => {
+      .then((data) => {
         data.sort((a, b) => b.year - a.year); // possible error point xd
         this.setState({
           loading: false,
-          years: data
+          years: data,
         });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
-  makeYearActive = id => {
+  makeYearActive = (id) => {
     post(`/api/class/${id}/set-active-year`)
-      .then(status => {
+      .then((status) => {
         if (status === 204) {
           this.getYears();
         }
         return "You fuked up.";
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   openNewIterationModal = () => {
     this.setState({ modalActive: true });
   };
 
-  confirmNewIteration = body => {
+  confirmNewIteration = (body) => {
     console.log("Making new iteration!");
     post("/api/class", body)
-      .then(status => {
+      .then((status) => {
         if (status === 204) {
           this.getYears();
         }
         return "You fucked up";
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
     this.setState({ modalActive: false });
   };
 

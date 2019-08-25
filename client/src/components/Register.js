@@ -92,10 +92,7 @@ class Register extends React.Component {
       return;
     }
     const bbox = this.sliderRef.current.getBoundingClientRect();
-    this.sliderRef.current.style.setProperty(
-      "--tick-distance",
-      `${(bbox.width - 20) / 4}px`
-    );
+    this.sliderRef.current.style.setProperty("--tick-distance", `${(bbox.width - 20) / 4}px`);
   };
 
   render() {
@@ -120,9 +117,7 @@ class Register extends React.Component {
             }
             if (!values.email) {
               errors.email = "Required";
-            } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.edu$/i.test(values.email)
-            ) {
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.edu$/i.test(values.email)) {
               errors.email = "Invalid university email address";
             }
             return errors;
@@ -176,9 +171,7 @@ class Register extends React.Component {
                 </div>
               </div>
               <div className="u-marginBottom-md">
-                <div className="u-formLabel u-marginBottom-sm">
-                  university email address
-                </div>
+                <div className="u-formLabel u-marginBottom-sm">university email address</div>
                 <div>
                   <Field className="formInput" type="email" name="email" />
                   <ErrorMessage name="email" component="div" />
@@ -189,11 +182,7 @@ class Register extends React.Component {
                   Are you taking this class for credit?
                 </div>
                 <div className="formInput-select--arrow">
-                  <Field
-                    className="formInput-select"
-                    component="select"
-                    name="forCredit"
-                  >
+                  <Field className="formInput-select" component="select" name="forCredit">
                     <option value="true">Yes</option>
                     <option value="false">No</option>
                   </Field>
@@ -202,11 +191,7 @@ class Register extends React.Component {
               <div className="u-marginBottom-md u-positionRelative">
                 <div className="u-formLabel u-marginBottom-sm">gender</div>
                 <div className="formInput-select--arrow">
-                  <Field
-                    className="formInput-select"
-                    component="select"
-                    name="gender"
-                  >
+                  <Field className="formInput-select" component="select" name="gender">
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
@@ -214,17 +199,13 @@ class Register extends React.Component {
                 </div>
               </div>
               <div className="u-marginBottom-md">
-                <div className="u-formLabel u-marginBottom-sm">
-                  living group
-                </div>
+                <div className="u-formLabel u-marginBottom-sm">living group</div>
                 <div>
                   <Field className="formInput" name="livingGroup" />
                 </div>
               </div>
               <div className="u-marginBottom-md u-positionRelative">
-                <div className="u-formLabel u-marginBottom-sm">
-                  prior experience
-                </div>
+                <div className="u-formLabel u-marginBottom-sm">prior experience</div>
                 <div className="formInput-rangeContainer" ref={this.sliderRef}>
                   <input
                     type="range"
@@ -251,11 +232,7 @@ class Register extends React.Component {
                   <Field type="radio" name="experience" value="4" />
                 </div>
               </div> */}
-              <button
-                className="studentButton"
-                type="submit"
-                disabled={isSubmitting}
-              >
+              <button className="studentButton" type="submit" disabled={isSubmitting}>
                 register
               </button>
             </Form>

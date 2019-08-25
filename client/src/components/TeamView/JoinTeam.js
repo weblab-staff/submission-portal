@@ -5,43 +5,36 @@ class JoinTeam extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      teamName: '',
-      msg: ''
-    }
+      teamName: "",
+      msg: "",
+    };
   }
 
-  handleSubmit= (event) => {
-    const {
-      teamName,
-    } = this.state;
+  handleSubmit = (event) => {
+    const { teamName } = this.state;
     event.preventDefault();
     // TODO route to join team
     post(`/api/teams/${currentUser._id}/join`, {
-      team_name: teamName
-      }
-    )
-    .then(response => {
-      console.log(response);
-      this.setState({
-        msg: response
-      })
-
+      team_name: teamName,
     })
-    .catch(err => console.log(err));
-    
-  }
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          msg: response,
+        });
+      })
+      .catch((err) => console.log(err));
+  };
 
-  handleChange = event => {
+  handleChange = (event) => {
     const inputNode = event.target;
     this.setState({
-      [inputNode.name]: inputNode.value
+      [inputNode.name]: inputNode.value,
     });
-  }
+  };
 
   render() {
-  	const {
-  		teamName
-  	} = this.state;
+    const { teamName } = this.state;
     return (
       <div>
         <h1>Join Team</h1>
@@ -51,11 +44,10 @@ class JoinTeam extends React.Component {
             Team Name:
             <input type="text" name="teamName" value={teamName} onChange={this.handleChange} />
           </label>
-          <input type="submit" value="Submit" onClick={this.handleSubmit}/>
+          <input type="submit" value="Submit" onClick={this.handleSubmit} />
         </form>
       </div>
-    )
-    ;
+    );
   }
 }
 

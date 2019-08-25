@@ -8,19 +8,18 @@ class NewClassMilestoneModal extends React.Component {
       description: null,
       deadline: null,
       handin_link: null,
-      responses_link: null
+      responses_link: null,
     };
   }
 
-  handleInputChange = event => {
+  handleInputChange = (event) => {
     const target = event.target;
     // Sometimes gets the wrong date but i have no idea why
-    const value =
-      target.type === "date" ? new Date(target.value) : target.value;
+    const value = target.type === "date" ? new Date(target.value) : target.value;
     const name = target.name;
 
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -41,7 +40,7 @@ class NewClassMilestoneModal extends React.Component {
       top: "10vh",
       width: "300px",
       height: "300px",
-      zIndex: "2"
+      zIndex: "2",
     };
 
     return (
@@ -57,27 +56,15 @@ class NewClassMilestoneModal extends React.Component {
         </div>
         <div>
           <span>Deadline:</span>
-          <input
-            name="deadline"
-            type="date"
-            onChange={this.handleInputChange}
-          />
+          <input name="deadline" type="date" onChange={this.handleInputChange} />
         </div>
         <div>
           <span>Hand in link:</span>
-          <input
-            name="handin_link"
-            type="text"
-            onChange={this.handleInputChange}
-          />
+          <input name="handin_link" type="text" onChange={this.handleInputChange} />
         </div>
         <div>
           <span>Response link:</span>
-          <input
-            name="responses_link"
-            type="text"
-            onChange={this.handleInputChange}
-          />
+          <input name="responses_link" type="text" onChange={this.handleInputChange} />
         </div>
         <button onClick={this.confirmNewMilestone}>confirm</button>
         <button onClick={this.cancelNewMilestone}>cancel</button>

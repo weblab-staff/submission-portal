@@ -13,12 +13,12 @@ class GradeableEntry extends React.Component {
       boxShadow: "2px 1px 1px",
       margin: "20px 20px",
       width: "250px",
-      padding: "20px"
+      padding: "20px",
     };
 
     const iconStyle = {
       margin: "0 10px",
-      cursor: "pointer"
+      cursor: "pointer",
     };
 
     return (
@@ -26,10 +26,7 @@ class GradeableEntry extends React.Component {
         <span>
           {team.team_name} #{num}
         </span>
-        <div
-          style={iconStyle}
-          onClick={() => this.props.showMilestonesSection(team._id)}
-        >
+        <div style={iconStyle} onClick={() => this.props.showMilestonesSection(team._id)}>
           View Submissions
         </div>
         <div>

@@ -30,9 +30,7 @@ class SettingsRegistration extends React.Component {
         <div>Registration</div>
         <div style={{ display: "flex" }}>
           <div>{regOpen ? "Open" : "Closed"}</div>
-          <button onClick={this.toggleRegistration}>
-            Turn {regOpen ? "off" : "on"}
-          </button>
+          <button onClick={this.toggleRegistration}>Turn {regOpen ? "off" : "on"}</button>
         </div>
       </div>
     );

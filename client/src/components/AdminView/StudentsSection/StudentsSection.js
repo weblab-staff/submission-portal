@@ -78,9 +78,7 @@ class StudentsSection extends React.Component {
 
   deselectStudent = (student) => {
     this.setState({
-      selectedStudents: this.state.selectedStudents.filter(
-        (el) => el._id !== student._id,
-      ),
+      selectedStudents: this.state.selectedStudents.filter((el) => el._id !== student._id),
     });
   };
 
@@ -92,9 +90,7 @@ class StudentsSection extends React.Component {
 
   deselectTeam = (team) => {
     this.setState({
-      selectedTeams: this.state.selectedTeams.filter(
-        (el) => el._id !== team._id,
-      ),
+      selectedTeams: this.state.selectedTeams.filter((el) => el._id !== team._id),
     });
   };
 
@@ -138,8 +134,7 @@ class StudentsSection extends React.Component {
     if (category === ListOptions.INDIVIDUAL) {
       return list.filter(
         (el) =>
-          el.first_name.toLowerCase().includes(term) ||
-          el.last_name.toLowerCase().includes(term),
+          el.first_name.toLowerCase().includes(term) || el.last_name.toLowerCase().includes(term)
       );
     } else {
       return list.filter((el) => el.team_name.toLowerCase().includes(term));
@@ -182,16 +177,8 @@ class StudentsSection extends React.Component {
         <StudentsBody
           loading={this.state.loading}
           activeList={this.state.activeList}
-          students={this.withFilter(
-            ListOptions.INDIVIDUAL,
-            this.state.students,
-            this.state.filter,
-          )}
-          teams={this.withFilter(
-            ListOptions.TEAM,
-            this.state.teams,
-            this.state.filter,
-          )}
+          students={this.withFilter(ListOptions.INDIVIDUAL, this.state.students, this.state.filter)}
+          teams={this.withFilter(ListOptions.TEAM, this.state.teams, this.state.filter)}
           milestones={this.state.milestones}
           selectedStudents={this.state.selectedStudents}
           selectedTeams={this.state.selectedTeams}

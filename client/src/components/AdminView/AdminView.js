@@ -8,15 +8,15 @@ class AdminView extends React.Component {
     this.state = {
       activeTab: "iteration",
       viewedYear: 2019,
-      showingMilestones: false
+      showingMilestones: false,
     };
   }
 
-  setActiveTab = tab => {
+  setActiveTab = (tab) => {
     this.setState({ activeTab: tab, showingMilestones: false });
   };
 
-  setViewedYear = year => {
+  setViewedYear = (year) => {
     this.setState({ viewedYear: year });
   };
 

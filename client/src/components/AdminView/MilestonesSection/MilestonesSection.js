@@ -19,10 +19,7 @@ class MilestonesSection extends React.Component {
   }
 
   loadData = () => {
-    Promise.all([
-      get(`/api/teams/${this.props.teamId}`),
-      get("/api/milestones/"),
-    ])
+    Promise.all([get(`/api/teams/${this.props.teamId}`), get("/api/milestones/")])
       .then((data) => {
         console.log(data);
         this.setState({
@@ -56,10 +53,7 @@ class MilestonesSection extends React.Component {
           team={this.state.team}
           milestones={this.state.milestones}
         />
-        <MilestoneDetails
-          team={this.state.team}
-          milestone={this.state.selectedMilestone}
-        />
+        <MilestoneDetails team={this.state.team} milestone={this.state.selectedMilestone} />
       </div>
     );
   }
