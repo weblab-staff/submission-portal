@@ -56,7 +56,7 @@ class StudentListHeader extends React.Component {
           handleSort={this.props.handleSort}
         />
         <SortableHeader
-          label="For Credit?"
+          label="Credit"
           items={this.props.students}
           sortingFn={(a, b) => a.for_credit - b.for_credit}
           handleSort={this.props.handleSort}

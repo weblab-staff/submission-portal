@@ -2,18 +2,19 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { post, delet } from "../../../../utils";
+import Switch from "./../../Switch";
 import {
   dropStudents,
   removeTag,
   addTag,
-  toggleCredit
+  toggleCredit,
 } from "../../../../js/students";
 class StudentEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       addingTag: false,
-      tag: ""
+      tag: "",
     };
   }
 
@@ -34,13 +35,13 @@ class StudentEntry extends React.Component {
     const value = target.value;
 
     this.setState({
-      tag: value
+      tag: value,
     });
   };
 
   showTagInput = () => {
     this.setState({
-      addingTag: true
+      addingTag: true,
     });
   };
 
@@ -52,7 +53,7 @@ class StudentEntry extends React.Component {
   hideTagInput = () => {
     this.setState({
       addingTag: false,
-      tag: ""
+      tag: "",
     });
   };
 
@@ -66,20 +67,6 @@ class StudentEntry extends React.Component {
 
   render() {
     const { info, selected } = this.props;
-
-    const styles = {
-      display: "flex",
-      alignItems: "center",
-      margin: "3px 40px",
-      padding: "5px",
-      border: "1px solid gray",
-      borderRadius: "2px"
-    };
-
-    const iconStyle = {
-      margin: "0 10px",
-      cursor: "pointer"
-    };
 
     return (
       <div className={`studentEntry-container`}>
@@ -99,21 +86,20 @@ class StudentEntry extends React.Component {
         </div>
         <div>{info.team ? info.team.team_name : "undefined"}</div>
         <div>
-          <input
-            type="checkbox"
+          <Switch
             checked={info.for_credit}
             onChange={() => toggleCredit([this.props.info])}
           />
         </div>
-        <div style={{ display: "flex" }}>
+        <div className="u-flex">
           {info.tags.map((tag, index) => (
-            <div
-              key={index}
-              style={{ border: "1px solid black", borderRadius: "3px" }}
-            >
-              <span>{tag}</span>
-              <button onClick={() => removeTag([this.props.info], tag)}>
-                X
+            <div key={index} className="u-flex u-marginRight-sm">
+              <div className="studentEntry-tag">{tag}</div>
+              <button
+                className="studentEntry-tagDelete u-pointer"
+                onClick={() => removeTag([this.props.info], tag)}
+              >
+                <FontAwesomeIcon icon={["fas", "times"]} size="sm" />
               </button>
             </div>
           ))}
@@ -128,14 +114,20 @@ class StudentEntry extends React.Component {
           )}
         </div>
         <div className="u-flex u-flexJustifyEnd">
-          <div style={iconStyle} onClick={this.showInfoModal}>
+          <div
+            className="u-pointer u-marginRight-lg studentEntry-icon"
+            onClick={this.showInfoModal}
+          >
             <FontAwesomeIcon icon={["fas", "info"]} size="sm" />
           </div>
-          <div style={iconStyle} onClick={() => this.showMilestonesSection()}>
+          <div
+            className="u-pointer u-marginRight-lg studentEntry-icon"
+            onClick={() => this.showMilestonesSection()}
+          >
             <FontAwesomeIcon icon={["fas", "file-alt"]} size="sm" />
           </div>
           <div
-            style={iconStyle}
+            className="u-pointer u-marginRight-lg studentEntry-icon"
             onClick={() => dropStudents([this.props.info])}
           >
             <FontAwesomeIcon icon={["fas", "trash"]} size="sm" />

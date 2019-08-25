@@ -65,3 +65,30 @@
   display: flex;
   align-items: center;
 }
+
+.studentEntry-container a {
+  color: var(--a-blue-text);
+}
+
+.studentEntry-icon {
+  color: var(--a-grey-text);
+}
+
+.studentEntry-icon:hover {
+  color: var(--a-blue);
+}
+
+.studentEntry-tag {
+  font-size: 0.69em;
+  text-transform: uppercase;
+  border: 1px solid var(--a-black);
+  border-radius: var(--radius-xs) 0 0 var(--radius-xs);
+  padding: var(--px-sm) var(--px-md) calc(var(--px-sm) - 1px);
+}
+
+.studentEntry-tagDelete {
+  color: var(--a-greyblue);
+  background-color: var(--a-black);
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  padding: 0 6px;
+}

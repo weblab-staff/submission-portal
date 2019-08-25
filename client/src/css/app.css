@@ -19,7 +19,12 @@
   --grey-focus: #bad2e8;
   --dark-grey: #707070;
 
+  --radius-xs: 3px;
   --radius-sm: 4px;
+
+  --px-sm: 4px;
+  --px-md: 10px;
+  --px-lg: 16px;
 
   --milestone-gap: 18px;
   --top-border: 40px;
@@ -115,20 +120,28 @@ button {
   color: var(--dark-grey);
 }
 
+.u-marginRight-sm {
+  margin-right: var(--px-sm);
+}
+
+.u-marginRight-lg {
+  margin-right: var(--px-lg);
+}
+
 .u-marginTop-sm {
-  margin-top: 4px;
+  margin-top: var(--px-sm);
 }
 
 .u-marginBottom-sm {
-  margin-bottom: 4px;
+  margin-bottom: var(--px-sm);
 }
 
 .u-marginLeft-md {
-  margin-left: 8px;
+  margin-left: var(--px-md);
 }
 
 .u-marginBottom-md {
-  margin-bottom: 10px;
+  margin-bottom: var(--px-md);
 }
 
 .u-positionRelative {
