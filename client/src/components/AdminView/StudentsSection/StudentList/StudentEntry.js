@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { post, delet } from "../../../../utils";
 import {
   dropStudents,
@@ -135,16 +137,16 @@ class StudentEntry extends React.Component {
           style={{ display: "flex", justifyContent: "flex-end", width: "10vw" }}
         >
           <div style={iconStyle} onClick={this.showInfoModal}>
-            I
+            <FontAwesomeIcon icon={["fas", "info"]} size="sm" />
           </div>
           <div style={iconStyle} onClick={() => this.showMilestonesSection()}>
-            M
+            <FontAwesomeIcon icon={["fas", "file-alt"]} size="sm" />
           </div>
           <div
             style={iconStyle}
             onClick={() => dropStudents([this.props.info])}
           >
-            D
+            <FontAwesomeIcon icon={["fas", "trash"]} size="sm" />
           </div>
         </div>
       </div>
