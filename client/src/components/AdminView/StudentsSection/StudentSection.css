@@ -92,3 +92,11 @@
   border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
   padding: 0 6px;
 }
+
+.studentEntry-tagAdd {
+  background-color: transparent;
+  color: var(--a-grey-text);
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--a-grey-text);
+  padding: 2px 5px;
+}

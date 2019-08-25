@@ -30,7 +30,7 @@ class StudentEntry extends React.Component {
     }
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     const target = event.target;
     const value = target.value;
 
@@ -84,7 +84,7 @@ class StudentEntry extends React.Component {
             {info.github_username}
           </a>
         </div>
-        <div>{info.team ? info.team.team_name : "undefined"}</div>
+        <div>{info.team ? info.team.team_name : "-"}</div>
         <div>
           <Switch
             checked={info.for_credit}
@@ -110,7 +110,12 @@ class StudentEntry extends React.Component {
               <button onClick={this.addTagAndUpdateState}>add</button>
             </div>
           ) : (
-            <button onClick={this.showTagInput}>+</button>
+            <button
+              className="u-pointer studentEntry-tagAdd"
+              onClick={this.showTagInput}
+            >
+              <FontAwesomeIcon icon={["fas", "plus"]} size="sm" />
+            </button>
           )}
         </div>
         <div className="u-flex u-flexJustifyEnd">
