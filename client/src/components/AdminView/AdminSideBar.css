@@ -10,6 +10,7 @@
   width: var(--adminSidebar-containerWidth);
   min-height: calc(100vh - var(--adminSidebar-containerPadding));
   box-shadow: 2px 0 20px var(--a-shadow);
+  position: fixed;
 }
 
 .adminSidebar-iconLabel {

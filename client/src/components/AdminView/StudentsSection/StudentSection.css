@@ -5,7 +5,9 @@
   /* checkbox | first | last | github | team | credit | tags | buttons */
   --individualGrid: 3% repeat(3, 12%) 16% 10% 1fr min-content;
   /* checkbox | team | github | members | competing | progress | buttons */
-  --teamGrid: 3% 16% 14% 1fr 12% 16% 50px;
+  --teamGrid: 3% 18% 14% 1fr 12% 16% 50px;
+
+  --progress-height: 16px;
 }
 
 .massAction-container {
@@ -137,4 +139,21 @@
 
 .teamEntry-container a {
   color: var(--a-blue-text);
+}
+
+.teamEntry-progress {
+  width: var(--progress-height);
+  height: var(--progress-height);
+  background-color: var(--a-grey);
+  color: var(--a-grey-text);
+  font-size: 0.8em;
+  border: 1px solid var(--a-grey-text);
+  border-radius: 50%;
+  opacity: 0.7;
+  margin: 0 2px;
+}
+
+.teamEntry-progress--complete {
+  color: var(--a-blue-text);
+  background-color: var(--a-blue-light);
 }

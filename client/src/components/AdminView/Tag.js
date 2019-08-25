@@ -3,11 +3,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./Tag.css";
 
+/**
+ * PROPS
+ *
+ * add            (tag) => void  // called when click add new tag
+ * remove         (tag) => void  // called when click an X on a tag
+ * tags           any[]       // used to identify tag to add/remove
+ * displayTags?   string[]
+ */
+
 export class Tag extends React.Component {
   render() {
     return (
       <div key={this.props.index} className="u-flex u-marginRight-sm">
-        <div className="tag">{this.props.tag}</div>
+        <div className="tag">
+          {this.props.display != undefined ? this.props.display : this.props.tag}
+        </div>
         <button
           className="tag-delete u-pointer"
           onClick={() => {
@@ -61,7 +72,12 @@ export default class TagList extends React.Component {
     return (
       <div className="u-flex">
         {this.props.tags.map((tag, index) => (
-          <Tag tag={tag} index={index} remove={this.props.remove} />
+          <Tag
+            tag={tag}
+            display={this.props.displayTags && this.props.displayTags[index]}
+            index={index}
+            remove={this.props.remove}
+          />
         ))}
         {this.state.addingTag ? (
           <div>
