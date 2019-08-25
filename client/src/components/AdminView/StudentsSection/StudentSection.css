@@ -9,7 +9,9 @@
 
 .studentsHeader-listButton {
   margin: 0 10px;
+  padding: 6px 0;
   position: relative;
+  font-size: 0.8em;
 }
 
 .studentsHeader-listButton--active::after {
@@ -18,7 +20,7 @@
   height: 4px;
   background-color: var(--a-black);
   position: absolute;
-  bottom: calc(-1 * var(--admin-bottomPadding) - 5px);
+  bottom: calc(-1 * var(--admin-bottomPadding) - 3px);
   left: 0px;
 
   box-shadow: 0 0 6px var(--a-shadow);
