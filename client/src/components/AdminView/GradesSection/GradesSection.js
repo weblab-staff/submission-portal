@@ -3,6 +3,7 @@ import GradesHeader from "./GradesHeader";
 import GradeableList from "./GradeableList";
 import { get } from "../../../utils";
 import { hasSubmission } from "../../../js/teams";
+import MilestonesSection from "../MilestonesSection/MilestonesSection";
 
 class GradesSection extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class GradesSection extends React.Component {
       allTeams: [],
       selectedTeams: [],
       selectedSubmit: "submit",
+      selectedTeamId: null,
       rangeMin: 1,
       rangeMax: 1
     };
@@ -69,6 +71,11 @@ class GradesSection extends React.Component {
     });
   };
 
+  showMilestonesSection = teamId => {
+    this.setState({ selectedTeamId: teamId });
+    this.props.toggleViewMilestones();
+  };
+
   render() {
     const {
       loading,
@@ -80,6 +87,15 @@ class GradesSection extends React.Component {
 
     if (loading) {
       return <div>Loading!</div>;
+    }
+
+    if (this.props.showingMilestoneSection) {
+      return (
+        <MilestonesSection
+          teamId={this.state.selectedTeamId}
+          hideMilestonesSection={this.props.toggleViewMilestones}
+        />
+      );
     }
 
     return (
@@ -102,7 +118,7 @@ class GradesSection extends React.Component {
               ? rangeMin + 1
               : rangeMax
           }
-          showMilestonesSection={this.props.showMilestonesSection}
+          showMilestonesSection={this.showMilestonesSection}
         />
       </div>
     );

@@ -26,16 +26,16 @@ class GradeableEntry extends React.Component {
         <span>
           {team.team_name} #{num}
         </span>
+        <div
+          style={iconStyle}
+          onClick={() => this.props.showMilestonesSection(team._id)}
+        >
+          View Submissions
+        </div>
         <div>
           {milestones.map((milestone, index) => (
             <div key={`${team.team_name}-ms-${index}`}>
               <span>{milestone.title}</span>
-              <span
-                style={iconStyle}
-                onClick={() => this.props.showMilestonesSection(team._id)}
-              >
-                I
-              </span>
               <span style={{ margin: "0 10px" }}>
                 {hasSubmission(team, milestone._id) ? "Y" : "N"}
               </span>

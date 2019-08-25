@@ -1,19 +1,15 @@
 import React from "react";
+import { hasSubmission } from "../../../js/teams";
 
 class MilestoneSelector extends React.Component {
-  countSubmissions = (team, milestone) => {
-    return team.submissions.filter((el) => el.milestone._id === milestone._id)
-      .length;
-  };
-
   render() {
     const { team, milestones } = this.props;
-
+    console.log(team, milestones);
     const styles = {
       background: "#3b66ff",
       color: "white",
       flexGrow: 1,
-      minHeight: "100vh",
+      minHeight: "100vh"
     };
 
     return (
@@ -26,16 +22,20 @@ class MilestoneSelector extends React.Component {
           <div>{team.team_name}</div>
         </div>
         <div>
-          {milestones.map((ms, index) => (
+          {milestones.map((milestone, index) => (
             <div
               key={`milestone-${index}`}
-              onClick={() => this.props.selectMilestone(ms)}
+              onClick={() => this.props.selectMilestone(milestone)}
             >
               <div style={{ display: "flex" }}>
-                <div>{this.countSubmissions(team, ms) > 0 ? "Y" : "N"}</div>
-                <div>{ms.title}</div>
+                <div>{milestone.title}</div>
               </div>
-              <div>{this.countSubmissions(team, ms)} submissions</div>
+              <div>
+                {hasSubmission(team, milestone._id)
+                  ? team.submissions[milestone._id].length
+                  : "0"}
+                submissions
+              </div>
             </div>
           ))}
         </div>

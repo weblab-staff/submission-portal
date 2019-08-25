@@ -8,8 +8,7 @@ class AdminView extends React.Component {
     this.state = {
       activeTab: "iteration",
       viewedYear: 2019,
-      showingMilestones: false,
-      msTeam: ""
+      showingMilestones: false
     };
   }
 
@@ -21,15 +20,8 @@ class AdminView extends React.Component {
     this.setState({ viewedYear: year });
   };
 
-  showMilestonesSection = team => {
-    this.setState({
-      showingMilestones: true,
-      msTeam: team
-    });
-  };
-
-  hideMilestonesSection = () => {
-    this.setState({ showingMilestones: false });
+  toggleViewMilestones = () => {
+    this.setState({ showingMilestones: !this.state.showingMilestones });
   };
 
   render() {
@@ -46,9 +38,8 @@ class AdminView extends React.Component {
           year={this.state.viewedYear}
           setViewedYear={this.setViewedYear}
           showingMilestones={this.state.showingMilestones}
-          showMilestonesSection={this.showMilestonesSection}
-          hideMilestonesSection={this.hideMilestonesSection}
-          msTeam={this.state.msTeam}
+          toggleViewMilestones={this.toggleViewMilestones}
+          teamId={this.state.selectedTeamId}
         />
       </div>
     );

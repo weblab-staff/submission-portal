@@ -6,15 +6,11 @@ class MilestoneDetails extends React.Component {
     super(props);
 
     this.state = {
-      selectedSubmission: 0,
+      selectedSubmission: 0
     };
   }
 
-  getSubmissions = (team, milestone) => {
-    return team.submissions.filter((el) => el.milestone._id === milestone._id);
-  };
-
-  selectSubmission = (index) => {
+  selectSubmission = index => {
     this.setState({ selectedSubmission: index });
   };
 
@@ -22,19 +18,19 @@ class MilestoneDetails extends React.Component {
     const { team, milestone } = this.props;
     const styles = {
       display: "flex",
-      flexGrow: 3,
+      flexGrow: 3
     };
 
     if (!this.props.milestone) {
       return <div style={styles}>No milestone selected!</div>;
     }
 
-    const submissions = this.getSubmissions(team, milestone);
+    const submissions = team.submissions[milestone._id];
     if (submissions.length === 0) {
       return <div style={styles}>No submissions!</div>;
     }
 
-    const submission = team.submissions[this.state.selectedSubmission];
+    const submission = submissions[this.state.selectedSubmission];
 
     return (
       <div style={styles}>
@@ -43,6 +39,7 @@ class MilestoneDetails extends React.Component {
           <div style={{ display: "flex", marginBottom: "20px" }}>
             {submissions.map((_, index) => (
               <div
+                style={{ cursor: "pointer", marginRight: "10px" }}
                 key={`submission-${index}`}
                 onClick={() => this.selectSubmission(index)}
               >{`Submission ${index}`}</div>

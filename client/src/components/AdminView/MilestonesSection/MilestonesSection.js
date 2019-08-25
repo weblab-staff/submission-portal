@@ -1,6 +1,6 @@
 import React from "react";
-import MilestonesSelector from "./MilestoneSelector";
-import MilestonesDetail from "./MilestoneDetails";
+import MilestoneSelector from "./MilestoneSelector";
+import MilestoneDetails from "./MilestoneDetails";
 import { get } from "../../../utils";
 
 class MilestonesSection extends React.Component {
@@ -10,34 +10,38 @@ class MilestonesSection extends React.Component {
       loading: true,
       team: {},
       milestones: [],
-      selectedMilestone: {},
+      selectedMilestone: {}
     };
   }
 
   componentDidMount() {
-    this.getStuff();
+    this.loadData();
   }
 
-  getStuff = () => {
-    Promise.all([get(`/api/teams/${this.props.team}`), get("/api/milestones/")])
-      .then((data) => {
+  loadData = () => {
+    Promise.all([
+      get(`/api/teams/${this.props.teamId}`),
+      get("/api/milestones/")
+    ])
+      .then(data => {
+        console.log(data);
         this.setState({
           loading: false,
-          team: data[0][0],
+          team: data[0],
           milestones: data[1],
-          selectedMilestone: !!data[1].length ? data[1][0] : {},
+          selectedMilestone: !!data[1].length ? data[1][0] : {}
         });
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
-  selectMilestone = (milestone) => {
+  selectMilestone = milestone => {
     this.setState({ selectedMilestone: milestone });
   };
 
   render() {
     const styles = {
-      display: "flex",
+      display: "flex"
     };
 
     if (this.state.loading) {
@@ -46,13 +50,13 @@ class MilestonesSection extends React.Component {
 
     return (
       <div style={styles}>
-        <MilestonesSelector
+        <MilestoneSelector
           hideMilestonesSection={this.props.hideMilestonesSection}
           selectMilestone={this.selectMilestone}
           team={this.state.team}
           milestones={this.state.milestones}
         />
-        <MilestonesDetail
+        <MilestoneDetails
           team={this.state.team}
           milestone={this.state.selectedMilestone}
         />

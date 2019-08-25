@@ -3,7 +3,6 @@ import ClassIterationsSection from "./ClassIterationsSection/ClassIterationsSect
 import StudentsSection from "./StudentsSection/StudentsSection";
 import GradesSection from "./GradesSection/GradesSection";
 import SettingsSection from "./SettingsSection/SettingsSection";
-import MilestonesSection from "./MilestonesSection/MilestonesSection";
 
 import "./AdminBody.css";
 
@@ -11,39 +10,31 @@ class AdminBody extends React.Component {
   render() {
     return <div className="adminBody-container">{this.renderContent()}</div>;
   }
-
   renderContent() {
-    if (this.props.showingMilestones) {
-      return (
-        <MilestonesSection
-          team={this.props.msTeam}
-          hideMilestonesSection={this.props.hideMilestonesSection}
-        />
-      );
-    } else {
-      switch (this.props.activeTab) {
-        case "iteration":
-          return (
-            <ClassIterationsSection setViewedYear={this.props.setViewedYear} />
-          );
-        case "students":
-          return (
-            <StudentsSection
-              showMilestonesSection={this.props.showMilestonesSection}
-            />
-          );
-        case "grade":
-          return (
-            <GradesSection
-              showMilestonesSection={this.props.showMilestonesSection}
-            />
-          );
-        case "settings":
-          return <SettingsSection year={this.props.year} />;
-        default:
-          console.log("should never get here");
-          return;
-      }
+    switch (this.props.activeTab) {
+      case "iteration":
+        return (
+          <ClassIterationsSection setViewedYear={this.props.setViewedYear} />
+        );
+      case "students":
+        return (
+          <StudentsSection
+            showingMilestoneSection={this.props.showingMilestones}
+            toggleViewMilestones={this.props.toggleViewMilestones}
+          />
+        );
+      case "grade":
+        return (
+          <GradesSection
+            showingMilestoneSection={this.props.showingMilestones}
+            toggleViewMilestones={this.props.toggleViewMilestones}
+          />
+        );
+      case "settings":
+        return <SettingsSection year={this.props.year} />;
+      default:
+        console.log("should never get here");
+        return;
     }
   }
 }
