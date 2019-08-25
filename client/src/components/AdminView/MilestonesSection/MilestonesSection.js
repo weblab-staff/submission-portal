@@ -10,7 +10,7 @@ class MilestonesSection extends React.Component {
       loading: true,
       team: {},
       milestones: [],
-      selectedMilestone: {}
+      selectedMilestone: {},
     };
   }
 
@@ -21,27 +21,27 @@ class MilestonesSection extends React.Component {
   loadData = () => {
     Promise.all([
       get(`/api/teams/${this.props.teamId}`),
-      get("/api/milestones/")
+      get("/api/milestones/"),
     ])
-      .then(data => {
+      .then((data) => {
         console.log(data);
         this.setState({
           loading: false,
           team: data[0],
           milestones: data[1],
-          selectedMilestone: !!data[1].length ? data[1][0] : {}
+          selectedMilestone: !!data[1].length ? data[1][0] : {},
         });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
-  selectMilestone = milestone => {
+  selectMilestone = (milestone) => {
     this.setState({ selectedMilestone: milestone });
   };
 
   render() {
     const styles = {
-      display: "flex"
+      display: "flex",
     };
 
     if (this.state.loading) {
