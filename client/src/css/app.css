@@ -7,7 +7,10 @@
   --a-blue: #4b80ff;
   --a-blue-text: #4774d7;
   --a-grey: #f0efef;
+  --a-grey-text: #707070;
+  --a-greyblue: #f7f8f9;
   --a-white: #ffffff;
+  --a-dark: #2e2e2e;
   --a-black: #000000;
   --a-shadow: rgba(0, 0, 0, 0.16);
 
@@ -78,6 +81,10 @@ button {
   justify-content: center;
 }
 
+.u-flexJustifyEnd {
+  justify-content: flex-end;
+}
+
 .u-flexAlignCenter {
   align-items: center;
 }
@@ -114,6 +121,10 @@ button {
 
 .u-marginBottom-sm {
   margin-bottom: 4px;
+}
+
+.u-marginLeft-md {
+  margin-left: 8px;
 }
 
 .u-marginBottom-md {

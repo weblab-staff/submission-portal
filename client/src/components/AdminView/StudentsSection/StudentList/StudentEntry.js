@@ -82,36 +82,30 @@ class StudentEntry extends React.Component {
     };
 
     return (
-      <div style={styles}>
-        <div style={{ width: "3vw" }}>
+      <div className={`studentEntry-container`}>
+        <div>
           <input
             type="checkbox"
             checked={selected}
             onChange={this.toggleSelection}
           />
         </div>
-        <div style={{ width: "10vw" }}>
-          <div>{info.first_name}</div>
-        </div>
-        <div style={{ width: "10vw" }}>
-          <div>{info.last_name}</div>
-        </div>
-        <div style={{ width: "10vw" }}>
+        <div>{info.first_name}</div>
+        <div>{info.last_name}</div>
+        <div>
           <a href={`https://github.com/${info.github_username}`}>
             {info.github_username}
           </a>
         </div>
-        <div style={{ width: "10vw" }}>
-          <div>{info.team ? info.team.team_name : "undefined"}</div>
-        </div>
-        <div style={{ width: "5vw" }}>
+        <div>{info.team ? info.team.team_name : "undefined"}</div>
+        <div>
           <input
             type="checkbox"
             checked={info.for_credit}
             onChange={() => toggleCredit([this.props.info])}
           />
         </div>
-        <div style={{ display: "flex", width: "25vw" }}>
+        <div style={{ display: "flex" }}>
           {info.tags.map((tag, index) => (
             <div
               key={index}
@@ -133,9 +127,7 @@ class StudentEntry extends React.Component {
             <button onClick={this.showTagInput}>+</button>
           )}
         </div>
-        <div
-          style={{ display: "flex", justifyContent: "flex-end", width: "10vw" }}
-        >
+        <div className="u-flex u-flexJustifyEnd">
           <div style={iconStyle} onClick={this.showInfoModal}>
             <FontAwesomeIcon icon={["fas", "info"]} size="sm" />
           </div>

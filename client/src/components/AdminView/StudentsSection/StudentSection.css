@@ -1,3 +1,11 @@
+:root {
+  --entryMargin: 3px 40px;
+  --gridGap: 4px;
+
+  /* checkbox | first | last | github | team | credit | tags | buttons */
+  --individualGrid: 3% repeat(3, 12%) minmax(100px, 16%) 10% 1fr min-content;
+}
+
 .massAction-container {
   width: 100%;
   max-width: 600px;
@@ -24,4 +32,36 @@
   left: 0px;
 
   box-shadow: 0 0 6px var(--a-shadow);
+}
+
+.studentEntry-header {
+  font-size: 0.9em;
+  color: var(--a-grey-text);
+
+  display: grid;
+  grid-template-columns: var(--individualGrid);
+  grid-column-gap: var(--gridGap);
+  margin: var(--entryMargin);
+  margin-top: 1.8em;
+  margin-bottom: 0.8em;
+  padding: 0 6px;
+}
+
+.studentEntry-container {
+  font-size: 0.9em;
+  color: var(--a-dark);
+  background-color: var(--a-greyblue);
+  min-height: 30px;
+  border: 1px solid var(--a-grey);
+
+  display: grid;
+  grid-template-columns: var(--individualGrid);
+  grid-column-gap: var(--gridGap);
+  padding: 0 6px;
+  margin: var(--entryMargin);
+}
+
+.studentEntry-container > div {
+  display: flex;
+  align-items: center;
 }

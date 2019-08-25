@@ -16,16 +16,9 @@ class StudentListHeader extends React.Component {
   };
 
   render() {
-    const styles = {
-      display: "flex",
-      alignItems: "center",
-      margin: "3px 40px",
-      padding: "5px",
-    };
-
     return (
-      <div style={styles}>
-        <div style={{ display: "flex", width: "3vw" }}>
+      <div className="studentEntry-header">
+        <div>
           <input
             type="checkbox"
             checked={this.areStudentsSelected()}
@@ -45,7 +38,7 @@ class StudentListHeader extends React.Component {
           handleSort={this.props.handleSort}
         />
         <SortableHeader
-          label="Github Username"
+          label="Github"
           items={this.props.students}
           sortingFn={(a, b) =>
             a.github_username.localeCompare(b.github_username)

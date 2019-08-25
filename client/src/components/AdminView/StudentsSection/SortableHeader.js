@@ -1,8 +1,9 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const SortOrder = {
   ASCENDING: "ASCENDING",
-  DESCENDING: "DESCENDING",
+  DESCENDING: "DESCENDING"
 };
 
 class SortableHeader extends React.Component {
@@ -10,7 +11,7 @@ class SortableHeader extends React.Component {
     super(props);
 
     this.state = {
-      sortOrder: SortOrder.ASCENDING,
+      sortOrder: SortOrder.ASCENDING
     };
   }
 
@@ -26,22 +27,31 @@ class SortableHeader extends React.Component {
 
   render() {
     return (
-      <div style={{ display: "flex", width: "10vw" }} onClick={this.handleSort}>
-        <div style={{ marginRight: "5px" }}>{this.props.label}</div>
+      <div className="u-flex u-pointer" onClick={this.handleSort}>
+        <div>{this.props.label}</div>
         {this.renderSortIcon()}
       </div>
     );
   }
 
   renderSortIcon = () => {
-    let text;
     if (this.state.sortOrder === SortOrder.ASCENDING) {
-      text = "ASC";
+      return (
+        <FontAwesomeIcon
+          className="u-marginLeft-md"
+          icon={["fas", "sort-up"]}
+          size="sm"
+        />
+      );
     } else {
-      text = "DES";
+      return (
+        <FontAwesomeIcon
+          className="u-marginLeft-md"
+          icon={["fas", "sort-down"]}
+          size="sm"
+        />
+      );
     }
-
-    return <div>{text}</div>;
   };
 }
 
