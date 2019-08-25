@@ -33,7 +33,9 @@ class GradesHeader extends React.Component {
               <option value="submit">submitted</option>
               <option value="nosubmit">did not submit</option>
             </select>
-            <select onChange={this.props.changeSelectedMilestone}>{options}</select>
+            <select name="selectedMilestoneId" onChange={this.props.handleChange}>
+              {options}
+            </select>
             <span>from range</span>
             <input
               name="rangeMin"

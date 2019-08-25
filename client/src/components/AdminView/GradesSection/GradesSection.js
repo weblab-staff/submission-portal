@@ -12,8 +12,8 @@ class GradesSection extends React.Component {
       loading: true,
       milestones: [],
       allTeams: [],
-      selectedTeams: [],
       selectedSubmit: "submit",
+      selectedMilestoneId: "",
       selectedTeamId: null,
       rangeMin: 1,
       rangeMax: 1,
@@ -34,14 +34,15 @@ class GradesSection extends React.Component {
           loading: false,
           milestones: data[0],
           allTeams: data[1],
-          selectedTeams: data[1], //TODO how will this integrate with search?
+          selectedTeams: data[1],
           rangeMax: data[1].length,
         });
       })
       .catch((err) => console.log(err));
   };
 
-  updateRange = (event) => {
+  updateSelectedState = (event) => {
+    const oldState = this.state;
     const target = event.target;
     const value = target.type === "number" ? parseInt(target.value) : target.value;
     this.setState({
@@ -49,22 +50,17 @@ class GradesSection extends React.Component {
     });
   };
 
-  updateSelectedTeams = (event) => {
-    const { allTeams } = this.state;
-    const selectedMilestoneId = event.target.value;
-    let newSelectedTeams = allTeams;
-    console.log("selected:" + selectedMilestoneId);
-    if (selectedMilestoneId !== "") {
-      newSelectedTeams = allTeams.filter((team) => {
-        return hasSubmission(team, selectedMilestoneId);
-      });
-    }
-
-    this.setState({
-      selectedTeams: newSelectedTeams,
-      rangeMax: newSelectedTeams.length == 0 ? 1 : newSelectedTeams.length,
-      rangeMin: 1,
+  getSelectedTeams = () => {
+    const { allTeams, selectedSubmit, selectedMilestoneId } = this.state;
+    let newSelectedTeams = [];
+    allTeams.forEach((team) => {
+      const didSubmit = selectedMilestoneId == "" || hasSubmission(team, selectedMilestoneId);
+      const showSubmitted = selectedSubmit == "submit" ? true : false;
+      if (didSubmit == showSubmitted) {
+        newSelectedTeams.push(team);
+      }
     });
+    return newSelectedTeams;
   };
 
   showMilestonesSection = (teamId) => {
@@ -73,7 +69,7 @@ class GradesSection extends React.Component {
   };
 
   render() {
-    const { loading, milestones, selectedTeams, rangeMin, rangeMax } = this.state;
+    const { loading, milestones, rangeMin, rangeMax } = this.state;
 
     if (loading) {
       return <div>Loading!</div>;
@@ -88,6 +84,8 @@ class GradesSection extends React.Component {
       );
     }
 
+    const selectedTeams = this.getSelectedTeams();
+
     return (
       <div>
         <GradesHeader
@@ -95,15 +93,20 @@ class GradesSection extends React.Component {
           teams={selectedTeams}
           rangeMin={rangeMin}
           rangeMax={rangeMax}
-          handleChange={this.updateRange}
-          changeSelectedMilestone={this.updateSelectedTeams}
+          handleChange={this.updateSelectedState}
           getTeams={this.loadData}
         />
         <GradeableList
           milestones={milestones}
           teams={selectedTeams}
           rangeMin={Number.isNaN(rangeMin) ? 1 : rangeMin}
-          rangeMax={Number.isNaN(rangeMax) || rangeMax < rangeMin ? rangeMin + 1 : rangeMax}
+          rangeMax={
+            Number.isNaN(rangeMax) || rangeMax < rangeMin
+              ? selectedTeams.length
+              : rangeMax > selectedTeams.length
+              ? selectedTeams.length
+              : rangeMax
+          }
           showMilestonesSection={this.showMilestonesSection}
         />
       </div>

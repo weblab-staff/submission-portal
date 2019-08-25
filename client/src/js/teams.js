@@ -21,5 +21,5 @@ export const removeTeam = (teams) => {
 };
 
 export const hasSubmission = (team, milestoneId) => {
-  return team.submissions[milestoneId] && team.submissions[milestoneId].length > 0;
+  return !!team.submissions[milestoneId] && team.submissions[milestoneId].length > 0;
 };
