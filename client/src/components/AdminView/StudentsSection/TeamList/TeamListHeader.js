@@ -16,16 +16,9 @@ class TeamListHeader extends React.Component {
   };
 
   render() {
-    const styles = {
-      display: "flex",
-      alignItems: "center",
-      margin: "3px 40px",
-      padding: "5px",
-    };
-
     return (
-      <div style={styles}>
-        <div style={{ display: "flex", width: "3vw" }}>
+      <div className="teamEntry-header">
+        <div className="u-flex">
           <input
             type="checkbox"
             checked={this.areTeamsSelected()}

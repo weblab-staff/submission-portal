@@ -1,0 +1,22 @@
+.tag {
+  font-size: 0.69em;
+  text-transform: uppercase;
+  border: 1px solid var(--a-black);
+  border-radius: var(--radius-xs) 0 0 var(--radius-xs);
+  padding: var(--px-sm) var(--px-md) calc(var(--px-sm) - 1px);
+}
+
+.tag-delete {
+  color: var(--a-greyblue);
+  background-color: var(--a-black);
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  padding: 0 6px;
+}
+
+.tag-add {
+  background-color: transparent;
+  color: var(--a-grey-text);
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--a-grey-text);
+  padding: 2px 5px;
+}
