@@ -99,7 +99,7 @@ class TeamEntry extends React.Component {
           tags={team.members}
           displayTags={team.members.map((member) => `${member.first_name} ${member.last_name}`)}
           add={(userId) => {
-            addMember(this.props.team, userId);
+            addMember(this.props.team._id, userId);
           }}
           datalist={students.reduce((data, student) => {
             data[student._id] = `${student.first_name} ${student.last_name}`;

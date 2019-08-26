@@ -1,4 +1,5 @@
 import React from "react";
+import { hasSubmission } from "../../js/teams";
 
 class StudentViewBroad extends React.Component {
   constructor(props) {
@@ -7,13 +8,6 @@ class StudentViewBroad extends React.Component {
 
   render() {
     const { toggleView, currentTeam, milestones } = this.props;
-    const latestSubmissions = new Map();
-    if (currentTeam) {
-      currentTeam.submissions.forEach((submission) => {
-        latestSubmissions.set(submission.milestone._id, submission);
-      });
-    }
-    console.log("latest submission map", latestSubmissions);
     return (
       <React.Fragment>
         {milestones.map((mileObj) => {
@@ -32,8 +26,9 @@ class StudentViewBroad extends React.Component {
                   <span>Become part of a team to see your submissions!</span>
                 ) : (
                   <button onClick={toggleView(mileObj._id)}>
-                    {latestSubmissions.get(mileObj._id)
-                      ? "last submitted " + latestSubmissions.get(mileObj._id).timestamp
+                    {hasSubmission(currentTeam, mileObj._id)
+                      ? "last submitted " +
+                        currentTeam.submissions[mileObj._id].reverse()[0].timestamp
                       : "no submissions!"}
                   </button>
                 )}

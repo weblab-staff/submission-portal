@@ -6,15 +6,23 @@ class JoinTeam extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      teamNameIdMap: {},
       teamName: "",
       msg: "",
+      loading: true,
     };
   }
 
+  componentDidMount() {
+    get("/api/teams/names").then((res) => {
+      this.setState({ loading: false, teamNameIdMap: res });
+    });
+  }
+
   handleSubmit = (event) => {
-    const { teamName } = this.state;
+    const { teamName, teamNameIdMap } = this.state;
     event.preventDefault();
-    addMember(teamName, currentUser._id);
+    addMember(teamNameIdMap[teamName], this.props.location.state.currentUser._id);
     // post(`/api/teams/${currentUser._id}/join`, {
     //   team_name: teamName,
     // })
@@ -45,7 +53,12 @@ class JoinTeam extends React.Component {
             Team Name:
             <input type="text" name="teamName" value={teamName} onChange={this.handleChange} />
           </label>
-          <input type="submit" value="Submit" onClick={this.handleSubmit} />
+          <input
+            type="submit"
+            disabled={this.state.loading || !this.state.teamNameIdMap[this.state.teamName]}
+            value="Submit"
+            onClick={this.handleSubmit}
+          />
         </form>
       </div>
     );

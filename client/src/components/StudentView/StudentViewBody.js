@@ -52,7 +52,7 @@ class StudentViewBody extends React.Component {
           <div className="milestonesContainer">
             {expanded ? (
               <StudentViewDetailed
-                submissions={currentTeam ? currentTeam.submissions : []}
+                submissions={currentTeam ? currentTeam.submissions[selectedMilestoneId] : []}
                 milestone={milestones.find((milestone) => milestone._id === selectedMilestoneId)}
                 toggleView={this.toggleView}
               />

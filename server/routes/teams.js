@@ -13,8 +13,8 @@ const errorWrap = require("./errorWrap");
 const ValidationError = require("../errors/ValidationError");
 const utils = require("./util");
 
-function find_team(year, id, populate, include_content, callback) {
-  const filter = id.length > 0 ? { _id: id } : { year: year };
+function find_team(year, id, populate, include_content) {
+  const filter = id && id.length > 0 ? { _id: id } : { year: year };
   const query = Team.find(filter);
   if (populate) {
     query.populate("members").populate({
@@ -34,6 +34,21 @@ function get_feedback_subject(milestone_name) {
 }
 
 //get information about all the teams
+router.get(
+  "/names",
+  ensure.loggedIn, // TODO: dont show details to non-admins
+  errorWrap(async (req, res) => {
+    let teams = await find_team(req.year);
+    res.send(
+      teams.reduce((response, team) => {
+        response[team.team_name] = team._id;
+        return response;
+      }, {})
+    );
+  })
+);
+
+//get map of teamnames to their respective IDs
 router.get(
   "/",
   ensure.loggedIn, // TODO: dont show details to non-admins
@@ -98,7 +113,7 @@ router.post(
 //should not be able to add duplicate team members!
 router.post(
   "/:team_id",
-  ensure.admin,
+  ensure.loggedIn,
   errorWrap(async (req, res) => {
     const team = await Team.findByIdAndUpdate(req.params.team_id, {
       $addToSet: { members: req.body.user_id },
