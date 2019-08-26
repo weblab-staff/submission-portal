@@ -22,17 +22,8 @@ class JoinTeam extends React.Component {
   handleSubmit = (event) => {
     const { teamName, teamNameIdMap } = this.state;
     event.preventDefault();
-    addMember(teamNameIdMap[teamName], this.props.location.state.currentUser._id);
-    // post(`/api/teams/${currentUser._id}/join`, {
-    //   team_name: teamName,
-    // })
-    //   .then((response) => {
-    //     console.log(response);
-    //     this.setState({
-    //       msg: response,
-    //     });
-    //   })
-    //   .catch((err) => console.log(err));
+    addMember(teamNameIdMap[teamName], this.props.user._id);
+    this.props.hideJoinView();
   };
 
   handleChange = (event) => {

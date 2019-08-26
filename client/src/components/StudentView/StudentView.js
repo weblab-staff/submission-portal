@@ -3,19 +3,29 @@ import { Link } from "react-router-dom";
 import StudentViewBody from "./StudentViewBody";
 
 import "./StudentView.css";
+import JoinTeam from "../TeamView/JoinTeam";
+import { removeMember } from "../../js/teams";
 
 class StudentView extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showJoinTeam: false,
+    };
   }
 
   componentDidMount() {
     const { currentUser, currentTeam, loading } = this.props;
   }
 
+  toggleJoinTeam = () => {
+    this.setState({
+      showJoinTeam: !this.state.showJoinTeam,
+    });
+  };
+
   render() {
-    const {} = this.state;
+    const { showJoinTeam } = this.state;
     const { currentUser, currentTeam, loading } = this.props;
     if (loading) {
       return <div className="browserContainer browserContainer--studentView">LOADING</div>;
@@ -45,6 +55,10 @@ class StudentView extends React.Component {
                   {currentTeam.team_name}
                 </Link>
                 {"?"}
+                <br />
+                <button onClick={() => removeMember(currentTeam._id, currentUser._id)}>
+                  Leave team?
+                </button>
               </React.Fragment>
             ) : (
               <React.Fragment>
@@ -59,16 +73,12 @@ class StudentView extends React.Component {
                   Create Team
                 </Link>
                 <br />
-                <Link
-                  to={{
-                    pathname: "/join-team",
-                    state: {
-                      currentUser,
-                    },
-                  }}
-                >
-                  Join Team
-                </Link>
+
+                {showJoinTeam ? (
+                  <JoinTeam user={currentUser} hideJoinTeamView={this.toggleJoinTeam} />
+                ) : (
+                  <button onClick={this.toggleJoinTeam}>Join Team?</button>
+                )}
               </React.Fragment>
             )}
           </h2>

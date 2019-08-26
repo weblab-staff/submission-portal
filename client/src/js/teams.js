@@ -28,8 +28,8 @@ export const addMember = (teamId, userId) => {
   post(`api/teams/${teamId}`, { user_id: userId }).then(alert(`joined team ${teamId}`));
 };
 
-export const removeMember = (team, user) => {
-  delet(`/api/teams/${team._id}/remove-member`, { user_id: user._id })
+export const removeMember = (teamId, userId) => {
+  delet(`/api/teams/${teamId}/remove-member`, { user_id: userId })
     .then((status) => {
       if (status === 204) {
         alert("removed team member, plx refresh page");

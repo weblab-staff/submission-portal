@@ -105,7 +105,7 @@ class TeamEntry extends React.Component {
             data[student._id] = `${student.first_name} ${student.last_name}`;
             return data;
           }, {})}
-          remove={(member) => removeMember(this.props.team, member)}
+          remove={(member) => removeMember(this.props.team._id, member._id)}
         />
         <div>
           <Switch checked={team.competing} onChange={this.toggleCompeting} />
