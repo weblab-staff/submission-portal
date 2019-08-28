@@ -61,11 +61,21 @@ function filterOnWord(obj, word, fields) {
   lw = words[i].toLowerCase();
   for (k in fields) {
     let field = fields[k];
-    // check tags first
+    // check tags and team members first
     if (field === "tags") {
       word_passed = false;
       obj[field].forEach(function(item, index) {
         if (item.toLowerCase().includes(lw) && lw) {
+          word_passed = true;
+        }
+      });
+      if (word_passed) {
+        return true;
+      }
+    } else if (field === "members"){
+      word_passed = false;
+      obj[field].forEach(function(item, index) {
+        if (item["first_name"].toLowerCase().includes(lw) || item["last_name"].toLowerCase().includes(lw)) {
           word_passed = true;
         }
       });

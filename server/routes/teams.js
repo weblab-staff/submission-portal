@@ -60,7 +60,7 @@ router.get(
       req.query.include_content === "true"
     );
     if (req.query.searchQuery && req.query.searchQuery.length > 1) {
-      teams = utils.searchFilter(teams, req.query.searchQuery, ["team_name"]);
+      teams = utils.searchFilter(teams, req.query.searchQuery, ["team_name", "members"]);
     }
 
     res.send(teams.map(flipTeamSubmissions));
