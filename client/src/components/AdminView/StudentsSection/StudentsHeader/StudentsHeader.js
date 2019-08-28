@@ -16,7 +16,7 @@ class StudentsHeader extends React.Component {
         <div className="u-flex u-flexJustifyBetweeen u-flexAlignCenter">
           <div className="massAction-container">
             <div className="u-flex">
-              <SearchBar onChange={(event) => this.props.getStudents(event.target.value)} />
+              <SearchBar onChange={this.props.activeList === ListOptions.TEAM ? (event) => this.props.getTeams(event.target.value) : (event) => this.props.getStudents(event.target.value)} />
               <ActionButton selectedStudents={selectedStudents} selectedTeams={selectedTeams} />
             </div>
             <div>{this.renderSelected()}</div>

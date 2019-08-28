@@ -58,6 +58,14 @@ class StudentsSection extends React.Component {
     this.setState({ students: students });
   };
 
+  getTeams = async (query) => {
+    const teams = await get("/api/teams/", {
+      populate: true,
+      searchQuery: query,
+    });
+    this.setState({ teams: teams });
+  };
+
   handleSort = (sortingFn) => {
     if (this.state.activeList === ListOptions.INDIVIDUAL) {
       this.setState({ students: this.state.students.sort(sortingFn) });
@@ -172,6 +180,7 @@ class StudentsSection extends React.Component {
           deselectStudent={this.deselectStudent}
           deselectTeam={this.deselectTeam}
           getStudents={this.getStudents}
+          getTeams={this.getTeams}
           setFilter={this.setFilter}
         />
         <StudentsBody
