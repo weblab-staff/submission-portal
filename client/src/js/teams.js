@@ -1,4 +1,7 @@
 import { post, delet } from "../utils";
+import socketIOClient from "socket.io-client";
+const endpoint = "localhost:3000"
+export const socket = socketIOClient(endpoint);
 
 export const createGithub = (teams) => {
   Promise.all(teams.map((team) => post(`/api/teams/${team._id}/generate-github`, {}))).then(
@@ -21,21 +24,20 @@ export const removeTeam = (teams) => {
 };
 
 export const hasSubmission = (team, milestoneId) => {
+  console.log(team)
   return !!team.submissions[milestoneId] && team.submissions[milestoneId].length > 0;
 };
 
 export const addMember = (teamId, userId) => {
-  post(`api/teams/${teamId}`, { user_id: userId }).then(alert(`joined team ${teamId}`));
+  socket.emit('join_team', {
+    team_id: teamId,
+    user_id: userId,
+  })
 };
 
 export const removeMember = (teamId, userId) => {
-  delet(`/api/teams/${teamId}/remove-member`, { user_id: userId })
-    .then((status) => {
-      if (status === 204) {
-        alert("removed team member, plx refresh page");
-      } else {
-        console.log("failed to remove student from team");
-      }
-    })
-    .catch((err) => console.log(err));
+  socket.emit('leave_team', {
+    team_id: teamId,
+    user_id: userId,
+  })
 };

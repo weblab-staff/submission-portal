@@ -4,7 +4,8 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const session = require("express-session");
 const path = require("path");
-
+const Team = require("./models/Team");
+const User = require("./models/User");
 const app = express();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
@@ -80,6 +81,38 @@ app.use(function(err, req, res, next) {
 
   res.status(status).send(err.message || "Something broke!");
 });
+
+
+io.on('connection', socket => {
+  socket.on('join_team', async (data) => {
+    console.log(data)
+    const team = await Team.findByIdAndUpdate(data.team_id, {
+      $addToSet: { members: data.user_id },
+    });
+    await User.findByIdAndUpdate(data.user_id, { team: team._id });
+    socket.join(data.team_id);
+    console.log("about to emit")
+    // socket.to(data.team_id)
+    io.emit('teammate_added', {
+      team: team,
+      user_id: data.user_id,
+    });
+    console.log(`added user ${data.user_id} to ${team.team_name}`);
+  })
+
+  socket.on('leave_team', async (data) => {
+    console.log(data)
+    await Team.findByIdAndUpdate(data.team_id, {
+      $pull: { members: data.user_id },
+    });
+    await User.findByIdAndUpdate(data.user_id, { team: null });
+    io.emit('teammate_left', {
+      team_id: data.team_id,
+      user_id: data.user_id,
+    });
+    console.log("removed user " + data.user_id + " from team " + data.team_id)
+  })
+})
 
 module.exports = app;
 

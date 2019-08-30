@@ -6,6 +6,10 @@ import { get, MilestoneLoader } from "../utils";
 import { Redirect } from "react-router-dom";
 import { isRegistered } from "../js/students";
 
+import { socket } from "../js/teams";
+
+import { post, delet } from "../utils";
+
 class Root extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +22,20 @@ class Root extends React.Component {
 
   componentDidMount() {
     this.getUser();
+    socket.on("teammate_added", data => {
+      console.log(data)
+      this.setState({
+        currentTeam: data.team
+      })
+    });
+    socket.on("teammate_left", data => {
+      console.log("teammate left, updating state now.")
+      if (data.user_id === this.state.currentUser._id) {
+        this.setState({
+          currentTeam: null,
+        });
+      }
+    });
   }
 
   // clean l8er
@@ -96,7 +114,7 @@ class Root extends React.Component {
         {currentUser.is_admin ? (
           <AdminView />
         ) : isRegistered(currentUser) ? (
-          <StudentView currentUser={currentUser} currentTeam={currentTeam} loading={loading} />
+          <StudentView currentUser={currentUser} currentTeam={currentTeam} loading={loading}/>
         ) : (
           <Redirect to="/register" />
         )}
