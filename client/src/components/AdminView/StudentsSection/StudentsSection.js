@@ -4,6 +4,7 @@ import StudentsBody from "./StudentsBody";
 import EmailModal from "./EmailModal";
 import { get } from "../../../utils";
 import MilestonesSection from "../MilestonesSection/MilestonesSection";
+import { socket } from "../../../js/teams";
 
 import "./StudentSection.css";
 
@@ -31,6 +32,10 @@ class StudentsSection extends React.Component {
 
   componentDidMount() {
     this.getInfo();
+    socket.on("user_update", data => {
+      console.log("user_updating!")
+      this.getInfo();
+    });
   }
 
   getInfo = () => {

@@ -23,6 +23,8 @@ const publicPath = path.resolve(__dirname, "..", "client", "dist");
 
 let env = process.env.NODE_ENV || "dev";
 
+let socketmap = {};
+
 mongoose
   .connect(process.env.MONGO_SRV, {
     useNewUrlParser: true,
@@ -84,37 +86,20 @@ app.use(function(err, req, res, next) {
 
 
 io.on('connection', socket => {
-  socket.on('join_team', async (data) => {
-    console.log(data)
-    const team = await Team.findByIdAndUpdate(data.team_id, {
-      $addToSet: { members: data.user_id },
-    });
-    await User.findByIdAndUpdate(data.user_id, { team: team._id });
-    socket.join(data.team_id);
-    console.log("about to emit")
-    // socket.to(data.team_id)
-    io.emit('teammate_added', {
-      team: team,
-      user_id: data.user_id,
-    });
-    console.log(`added user ${data.user_id} to ${team.team_name}`);
+
+  socket.on('init', (data) => {
+    socketmap[data.user_id] = socket
+    console.log(`added ${data.user_id} to socket dict`)
+    console.log(socketmap)
   })
 
-  socket.on('leave_team', async (data) => {
-    console.log(data)
-    await Team.findByIdAndUpdate(data.team_id, {
-      $pull: { members: data.user_id },
-    });
-    await User.findByIdAndUpdate(data.user_id, { team: null });
-    io.emit('teammate_left', {
-      team_id: data.team_id,
-      user_id: data.user_id,
-    });
-    console.log("removed user " + data.user_id + " from team " + data.team_id)
-  })
 })
 
-module.exports = app;
+app.set('socketio', io);
+app.set('socketmap', socketmap);
+
+module.exports = {app: app,
+                  test: "test"};
 
 if (env === "test") {
   return; // don't run webserver for tests

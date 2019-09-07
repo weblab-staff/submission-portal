@@ -29,15 +29,17 @@ export const hasSubmission = (team, milestoneId) => {
 };
 
 export const addMember = (teamId, userId) => {
-  socket.emit('join_team', {
-    team_id: teamId,
-    user_id: userId,
-  })
+  post(`api/teams/${teamId}`, { user_id: userId }).then(console.log(`joined team ${teamId}`));
 };
 
 export const removeMember = (teamId, userId) => {
-  socket.emit('leave_team', {
-    team_id: teamId,
-    user_id: userId,
-  })
+   delet(`/api/teams/${teamId}/remove-member`, { user_id: userId, team_id: teamId })
+    .then((status) => {
+      if (status === 204) {
+        alert("removed team member, plx refresh page");
+      } else {
+        console.log("failed to remove student from team");
+      }
+    })
+    .catch((err) => console.log(err));
 };

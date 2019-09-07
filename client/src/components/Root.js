@@ -79,6 +79,8 @@ class Root extends React.Component {
     } else {
       this.setStateUserWithoutTeam(userObj);
     }
+    console.log(userObj)
+    socket.emit("init", {user_id: userObj._id});
   };
 
   setStateUserWithoutTeam = (userObj) => {
