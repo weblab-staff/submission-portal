@@ -125,7 +125,7 @@ router.post(
     const socketmap = req.app.get('socketmap');
     let socket = socketmap[req.body.user_id];
     socket.join(team._id);
-    io.emit('teammate_added', {
+    socket.emit('teammate_added', {
       team: team,
       user_id: req.body.user_id,
     });
