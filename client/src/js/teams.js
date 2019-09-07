@@ -1,6 +1,6 @@
 import { post, delet } from "../utils";
 import socketIOClient from "socket.io-client";
-const endpoint = "localhost:3000"
+const endpoint = window.location.hostname + ":" + window.location.port;
 export const socket = socketIOClient(endpoint);
 
 export const createGithub = (teams) => {
