@@ -1,0 +1,16 @@
+.gradeSection-container {
+  padding-left: var(--admin-sidePadding);
+  padding-right: var(--admin-sidePadding);
+}
+
+.gradeSection-teamBlock {
+  border-radius: var(--radius-sm);
+  background-color: var(--a-greyblue);
+  box-shadow: 0 3px 8px var(--a-shadow);
+  padding: var(--px-xl) var(--px-lg);
+  width: 250px;
+}
+
+.gradeSection-teamName {
+  font-size: 1.6em;
+}
