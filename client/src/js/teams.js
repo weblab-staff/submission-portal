@@ -24,7 +24,7 @@ export const removeTeam = (teams) => {
 };
 
 export const hasSubmission = (team, milestoneId) => {
-  console.log(team)
+  console.log(team);
   return !!team.submissions[milestoneId] && team.submissions[milestoneId].length > 0;
 };
 
@@ -33,13 +33,23 @@ export const addMember = (teamId, userId) => {
 };
 
 export const removeMember = (teamId, userId) => {
-   delet(`/api/teams/${teamId}/remove-member`, { user_id: userId, team_id: teamId })
+  delet(`/api/teams/${teamId}/remove-member`, { user_id: userId, team_id: teamId })
     .then((status) => {
       if (status === 204) {
         alert("removed team member, plx refresh page");
       } else {
         console.log("failed to remove student from team");
       }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const manualCredit = (team, milestone) => {
+  post(`/api/teams/${team._id}/mark-complete`, {
+    milestone_id: milestone._id,
+  })
+    .then((res) => {
+      alert("refresh to see");
     })
     .catch((err) => console.log(err));
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import Feedback from "./Feedback";
 import Switch from "../Switch";
-import { post } from "../../../utils";
+import { manualCredit } from "../../../js/teams";
 
 class MilestoneDetails extends React.Component {
   constructor(props) {
@@ -14,16 +14,6 @@ class MilestoneDetails extends React.Component {
 
   selectSubmission = (index) => {
     this.setState({ selectedSubmission: index });
-  };
-
-  manualCredit = () => {
-    post(`/api/teams/${this.props.team._id}/mark-complete`, {
-      milestone_id: this.props.milestone._id,
-    })
-      .then((res) => {
-        alert("refresh to see");
-      })
-      .catch((err) => console.log(err));
   };
 
   render() {
@@ -45,7 +35,10 @@ class MilestoneDetails extends React.Component {
           <div>No Auto-grade Results!</div>
           <div>
             <div>Manual credit status below</div>
-            <Switch checked={submissions && submissions.length > 0} onChange={this.manualCredit} />
+            <Switch
+              checked={submissions && submissions.length > 0}
+              onChange={() => manualCredit(team, milestone)}
+            />
           </div>
         </div>
       );

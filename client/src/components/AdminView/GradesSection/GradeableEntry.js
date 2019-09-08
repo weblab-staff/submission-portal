@@ -1,12 +1,12 @@
 import React from "react";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { hasSubmission } from "../../../js/teams";
+import { hasSubmission, manualCredit } from "../../../js/teams";
+
 class GradeableEntry extends React.Component {
   // showMilestonesSection = () => {
   //   this.props.showMilestonesSection();
   // };
-
   render() {
     const { num, team, milestones } = this.props;
 
@@ -42,9 +42,15 @@ class GradeableEntry extends React.Component {
                     "u-flexJustifyCenter",
                     "u-flexAlignCenter",
                     {
+                      "u-pointer": !hasSubmission(team, milestone._id),
                       "gradeSection-milestoneCheckbox--checked": hasSubmission(team, milestone._id),
                     }
                   )}
+                  onClick={
+                    !hasSubmission(team, milestone._id)
+                      ? () => manualCredit(team, milestone)
+                      : undefined
+                  }
                 >
                   {hasSubmission(team, milestone._id) && (
                     <FontAwesomeIcon icon={["fas", "check"]} size="xs" />
