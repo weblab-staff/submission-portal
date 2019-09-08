@@ -1,9 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
 import WarningBox from "./WarningBox";
-import MemberSection from "./MemberSection";
-import MilestoneSection from "./MilestoneSection";
-import { post } from "../../utils";
 
 class TeamView extends React.Component {
   constructor(props) {
@@ -25,12 +21,11 @@ class TeamView extends React.Component {
             <a href="/auth/logout">Logout</a>
           </li>
         </ul>
-        TeamView!
         <div>
+          <a href="/">Back</a>
           {currentTeam.team_name}
           {currentTeam.members.length > 3 ? <WarningBox /> : <div></div>}
           <MemberSection currentTeam={currentTeam} />
-          <MilestoneSection currentTeam={currentTeam} />
         </div>
       </div>
     );
