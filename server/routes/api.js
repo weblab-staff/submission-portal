@@ -19,10 +19,24 @@ router.use(async (req, res, next) => {
   next();
 });
 
+const socketMock = {
+  join: () => {},
+  emit: () => {},
+};
+
+socketMock.in = () => socketMock;
+
 if (process.env.NODE_ENV === "test") {
-  // mock req.user if running a test
   router.use((req, res, next) => {
+    // mock logged in user
     req.user = MockLogin.getUser();
+
+    // mock socket with no-ops (until we have a real way to test)
+    const socketmap = {};
+    if (req.body.user_id) socketmap[req.body.user_id] = socketMock;
+    if (req.user) socketmap[req.user._id] = socketMock;
+    req.app.set("socketmap", socketmap);
+    req.app.set("socketio", socketMock);
     next();
   });
 }

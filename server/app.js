@@ -84,22 +84,18 @@ app.use(function(err, req, res, next) {
   res.status(status).send(err.message || "Something broke!");
 });
 
+io.on("connection", (socket) => {
+  socket.on("init", (data) => {
+    socketmap[data.user_id] = socket;
+    console.log(`added ${data.user_id} to socket dict`);
+    console.log(socketmap);
+  });
+});
 
-io.on('connection', socket => {
+app.set("socketio", io);
+app.set("socketmap", socketmap);
 
-  socket.on('init', (data) => {
-    socketmap[data.user_id] = socket
-    console.log(`added ${data.user_id} to socket dict`)
-    console.log(socketmap)
-  })
-
-})
-
-app.set('socketio', io);
-app.set('socketmap', socketmap);
-
-module.exports = {app: app,
-                  test: "test"};
+module.exports = app;
 
 if (env === "test") {
   return; // don't run webserver for tests

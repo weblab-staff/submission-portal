@@ -49,18 +49,15 @@ router.post(
   errorWrap(async (req, res) => {
     delete req.body.is_admin; //safety check -- ensure this is never updated from API route
     //TODO -- on registration break up user extra info fields into tags. notably class year & living group.
-    const result = await User.findByIdAndUpdate(req.params["user_id"], req.body, (err, model) => {
-      console.log(model)
-      if (err) {
-        console.log(err)
-      }
-      else {
-        const io = req.app.get('socketio');
-        io.emit('user_update', {
-          user: model
-        });
-      }
+    const result = await User.findByIdAndUpdate(req.params["user_id"], req.body);
+    if (!result) return res.sendStatus(404);
+
+    const io = req.app.get("socketio");
+    io.emit("user_update", {
+      user: result,
     });
+
+    res.sendStatus(204);
   })
 );
 
