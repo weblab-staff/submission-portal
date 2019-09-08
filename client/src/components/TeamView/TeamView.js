@@ -1,5 +1,6 @@
 import React from "react";
 import WarningBox from "./WarningBox";
+import MemberSection from "./MemberSection";
 
 class TeamView extends React.Component {
   constructor(props) {
