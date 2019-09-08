@@ -4,12 +4,16 @@
   --s-pink: #fe82de;
   --s-yella: #ffc215;
 
+  --a-red: #d55959;
+  --a-yella: #ebc90e;
   --a-blue: #4b80ff;
   --a-blue-text: #4774d7;
+  --a-blue-ghost: #8daeff;
   --a-blue-light: #adc4fb;
   --a-grey: #f0efef;
   --a-grey-text: #707070;
   --a-greyblue: #f7f8f9;
+  --a-greyblue-text: #ebebeb;
   --a-white: #ffffff;
   --a-dark: #2e2e2e;
   --a-black: #000000;
@@ -143,8 +147,16 @@ button {
   margin-top: var(--px-lg);
 }
 
+.u-marginTop-xxxl {
+  margin-top: var(--px-xxxl);
+}
+
 .u-marginLeft-md {
   margin-left: var(--px-md);
+}
+
+.u-marginLeft-lg {
+  margin-left: var(--px-lg);
 }
 
 .u-marginBottom-sm {
@@ -189,4 +201,8 @@ button {
 
 .u-black {
   color: var(--a-black);
+}
+
+.u-white {
+  color: var(--a-white);
 }

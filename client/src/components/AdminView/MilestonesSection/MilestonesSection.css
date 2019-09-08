@@ -1,0 +1,53 @@
+:root {
+  --milestoneSelector-width: 265px;
+  --milestoneStatus-width: 22px;
+}
+
+.milestoneSelector-container {
+  background-color: var(--a-blue);
+  color: var(--a-greyblue-text);
+  min-height: calc(100vh - var(--px-lg) - var(--px-xxxl));
+  width: var(--milestoneSelector-width);
+  padding: var(--px-xxxl) var(--px-xl) var(--px-lg);
+}
+
+.milestoneSelector-header {
+  font-size: 1.8em;
+}
+
+.milestoneSelector-subheader {
+  font-size: 0.8em;
+  text-transform: uppercase;
+}
+
+.milestoneSelector-backIcon:hover {
+  color: var(--a-white);
+}
+
+.milestone-title {
+  font-size: 1.2em;
+}
+
+.milestone-submissionCount {
+  font-size: 0.8em;
+}
+
+.milestone-status {
+  height: var(--milestoneStatus-width);
+  width: var(--milestoneStatus-width);
+  background-color: var(--a-blue-ghost);
+  border-radius: 50%;
+  color: var(--a-blue);
+}
+
+.milestone-status--submitted {
+  background-color: var(--a-white);
+}
+
+.milestone-status--waiting {
+  background-color: var(--a-yella);
+}
+
+.milestone-status--late {
+  background-color: var(--a-red);
+}

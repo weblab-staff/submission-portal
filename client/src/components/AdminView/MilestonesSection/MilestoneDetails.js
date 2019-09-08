@@ -18,13 +18,9 @@ class MilestoneDetails extends React.Component {
 
   render() {
     const { team, milestone } = this.props;
-    const styles = {
-      display: "flex",
-      flexGrow: 3,
-    };
 
     if (!milestone) {
-      return <div style={styles}>No milestone selected!</div>;
+      return <div>No milestone selected!</div>;
     }
 
     const submissions = team.submissions[milestone._id];
@@ -45,13 +41,13 @@ class MilestoneDetails extends React.Component {
     }
 
     if (!submissions || submissions.length === 0) {
-      return <div style={styles}>No submissions!</div>;
+      return <div>No submissions!</div>;
     }
 
     const submission = submissions[this.state.selectedSubmission];
 
     return (
-      <div style={styles}>
+      <div className="u-marginTop-xxxl">
         <div style={{ flexGrow: 2 }}>
           <div>{milestone.title}</div>
           <div style={{ display: "flex", marginBottom: "20px" }}>
