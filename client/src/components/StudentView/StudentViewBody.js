@@ -19,10 +19,6 @@ class StudentViewBody extends React.Component {
   }
 
   componentDidMount() {
-    socket.on("new_submission", (data) => {
-      console.log("new submission");
-      this.getMilestones();
-    });
     this.getMilestones();
   }
 

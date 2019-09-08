@@ -22,6 +22,9 @@ class Root extends React.Component {
 
   componentDidMount() {
     this.getUser();
+    socket.on("new_submission", (data) => {
+      this.getUser();
+    });
     socket.on("teammate_added", data => {
       console.log(data)
       this.setState({

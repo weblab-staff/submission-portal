@@ -53,9 +53,7 @@ async function checkSubmissions() {
             await team.updateOne({ $push: { submissions: submission } }, { session });
           });
           const io = sockets.getIo()
-          console.log("emitting to team new submission")
-          console.log(team._id);
-          io.in(team._id).emit('new_submission', '');
+          io.in(team._id).emit('new_submission', {});
         } catch (e) {
           if (e.name === "ValidationError") {
             console.log(`Ignoring duplicate submission from ${row.teamname}`);
