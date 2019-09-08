@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { post } from "../../utils";
+import { get, post } from "../../utils";
 
 class CreateTeam extends React.Component {
   constructor(props) {
@@ -31,10 +31,14 @@ class CreateTeam extends React.Component {
     })
       .then((response) => {
         console.log(response);
-        this.setState({
-          redirect: true,
-          newTeam: response,
-        });
+        get(`/api/teams/${response._id}`)
+          .then((teamObj) => {
+            this.setState({
+              redirect: true,
+              newTeam: teamObj,
+            });
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   };
