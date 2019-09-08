@@ -8,10 +8,14 @@ class GradeableList extends React.Component {
     const { milestones, teams, rangeMin, rangeMax } = this.props;
 
     return (
-      <div className="gradeSection-container">
-        <div>
-          <span>{teams.length} total teams match</span>
-          <span>{rangeMax - rangeMin + 1} teams in range</span>
+      <div className="gradeSection-container u-marginTop-lg">
+        <div className="u-marginBottom-lg u-darkGrey">
+          <span className="u-marginRight-md">
+            <span className="u-black">{teams.length}</span> total teams match
+          </span>
+          <span>
+            <span className="u-black">{rangeMax - rangeMin + 1}</span> teams in range
+          </span>
         </div>
         <div className="gradeSection-teamContainer">
           {teams.slice(rangeMin - 1, rangeMax).map((team, index) => (

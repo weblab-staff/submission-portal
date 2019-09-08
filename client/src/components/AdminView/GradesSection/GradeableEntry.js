@@ -10,18 +10,10 @@ class GradeableEntry extends React.Component {
   render() {
     const { num, team, milestones } = this.props;
 
-    const iconStyle = {
-      margin: "0 10px",
-      cursor: "pointer",
-    };
-
     return (
       <div className="gradeSection-teamBlock u-positionRelative">
         <div className="gradeSection-teamName">{team.team_name}</div>
         <span className="gradeSection-teamNum">#{num}</span>
-        <div style={iconStyle} onClick={() => this.props.showMilestonesSection(team._id)}>
-          View Submissions
-        </div>
         <div>
           {milestones.map((milestone, index) => (
             <div
@@ -35,7 +27,14 @@ class GradeableEntry extends React.Component {
             >
               <div>{milestone.title}</div>
               <div className="u-flex">
-                <FontAwesomeIcon icon={["fas", "share-square"]} size="xs" />
+                {hasSubmission(team, milestone._id) && (
+                  <FontAwesomeIcon
+                    icon={["fas", "share-square"]}
+                    size="s"
+                    className="u-pointer u-marginRight-sm"
+                    onClick={() => this.props.showMilestonesSection(team._id)}
+                  />
+                )}
                 <div
                   className={classnames(
                     "gradeSection-milestoneCheckbox",

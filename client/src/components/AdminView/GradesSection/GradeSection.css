@@ -56,3 +56,21 @@
   background-color: var(--a-blue);
   border-color: var(--a-blue);
 }
+
+@media screen and (max-width: 1200px) {
+  .gradeSection-teamContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .gradeSection-teamContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .gradeSection-teamContainer {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

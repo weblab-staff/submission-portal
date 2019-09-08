@@ -131,12 +131,20 @@ button {
   margin-right: var(--px-sm);
 }
 
+.u-marginRight-md {
+  margin-right: var(--px-md);
+}
+
 .u-marginRight-lg {
   margin-right: var(--px-lg);
 }
 
 .u-marginTop-sm {
   margin-top: var(--px-sm);
+}
+
+.u-marginTop-lg {
+  margin-top: var(--px-lg);
 }
 
 .u-marginLeft-md {
@@ -149,6 +157,10 @@ button {
 
 .u-marginBottom-md {
   margin-bottom: var(--px-md);
+}
+
+.u-marginBottom-lg {
+  margin-bottom: var(--px-lg);
 }
 
 .u-marginBottom-xxxl {
@@ -165,4 +177,8 @@ button {
 
 .u-darkGrey {
   color: var(--dark-grey);
+}
+
+.u-black {
+  color: var(--a-black);
 }
