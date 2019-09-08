@@ -219,6 +219,7 @@ router.delete(
     const socketmap = req.app.get("socketmap");
     // let socket = socketmap[req.body.user_id];
     // console.log(socket)
+    console.log(req.body.team_id);
     io.in(req.body.team_id).emit("teammate_left", {
       user_id: req.body.user_id,
     });
