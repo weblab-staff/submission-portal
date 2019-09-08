@@ -13,10 +13,19 @@ class ClassEntry extends React.Component {
     const { year, active, onClick } = this.props;
 
     return (
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
+      <div className="classIteration-entry u-marginBottom-md">
         <div>{`${year} Class`}</div>
-        {active ? <span>ACTIVE!</span> : <button onClick={this.makeYearActive}>make active</button>}
-        <div style={{ color: "blue", cursor: "pointer" }} onClick={this.setViewedYear}>
+        {active ? (
+          <span>active</span>
+        ) : (
+          <button className="classIteration-button u-pointer" onClick={this.makeYearActive}>
+            make active
+          </button>
+        )}
+        <div
+          className="u-textAlignRight classIteration-viewText u-pointer"
+          onClick={this.setViewedYear}
+        >
           View
         </div>
       </div>

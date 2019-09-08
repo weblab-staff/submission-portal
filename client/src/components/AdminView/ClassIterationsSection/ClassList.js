@@ -88,10 +88,19 @@ class ClassList extends React.Component {
 
     return (
       <div>
-        <div className="u-flex u-flexJustifyAround bottomShadow classIteration-header">
-          <div>Year</div>
-          <div>Active</div>
-          <button onClick={this.openNewIterationModal}>New Iteration</button>
+        <div className="bottomShadow classIteration-container classIteration-header">
+          <div className="classIteration-headerContent">
+            <div>Year</div>
+            <div>Active</div>
+            <div className="u-flex u-flexJustifyEnd">
+              <button
+                className="classIteration-button u-pointer"
+                onClick={this.openNewIterationModal}
+              >
+                New Iteration
+              </button>
+            </div>
+          </div>
         </div>
         {modalActive && (
           <NewClassIterationModal
@@ -100,16 +109,18 @@ class ClassList extends React.Component {
             cancelNewIteration={this.cancelNewIteration}
           />
         )}
-        {years.map((el, index) => (
-          <ClassEntry
-            key={index}
-            id={el._id}
-            year={el.year}
-            active={el.is_active}
-            makeYearActive={this.makeYearActive}
-            setViewedYear={this.props.setViewedYear}
-          />
-        ))}
+        <div className="classIteration-container">
+          {years.map((el, index) => (
+            <ClassEntry
+              key={index}
+              id={el._id}
+              year={el.year}
+              active={el.is_active}
+              makeYearActive={this.makeYearActive}
+              setViewedYear={this.props.setViewedYear}
+            />
+          ))}
+        </div>
       </div>
     );
   }

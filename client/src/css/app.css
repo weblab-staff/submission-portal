@@ -69,10 +69,6 @@ button {
   flex-direction: column;
 }
 
-.u-blue {
-  color: var(--s-blue);
-}
-
 .u-flex {
   display: flex;
 }
@@ -171,8 +167,20 @@ button {
   position: relative;
 }
 
+.u-textAlignRight {
+  text-align: right;
+}
+
+.u-textAlignCenter {
+  text-align: center;
+}
+
 .u-pointer {
   cursor: pointer;
+}
+
+.u-blue {
+  color: var(--s-blue);
 }
 
 .u-darkGrey {

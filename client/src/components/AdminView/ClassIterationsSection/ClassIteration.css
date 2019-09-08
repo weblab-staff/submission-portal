@@ -1,4 +1,41 @@
+:root {
+  --classIteration-cols: 2fr 1fr 1fr;
+  --classIteration-width: 800px;
+  --classIteration-buttonMaxWidth: 100px;
+}
+
+.classIteration-container {
+  padding: 0 var(--admin-sidePadding) var(--px-md);
+}
+
 .classIteration-header {
-  padding-bottom: 8px;
-  margin-bottom: 8px;
+  margin-bottom: var(--px-md);
+}
+
+.classIteration-headerContent {
+  width: var(--classIteration-width);
+  display: grid;
+  grid-template-columns: var(--classIteration-cols);
+}
+
+.classIteration-entry {
+  width: var(--classIteration-width);
+  display: grid;
+  grid-template-columns: var(--classIteration-cols);
+}
+
+.classIteration-viewText {
+  color: var(--a-blue-text);
+}
+
+.classIteration-viewText:hover {
+  color: var(--a-blue);
+}
+
+.classIteration-button {
+  max-width: var(--classIteration-buttonMaxWidth);
+}
+
+.classIteration-button:hover {
+  background-color: var(--a-blue-light);
 }
