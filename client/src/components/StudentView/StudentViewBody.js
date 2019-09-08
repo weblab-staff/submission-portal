@@ -4,6 +4,8 @@ import StudentViewDetailed from "./StudentViewDetailed";
 import { get } from "../../utils";
 import { MilestoneLoader } from "../../utils";
 
+const TEAM_PLACEHOLDER = "$TEAMNAME";
+
 class StudentViewBody extends React.Component {
   constructor(props) {
     super(props);
@@ -20,8 +22,18 @@ class StudentViewBody extends React.Component {
   }
 
   getMilestones = () => {
+    const { currentTeam } = this.props;
     get(`/api/milestones`)
       .then((milestones) => {
+        // modify link to autofill teamname
+        milestones.forEach((mileObj) => {
+          if (!mileObj.handin_link) return;
+          mileObj.handin_link = mileObj.handin_link.replace(
+            TEAM_PLACEHOLDER,
+            currentTeam.team_name
+          );
+        });
+
         this.setState({
           milestones: milestones,
           loading: false,
