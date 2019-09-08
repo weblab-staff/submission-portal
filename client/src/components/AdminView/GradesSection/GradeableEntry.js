@@ -20,6 +20,7 @@ class GradeableEntry extends React.Component {
               className={classnames(
                 "u-flex",
                 "u-flexJustifyBetweeen",
+                "u-flexAlignCenter",
                 "gradeSection-milestoneContainer",
                 { "gradeSection-milestoneContainer--submitted": hasSubmission(team, milestone._id) }
               )}

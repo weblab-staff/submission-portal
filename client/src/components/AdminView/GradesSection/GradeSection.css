@@ -17,7 +17,7 @@
 }
 
 .gradeSection-teamName {
-  font-size: 1.4em;
+  font-size: 1.2em;
 }
 
 .gradeSection-teamNum {
@@ -33,6 +33,7 @@
   padding: var(--px-md);
   color: var(--a-grey-text);
   margin: var(--px-md) 0;
+  font-size: 0.9em;
 }
 
 .gradeSection-milestoneContainer--submitted {
