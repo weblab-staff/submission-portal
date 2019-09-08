@@ -73,7 +73,7 @@ class MilestoneSelector extends React.Component {
                 )}
               </div>
               <div>
-                <div className="u-white milestone-title">{milestone.title}</div>
+                <div className="u-white milestoneSelector-milestoneTitle">{milestone.title}</div>
                 <div>
                   <span className="u-white milestone-submissionCount">
                     {this.countSubmissions(team, milestone._id)}

@@ -1,6 +1,8 @@
 :root {
-  --milestoneSelector-width: 265px;
+  --milestoneSelector-width: 300px;
   --milestoneStatus-width: 22px;
+  --feedback-width: 380px;
+  --feedbackSubmit-width: 36px;
 }
 
 .milestoneSelector-container {
@@ -24,7 +26,7 @@
   color: var(--a-white);
 }
 
-.milestone-title {
+.milestoneSelector-milestoneTitle {
   font-size: 1.2em;
 }
 
@@ -50,4 +52,73 @@
 
 .milestone-status--late {
   background-color: var(--a-red);
+}
+
+.milestone-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr var(--feedback-width);
+  grid-gap: var(--px-lg);
+}
+
+.milestone-title {
+  font-size: 1.6em;
+  color: var(--a-grey-text);
+}
+
+.milestone-question {
+  color: var(--a-grey-text);
+  font-style: italic;
+}
+
+.milestone-answer {
+  font-size: 1.1em;
+  color: var(--a-black);
+}
+
+.feedback-container {
+  background-color: var(--a-greyblue);
+}
+
+.feedback-title {
+  font-size: 1.4em;
+}
+
+.feedback-specificContainer {
+  padding: var(--px-lg) var(--px-xl);
+  border-bottom: 4px solid var(--a-grey);
+}
+
+.feedback-specificContainer:first-of-type {
+  padding-top: var(--px-xl);
+}
+
+.feedback-specificContainer:last-of-type {
+  padding-bottom: var(--px-xl);
+  border-bottom: none;
+}
+
+.feedback-specificFrom {
+  padding-bottom: var(--px-md);
+}
+
+.feedback-specificBody {
+  font-size: 0.9em;
+}
+
+.feedback-input {
+  min-height: 1em;
+  width: 100%;
+  font-size: 0.9em;
+}
+
+.feedback-submit {
+  height: var(--feedbackSubmit-width);
+  width: var(--feedbackSubmit-width);
+  border-radius: 50%;
+  color: var(--a-white);
+  background-color: var(--a-blue);
+  position: absolute;
+  bottom: calc(0 - var(--feedbackSubmit-width) / 2);
+  right: var(--px-xxxl);
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { post } from "../../../utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Feedback extends React.Component {
   constructor(props) {
@@ -7,21 +8,13 @@ class Feedback extends React.Component {
     this.state = {
       feedback: "",
     };
+    this.inputRef = React.createRef();
   }
-
-  handleChange = (event) => {
-    const target = event.target;
-    const value = target.value;
-
-    this.setState({
-      feedback: value,
-    });
-  };
 
   sendFeedback = () => {
     post(`api/teams/${this.props.team._id}/feedback`, {
       milestone_submission_id: this.props.submission._id,
-      feedback: this.state.feedback,
+      feedback: this.inputRef.current.innerText,
     })
       .then((res) => console.log("Success!"))
       .catch((err) => console.log(err));
@@ -31,18 +24,28 @@ class Feedback extends React.Component {
     const { submission } = this.props;
 
     return (
-      <div style={{ flexGrow: 1 }}>
-        <div>Feedback</div>
-        {submission.feedback &&
-          submission.feedback.map((el, index) => (
-            <div key={`feedback-${index}`} style={{ margin: "10px 0", border: "1px solid black" }}>
-              <div>{el.from}</div>
-              <br />
-              <div>{el.body}</div>
+      <div>
+        <div className="feedback-container">
+          <div className="feedback-specificContainer feedback-title">Feedback</div>
+          {submission.feedback &&
+            submission.feedback.map((el, index) => (
+              <div className="feedback-specificContainer" key={`feedback-${index}`}>
+                <div className=" feedback-specificFrom">{el.from}</div>
+                <div className=" feedback-specificBody">{el.body}</div>
+              </div>
+            ))}
+          <div className="feedback-specificContainer feedback-inputContainer u-positionRelative">
+            <div contentEditable className="feedback-input" ref={this.inputRef}>
+              feedback...
             </div>
-          ))}
-        <input onChange={this.handleChange} />
-        <button onClick={this.sendFeedback}>send</button>
+            <div
+              className="feedback-submit u-pointer u-flex u-flexCenter"
+              onClick={this.sendFeedback}
+            >
+              <FontAwesomeIcon icon={["fas", "paper-plane"]} />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

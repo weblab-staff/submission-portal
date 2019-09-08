@@ -20,14 +20,18 @@ class MilestoneDetails extends React.Component {
     const { team, milestone } = this.props;
 
     if (!milestone) {
-      return <div>No milestone selected!</div>;
+      return (
+        <div className="u-marginTop-xxxl u-marginLeft-lg u-marginRight-lg">
+          No milestone selected!
+        </div>
+      );
     }
 
     const submissions = team.submissions[milestone._id];
     if (!milestone.autograde) {
       return (
-        <div style={{ flexGrow: 3 }}>
-          <div>{milestone.title}</div>
+        <div className="u-marginTop-xxxl u-marginLeft-lg u-marginRight-lg">
+          <div className="milestone-title u-marginBottom-md">{milestone.title}</div>
           <div>No Auto-grade Results!</div>
           <div>
             <div>Manual credit status below</div>
@@ -41,19 +45,21 @@ class MilestoneDetails extends React.Component {
     }
 
     if (!submissions || submissions.length === 0) {
-      return <div>No submissions!</div>;
+      return (
+        <div className="u-marginTop-xxxl u-marginLeft-lg u-marginRight-lg">No submissions!</div>
+      );
     }
 
     const submission = submissions[this.state.selectedSubmission];
 
     return (
-      <div className="u-marginTop-xxxl">
-        <div style={{ flexGrow: 2 }}>
-          <div>{milestone.title}</div>
-          <div style={{ display: "flex", marginBottom: "20px" }}>
+      <div className="milestone-container u-marginTop-xxxl u-marginLeft-lg u-marginRight-lg">
+        <div>
+          <div className="milestone-title u-marginBottom-md">{milestone.title}</div>
+          <div className="u-flex u-marginBottom-xxxl">
             {submissions.map((_, index) => (
               <div
-                style={{ cursor: "pointer", marginRight: "10px" }}
+                className="milestone-submissionOption u-pointer u-marginRight-lg"
                 key={`submission-${index}`}
                 onClick={() => this.selectSubmission(index)}
               >{`Submission ${index}`}</div>
@@ -61,9 +67,9 @@ class MilestoneDetails extends React.Component {
           </div>
           <div>
             {Object.keys(submission.form_response).map((el, index) => (
-              <div key={`response-item-${index}`}>
-                <div>{el}</div>
-                <div>{submission.form_response[el]}</div>
+              <div className="u-marginBottom-lg" key={`response-item-${index}`}>
+                <div className="milestone-question u-marginBottom-sm">{el}</div>
+                <div className="milestone-answer">{submission.form_response[el]}</div>
                 <br />
               </div>
             ))}
