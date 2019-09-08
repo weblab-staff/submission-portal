@@ -3,17 +3,17 @@ import socketIOClient from "socket.io-client";
 const endpoint = window.location.hostname + ":" + window.location.port;
 export const socket = socketIOClient(endpoint);
 
-export const createGithub = (teams) => {
-  Promise.all(teams.map((team) => post(`/api/teams/${team._id}/generate-github`, {}))).then(
-    alert("generated github")
-  );
+export const createGithub = (teamObjs) => {
+  Promise.all(
+    teamObjs.map((teamObj) => post(`/api/teams/${teamObj._id}/generate-github`, {}))
+  ).then(alert("generated github"));
 };
 
-export const toggleCompete = (teams) => {
+export const toggleCompete = (teamObjs) => {
   Promise.all(
-    teams.map((team) =>
-      post(`/api/teams/${team._id}/set-competing`, {
-        competing: !team.competing,
+    teamObjs.map((teamObj) =>
+      post(`/api/teams/${teamObj._id}/set-competing`, {
+        competing: !teamObj.competing,
       })
     )
   ).then(alert("toggled competing"));
@@ -23,9 +23,9 @@ export const removeTeam = (teams) => {
   Promise.all(teams.map((team) => delet(`/api/teams/${team._id}`))).then(alert("removed teams"));
 };
 
-export const hasSubmission = (team, milestoneId) => {
-  console.log(team);
-  return !!team.submissions[milestoneId] && team.submissions[milestoneId].length > 0;
+export const hasSubmission = (teamObj, milestoneId) => {
+  console.log(teamObj);
+  return !!teamObj.submissions[milestoneId] && teamObj.submissions[milestoneId].length > 0;
 };
 
 export const addMember = (teamId, userId) => {
@@ -44,9 +44,9 @@ export const removeMember = (teamId, userId) => {
     .catch((err) => console.log(err));
 };
 
-export const manualCredit = (team, milestone) => {
-  post(`/api/teams/${team._id}/mark-complete`, {
-    milestone_id: milestone._id,
+export const manualCredit = (teamObj, milestoneObj) => {
+  post(`/api/teams/${teamObj._id}/mark-complete`, {
+    milestone_id: milestoneObj._id,
   })
     .then((res) => {
       alert("refresh to see");
