@@ -12,6 +12,7 @@ const github = require("../github");
 const errorWrap = require("./errorWrap");
 const ValidationError = require("../errors/ValidationError");
 const utils = require("./util");
+const sockets = require("../sockets");
 
 function find_team(year, id, populate, include_content) {
   const filter = id && id.length > 0 ? { _id: id } : { year: year };
@@ -121,9 +122,8 @@ router.post(
 
     await User.findByIdAndUpdate(req.body.user_id, { team: team._id });
     console.log(`added user ${req.body.user_id} to ${team.team_name}`);
-    const io = req.app.get("socketio");
-    const socketmap = req.app.get("socketmap");
-    let socket = socketmap[req.body.user_id];
+
+    let socket = sockets.getUser(req.body.user_id);
     socket.join(team._id);
     socket.emit("teammate_added", {
       team: team,
@@ -215,14 +215,12 @@ router.delete(
     });
 
     await User.findByIdAndUpdate(req.body.user_id, { team: null });
-    const io = req.app.get("socketio");
-    const socketmap = req.app.get("socketmap");
-    // let socket = socketmap[req.body.user_id];
-    // console.log(socket)
-    console.log(req.body.team_id);
-    io.in(req.body.team_id).emit("teammate_left", {
-      user_id: req.body.user_id,
-    });
+    sockets
+      .getIo()
+      .in(req.body.team_id)
+      .emit("teammate_left", {
+        user_id: req.body.user_id,
+      });
     res.sendStatus(204);
   })
 );

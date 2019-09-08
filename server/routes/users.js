@@ -6,6 +6,7 @@ const User = require("../models/User");
 const errorWrap = require("./errorWrap");
 const ensure = require("./ensure");
 const utils = require("./util");
+const sockets = require("../sockets");
 
 function findUser(year, id, populate) {
   const filter = id.length > 0 ? { _id: id } : { year: year };
@@ -52,8 +53,7 @@ router.post(
     const result = await User.findByIdAndUpdate(req.params["user_id"], req.body);
     if (!result) return res.sendStatus(404);
 
-    const io = req.app.get("socketio");
-    io.emit("user_update", {
+    sockets.getIo().emit("user_update", {
       user: result,
     });
 

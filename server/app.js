@@ -8,12 +8,13 @@ const Team = require("./models/Team");
 const User = require("./models/User");
 const app = express();
 const http = require("http").Server(app);
-const io = require("socket.io")(http);
 const api = require("./routes/api");
 const mongoose = require("mongoose");
 const passport = require("./passport");
 const periodic = require("./periodic");
 const github = require("./github");
+const sockets = require("./sockets");
+sockets.init(http);
 
 // set POST request body parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,8 +23,6 @@ app.use(bodyParser.json());
 const publicPath = path.resolve(__dirname, "..", "client", "dist");
 
 let env = process.env.NODE_ENV || "dev";
-
-let socketmap = {};
 
 mongoose
   .connect(process.env.MONGO_SRV, {
@@ -83,17 +82,6 @@ app.use(function(err, req, res, next) {
 
   res.status(status).send(err.message || "Something broke!");
 });
-
-io.on("connection", (socket) => {
-  socket.on("init", (data) => {
-    socketmap[data.user_id] = socket;
-    console.log(`added ${data.user_id} to socket dict`);
-    console.log(socketmap);
-  });
-});
-
-app.set("socketio", io);
-app.set("socketmap", socketmap);
 
 module.exports = app;
 

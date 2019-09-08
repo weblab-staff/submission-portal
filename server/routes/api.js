@@ -6,6 +6,7 @@
 const express = require("express");
 const util = require("./util");
 const MockLogin = require("../tests/mocklogin");
+const sockets = require("../sockets");
 const router = express.Router();
 
 // Determine year from request
@@ -19,24 +20,17 @@ router.use(async (req, res, next) => {
   next();
 });
 
-const socketMock = {
-  join: () => {},
-  emit: () => {},
-};
-
-socketMock.in = () => socketMock;
-
+// various mocks for testing
 if (process.env.NODE_ENV === "test") {
+  // generate no-ops for socket
+  const mock = sockets.mockInit();
+
   router.use((req, res, next) => {
     // mock logged in user
     req.user = MockLogin.getUser();
 
-    // mock socket with no-ops (until we have a real way to test)
-    const socketmap = {};
-    if (req.body.user_id) socketmap[req.body.user_id] = socketMock;
-    if (req.user) socketmap[req.user._id] = socketMock;
-    req.app.set("socketmap", socketmap);
-    req.app.set("socketio", socketMock);
+    if (req.body.user_id) sockets.addUser(req.body.user_id, mock);
+    if (req.user) sockets.addUser(req.user, mock);
     next();
   });
 }
