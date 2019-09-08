@@ -16,7 +16,13 @@ class StudentsHeader extends React.Component {
         <div className="u-flex u-flexJustifyBetweeen u-flexAlignCenter">
           <div className="massAction-container">
             <div className="u-flex">
-              <SearchBar onChange={this.props.activeList === ListOptions.TEAM ? (event) => this.props.getTeams(event.target.value) : (event) => this.props.getStudents(event.target.value)} />
+              <SearchBar
+                onChange={
+                  this.props.activeList === ListOptions.TEAM
+                    ? (event) => this.props.getTeams(event.target.value)
+                    : (event) => this.props.getStudents(event.target.value)
+                }
+              />
               <ActionButton selectedStudents={selectedStudents} selectedTeams={selectedTeams} />
             </div>
             <div>{this.renderSelected()}</div>
@@ -42,10 +48,10 @@ class StudentsHeader extends React.Component {
     if (this.props.activeList === ListOptions.INDIVIDUAL) {
       return (
         <div className="u-flex">
-          {this.props.selectedStudents.map((student, index) => (
+          {this.props.selectedStudents.map((studentObj, index) => (
             <div key={`selected-${index}`}>
-              <span>{student.first_name}</span>
-              <button onClick={() => this.props.deselectStudent(student)}>X</button>
+              <span>{studentObj.first_name}</span>
+              <button onClick={() => this.props.deselectStudent(studentObj)}>X</button>
             </div>
           ))}
         </div>

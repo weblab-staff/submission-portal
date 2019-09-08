@@ -32,8 +32,8 @@ class StudentsSection extends React.Component {
 
   componentDidMount() {
     this.getInfo();
-    socket.on("user_update", data => {
-      console.log("user_updating!")
+    socket.on("user_update", (data) => {
+      console.log("user_updating!");
       this.getInfo();
     });
   }
@@ -83,15 +83,15 @@ class StudentsSection extends React.Component {
     this.setState({ activeList: list });
   };
 
-  selectStudent = (student) => {
+  selectStudent = (studentObj) => {
     this.setState({
-      selectedStudents: [...this.state.selectedStudents, student],
+      selectedStudents: [...this.state.selectedStudents, studentObj],
     });
   };
 
-  deselectStudent = (student) => {
+  deselectStudent = (studentObj) => {
     this.setState({
-      selectedStudents: this.state.selectedStudents.filter((el) => el._id !== student._id),
+      selectedStudents: this.state.selectedStudents.filter((el) => el._id !== studentObj._id),
     });
   };
 

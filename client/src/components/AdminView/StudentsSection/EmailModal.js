@@ -55,9 +55,9 @@ class EmailModal extends React.Component {
         <div>
           To:
           <div style={{ display: "flex" }}>
-            {selectedStudents.map((student, index) => (
+            {selectedStudents.map((studentObj, index) => (
               <div key={`selected-${index}`}>
-                <span>{student.first_name}</span>
+                <span>{studentObj.first_name}</span>
                 <button>X</button>
               </div>
             ))}

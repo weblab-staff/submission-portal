@@ -9,54 +9,54 @@ export const isRegistered = (user) => {
   );
 };
 
-export const removeTag = (students, deleteTag) => {
+export const removeTag = (studentObjs, deleteTag) => {
   Promise.all(
-    students.map((student) =>
-      post(`/api/users/${student._id}/update`, {
-        tags: student.tags.filter((tag) => tag !== deleteTag),
+    studentObjs.map((studentObj) =>
+      post(`/api/users/${studentObj._id}/update`, {
+        tags: studentObj.tags.filter((tag) => tag !== deleteTag),
       })
     )
   ).then(alert("removed tag"));
 };
 
-export const addTag = (students, tag) => {
+export const addTag = (studentObjs, tag) => {
   Promise.all(
-    students
-      .filter((student) => !student.tags.includes(tag))
-      .map((student) =>
-        post(`/api/users/${student._id}/update`, {
-          tags: student.tags.concat(tag),
+    studentObjs
+      .filter((studentObj) => !studentObj.tags.includes(tag))
+      .map((studentObj) =>
+        post(`/api/users/${studentObj._id}/update`, {
+          tags: studentObj.tags.concat(tag),
         })
       )
   ).then(alert("added tag please refresh"));
 };
 
-export const assignTeam = (students) => {
+export const assignTeam = (studentObjs) => {
   //call to teams join team
   alert("assign team");
 };
 
-export const dropStudents = (students) => {
+export const dropStudents = (studentObjs) => {
   //todo github-esque type confirm to delete
 
   if (
     confirm(
       `Are you sure you want to drop ${JSON.stringify(
-        students.map((student) => student.first_name)
+        studentObjs.map((studentObj) => studentObj.first_name)
       )}?`
     )
   ) {
-    Promise.all(students.map((student) => delet(`/api/users/${student._id}`))).then(
+    Promise.all(studentObjs.map((studentObj) => delet(`/api/users/${studentObj._id}`))).then(
       alert("deleted students -- please refresh")
     );
   }
 };
 
-export const toggleCredit = (students) => {
+export const toggleCredit = (studentObjs) => {
   Promise.all(
-    students.map((student) =>
-      post(`/api/users/${student._id}/update`, {
-        for_credit: !student.for_credit,
+    studentObjs.map((studentObj) =>
+      post(`/api/users/${studentObj._id}/update`, {
+        for_credit: !studentObj.for_credit,
       })
     )
   ).then(alert("toggled credit"));

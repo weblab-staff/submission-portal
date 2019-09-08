@@ -101,8 +101,8 @@ class TeamEntry extends React.Component {
           add={(userId) => {
             addMember(this.props.team._id, userId);
           }}
-          datalist={students.reduce((data, student) => {
-            data[student._id] = `${student.first_name} ${student.last_name}`;
+          datalist={students.reduce((data, studentObj) => {
+            data[studentObj._id] = `${studentObj.first_name} ${studentObj.last_name}`;
             return data;
           }, {})}
           remove={(member) => removeMember(this.props.team._id, member._id)}
