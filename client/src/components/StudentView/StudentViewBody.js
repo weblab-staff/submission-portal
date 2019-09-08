@@ -3,6 +3,7 @@ import StudentViewBroad from "./StudentViewBroad";
 import StudentViewDetailed from "./StudentViewDetailed";
 import { get } from "../../utils";
 import { MilestoneLoader } from "../../utils";
+import { socket } from "../../js/teams";
 
 const TEAM_PLACEHOLDER = "$TEAMNAME";
 
@@ -18,6 +19,10 @@ class StudentViewBody extends React.Component {
   }
 
   componentDidMount() {
+    socket.on("new_submission", (data) => {
+      console.log("new submission");
+      this.getMilestones();
+    });
     this.getMilestones();
   }
 

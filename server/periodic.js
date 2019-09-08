@@ -6,6 +6,7 @@ const Team = require("./models/Team");
 const Milestone = require("./models/Milestone");
 const MilestoneSubmission = require("./models/MilestoneSubmission");
 const util = require("./routes/util");
+const sockets = require("./sockets");
 
 const SHEET_POLL_INTERVAL = 10;
 
@@ -51,6 +52,10 @@ async function checkSubmissions() {
             await submission.save({ session });
             await team.updateOne({ $push: { submissions: submission } }, { session });
           });
+          const io = sockets.getIo()
+          console.log("emitting to team new submission")
+          console.log(team._id);
+          io.in(team._id).emit('new_submission', '');
         } catch (e) {
           if (e.name === "ValidationError") {
             console.log(`Ignoring duplicate submission from ${row.teamname}`);
@@ -64,6 +69,7 @@ async function checkSubmissions() {
 
       milestone.submission_count += rows.length;
       milestone.save();
+
     });
 }
 

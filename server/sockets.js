@@ -7,7 +7,10 @@ module.exports = {
     socketmap = {};
     io.on("connection", (socket) => {
       socket.on("init", (data) => {
-        console.log(`User ${data.user_id} connected to socket`);
+        console.log(`User ${data.user_id} connected to socket with team ${data.team_id}`);
+        if (data.team_id) {
+          socket.join(data.team_id)
+        }
         socketmap[data.user_id] = socket;
       });
     });
