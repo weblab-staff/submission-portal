@@ -13,7 +13,7 @@ class GradeableList extends React.Component {
           <span>{teams.length} total teams match</span>
           <span>{rangeMax - rangeMin + 1} teams in range</span>
         </div>
-        <div className="u-flex u-flexWrap u-flexJustifyBetween">
+        <div className="gradeSection-teamContainer">
           {teams.slice(rangeMin - 1, rangeMax).map((team, index) => (
             <GradeableEntry
               key={`entry-${index}`}

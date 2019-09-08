@@ -3,14 +3,56 @@
   padding-right: var(--admin-sidePadding);
 }
 
+.gradeSection-teamContainer {
+  display: grid;
+  grid-gap: var(--px-xl);
+  grid-template-columns: repeat(4, 1fr);
+}
+
 .gradeSection-teamBlock {
   border-radius: var(--radius-sm);
   background-color: var(--a-greyblue);
   box-shadow: 0 3px 8px var(--a-shadow);
   padding: var(--px-xl) var(--px-lg);
-  width: 250px;
 }
 
 .gradeSection-teamName {
-  font-size: 1.6em;
+  font-size: 1.4em;
+}
+
+.gradeSection-teamNum {
+  position: absolute;
+  top: var(--px-lg);
+  right: var(--px-xl);
+  color: var(--a-grey-text);
+}
+
+.gradeSection-milestoneContainer {
+  border: 1px var(--a-grey-text) solid;
+  border-radius: var(--radius-sm);
+  padding: var(--px-md);
+  color: var(--a-grey-text);
+  margin: var(--px-md) 0;
+}
+
+.gradeSection-milestoneContainer--submitted {
+  border-color: var(--a-blue);
+  color: var(--a-blue-text);
+}
+
+.gradeSection-milestoneContainer:last-child {
+  margin-bottom: 0;
+}
+
+.gradeSection-milestoneCheckbox {
+  width: var(--px-lg);
+  height: var(--px-lg);
+  border-radius: 50%;
+  border: 1px solid var(--a-grey-text);
+  color: var(--a-white);
+}
+
+.gradeSection-milestoneCheckbox--checked {
+  background-color: var(--a-blue);
+  border-color: var(--a-blue);
 }
