@@ -1,7 +1,7 @@
 .idea/*
 .DS_STORE
 node_modules
-dist/*
+client/dist/*
 *.env
 *.swp
 .nyc_output
