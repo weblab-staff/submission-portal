@@ -1,0 +1,7 @@
+{
+    "append": true,
+    "script": "server/app.js",
+    "logFile": "/root/submission-portal/logs/forever.log",
+    "outFile": "/root/submission-portal/logs/out.log",
+    "errorFile": "/root/submission-portal/logs/error.log"
+}
