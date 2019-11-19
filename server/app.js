@@ -29,6 +29,7 @@ mongoose
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
+    useUnifiedTopology: true,
     dbName: env,
   })
   .then(
