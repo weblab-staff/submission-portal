@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
     class_year: Number,
     experience: Number,
     living_group: String,
+    shirt_size: String,
   },
   is_admin: Boolean,
   tags: [String],
