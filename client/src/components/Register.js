@@ -26,6 +26,8 @@ class Register extends React.Component {
 
   componentDidMount() {
     this.getUser();
+    this.handleResize();
+    window.addEventListener("resize", this.handleResize);
   }
 
   getUser = () => {
@@ -50,7 +52,6 @@ class Register extends React.Component {
   handleRangeChange = (event) => {
     const value = event.target.value;
     this.setState({ experience: value });
-    this.handleResize();
   };
 
   handleSubmit = (event) => {
@@ -87,7 +88,6 @@ class Register extends React.Component {
   };
 
   handleResize = () => {
-    //TODO: find out where this should actually be called
     if (!this.sliderRef.current) {
       return;
     }
