@@ -8,6 +8,7 @@ import Register from "./Register";
 import TeamView from "./TeamView/TeamView.js";
 import CreateTeam from "./TeamView/CreateTeam.js";
 import JoinTeam from "./TeamView/JoinTeam.js";
+import UnderConstruction from "./UnderConstruction/UnderConstruction.js";
 
 import "../css/app.css";
 import "../css/theme.css";
@@ -25,6 +26,7 @@ class App extends React.Component {
           <Route exact path="/team" component={TeamView} />
           <Route exact path="/create-team" component={CreateTeam} />
           <Route exact path="/join-team" component={JoinTeam} />
+          <Route exact path="/coming-soon" component={UnderConstruction} />
         </Switch>
       </div>
     );

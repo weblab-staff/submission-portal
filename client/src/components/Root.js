@@ -1,6 +1,7 @@
 import React from "react";
 import AdminView from "./AdminView/AdminView";
 import StudentView from "./StudentView/StudentView";
+import UnderConstruction from "./UnderConstruction/UnderConstruction";
 import Login from "./Login";
 import { get, MilestoneLoader } from "../utils";
 import { Redirect } from "react-router-dom";
@@ -25,14 +26,14 @@ class Root extends React.Component {
     socket.on("new_submission", (data) => {
       this.getUser();
     });
-    socket.on("teammate_added", data => {
-      console.log(data)
+    socket.on("teammate_added", (data) => {
+      console.log(data);
       this.setState({
-        currentTeam: data.team
-      })
+        currentTeam: data.team,
+      });
     });
-    socket.on("teammate_left", data => {
-      console.log("teammate left, updating state now.")
+    socket.on("teammate_left", (data) => {
+      console.log("teammate left, updating state now.");
       if (data.user_id === this.state.currentUser._id) {
         this.setState({
           currentTeam: null,
@@ -82,8 +83,8 @@ class Root extends React.Component {
     } else {
       this.setStateUserWithoutTeam(userObj);
     }
-    console.log(userObj)
-    socket.emit("init", {user_id: userObj._id, team_id: userObj.team});
+    console.log(userObj);
+    socket.emit("init", { user_id: userObj._id, team_id: userObj.team });
   };
 
   setStateUserWithoutTeam = (userObj) => {
@@ -119,7 +120,8 @@ class Root extends React.Component {
         {currentUser.is_admin ? (
           <AdminView />
         ) : isRegistered(currentUser) ? (
-          <StudentView currentUser={currentUser} currentTeam={currentTeam} loading={loading}/>
+          // <StudentView currentUser={currentUser} currentTeam={currentTeam} loading={loading}/>
+          <UnderConstruction />
         ) : (
           <Redirect to="/register" />
         )}

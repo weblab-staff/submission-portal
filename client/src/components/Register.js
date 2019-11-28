@@ -99,7 +99,7 @@ class Register extends React.Component {
     const { redirect, firstName, lastName } = this.state;
 
     if (redirect) {
-      return <Redirect to="/" />;
+      return <Redirect to="/coming-soon" />;
     }
 
     return (

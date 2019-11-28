@@ -1,55 +1,53 @@
-const path = require('path');
-const entryFile = path.resolve(__dirname, 'client', 'src', 'index.js');
-const outputDir = path.resolve(__dirname, 'client', 'dist');
+const path = require("path");
+const entryFile = path.resolve(__dirname, "client", "src", "index.js");
+const outputDir = path.resolve(__dirname, "client", "dist");
 
-const webpack = require('webpack');
+const webpack = require("webpack");
 
 module.exports = {
-  entry: ['@babel/polyfill', entryFile],
+  entry: ["@babel/polyfill", entryFile],
   output: {
-    publicPath:"/",
-    filename: 'bundle.js',
-    path: outputDir
+    publicPath: "/",
+    filename: "bundle.js",
+    path: outputDir,
   },
   module: {
     rules: [
-
       {
         test: /\.(js|jsx)$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
+        loader: "babel-loader",
+        exclude: /node_modules/,
       },
       {
         test: /\.(scss|css)$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: "style-loader",
           },
           {
-            loader: 'css-loader',
-          }
-        ]
-      }
-    ]
+            loader: "css-loader",
+          },
+        ],
+      },
+    ],
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
-    contentBase: './client/dist',
+    contentBase: "./client/dist",
     hot: true,
     proxy: {
-      '/api': 'http://localhost:3000',
-      '/auth': 'http://localhost:3000',
-      '/logout': 'http://localhost:3000',
-      '/register': 'http://localhost:3000',
-      '/team': 'http://localhost:3000',
-      '/create-team': 'http://localhost:3000',
-      '/join-team': 'http://localhost:3000',
-      '/socket.io/*': {
-        target: 'http://localhost:3000',
-        ws: true
+      "/api": "http://localhost:3000",
+      "/auth": "http://localhost:3000",
+      "/logout": "http://localhost:3000",
+      "/register": "http://localhost:3000",
+      "/team": "http://localhost:3000",
+      "/create-team": "http://localhost:3000",
+      "/join-team": "http://localhost:3000",
+      "/coming-soon": "http://localhost:3000",
+      "/socket.io/*": {
+        target: "http://localhost:3000",
+        ws: true,
       },
-    }
-  }
+    },
+  },
 };
