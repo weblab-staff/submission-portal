@@ -17,7 +17,7 @@ class Register extends React.Component {
       // classYear: "", TODO add class year
       livingGroup: "",
       priorExp: "",
-      forCredit: true,
+      forCredit: "",
       redirect: false,
       experience: 3,
     };
@@ -96,7 +96,7 @@ class Register extends React.Component {
   };
 
   render() {
-    const { redirect, firstName, lastName, email } = this.state;
+    const { redirect, firstName, lastName, email, forCredit } = this.state;
 
     if (redirect) {
       return <Redirect to="/" />;
@@ -106,7 +106,7 @@ class Register extends React.Component {
       <div className="browserContainer u-flex u-flexCenter">
         <Formik
           enableReinitialize={true}
-          initialValues={{ firstName, lastName, email }}
+          initialValues={{ firstName, lastName, email, forCredit }}
           validate={(values) => {
             let errors = {};
             if (!values.firstName) {
@@ -119,6 +119,9 @@ class Register extends React.Component {
               errors.email = "Required";
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.edu$/i.test(values.email)) {
               errors.email = "Invalid university email address";
+            }
+            if (values.forCredit === "") {
+              errors.forCredit = "Required";
             }
             return errors;
           }}
@@ -182,18 +185,14 @@ class Register extends React.Component {
                   Are you taking this class for credit?
                 </div>
                 <div className="formInput-select--arrow">
-                  <Field
-                    className="formInput-select"
-                    component="select"
-                    name="forCredit"
-                    defaultValue="filler"
-                  >
-                    <option disabled value="filler">
+                  <Field className="formInput-select" component="select" name="forCredit">
+                    <option disabled value="">
                       -- select an option --
                     </option>
                     <option value="true">Yes</option>
                     <option value="false">No</option>
                   </Field>
+                  <ErrorMessage name="forCredit" component="div" />
                 </div>
               </div>
               <div className="u-marginBottom-md u-positionRelative">
