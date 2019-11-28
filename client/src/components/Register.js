@@ -245,13 +245,11 @@ class Register extends React.Component {
               <div className="u-marginBottom-md u-positionRelative">
                 <div className="u-formLabel u-marginBottom-sm">prior experience</div>
                 <div className="formInput-rangeContainer" ref={this.sliderRef}>
-                  <input
+                  <Field
                     type="range"
                     min="1"
                     max="5"
                     name="experience"
-                    value={this.state.experience}
-                    onChange={this.handleRangeChange}
                     className="formInput-range"
                   />
                 </div>
@@ -260,16 +258,6 @@ class Register extends React.Component {
                   <div className="u-textRight">expert</div>
                 </div>
               </div>
-              {/* <div className="u-marginBottom-md">
-                <div className="u-formLabel u-marginBottom-sm">experience</div>
-                <div>
-                  <Field type="radio" name="experience" value="0" />
-                  <Field type="radio" name="experience" value="1" />
-                  <Field type="radio" name="experience" value="2" />
-                  <Field type="radio" name="experience" value="3" />
-                  <Field type="radio" name="experience" value="4" />
-                </div>
-              </div> */}
               <button className="studentButton" type="submit" disabled={isSubmitting}>
                 register
               </button>
