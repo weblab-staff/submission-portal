@@ -169,21 +169,21 @@ class Register extends React.Component {
                 <div className="u-formLabel u-marginBottom-sm">first name</div>
                 <div>
                   <Field className="formInput" type="input" name="firstName" />
-                  <ErrorMessage name="firstName" component="div" />
+                  <ErrorMessage className="formError" name="firstName" component="div" />
                 </div>
               </div>
               <div className="u-marginBottom-md">
                 <div className="u-formLabel u-marginBottom-sm">last name</div>
                 <div>
                   <Field className="formInput" type="input" name="lastName" />
-                  <ErrorMessage name="lastName" component="div" />
+                  <ErrorMessage className="formError" name="lastName" component="div" />
                 </div>
               </div>
               <div className="u-marginBottom-md">
                 <div className="u-formLabel u-marginBottom-sm">university email address</div>
                 <div>
                   <Field className="formInput" type="email" name="email" />
-                  <ErrorMessage name="email" component="div" />
+                  <ErrorMessage className="formError" name="email" component="div" />
                 </div>
               </div>
               <div className="u-marginBottom-md u-positionRelative">
@@ -198,7 +198,7 @@ class Register extends React.Component {
                     <option value="true">Yes</option>
                     <option value="false">No</option>
                   </Field>
-                  <ErrorMessage name="forCredit" component="div" />
+                  <ErrorMessage className="formError" name="forCredit" component="div" />
                 </div>
               </div>
               <div className="u-marginBottom-md u-positionRelative">
@@ -215,7 +215,7 @@ class Register extends React.Component {
                     <option value="xl">XL</option>
                     <option value="xxl">XXL</option>
                   </Field>
-                  <ErrorMessage name="shirtSize" component="div" />
+                  <ErrorMessage className="formError" name="shirtSize" component="div" />
                 </div>
               </div>
               <div className="u-marginBottom-md u-positionRelative">
