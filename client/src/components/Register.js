@@ -182,7 +182,15 @@ class Register extends React.Component {
                   Are you taking this class for credit?
                 </div>
                 <div className="formInput-select--arrow">
-                  <Field className="formInput-select" component="select" name="forCredit">
+                  <Field
+                    className="formInput-select"
+                    component="select"
+                    name="forCredit"
+                    defaultValue="filler"
+                  >
+                    <option disabled value="filler">
+                      -- select an option --
+                    </option>
                     <option value="true">Yes</option>
                     <option value="false">No</option>
                   </Field>
@@ -191,7 +199,15 @@ class Register extends React.Component {
               <div className="u-marginBottom-md u-positionRelative">
                 <div className="u-formLabel u-marginBottom-sm">gender</div>
                 <div className="formInput-select--arrow">
-                  <Field className="formInput-select" component="select" name="gender">
+                  <Field
+                    className="formInput-select"
+                    component="select"
+                    name="gender"
+                    defaultValue="filler"
+                  >
+                    <option disabled value="filler">
+                      -- select an option --
+                    </option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
@@ -201,7 +217,7 @@ class Register extends React.Component {
               <div className="u-marginBottom-md">
                 <div className="u-formLabel u-marginBottom-sm">living group</div>
                 <div>
-                  <Field className="formInput" name="livingGroup" />
+                  <Field className="formInput" type="input" name="livingGroup" />
                 </div>
               </div>
               <div className="u-marginBottom-md u-positionRelative">
