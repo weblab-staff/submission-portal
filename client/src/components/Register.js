@@ -96,7 +96,7 @@ class Register extends React.Component {
   };
 
   render() {
-    const { redirect, firstName, lastName } = this.state;
+    const { redirect, firstName, lastName, email } = this.state;
 
     if (redirect) {
       return <Redirect to="/" />;
@@ -106,7 +106,7 @@ class Register extends React.Component {
       <div className="browserContainer u-flex u-flexCenter">
         <Formik
           enableReinitialize={true}
-          initialValues={{ firstName, lastName }}
+          initialValues={{ firstName, lastName, email }}
           validate={(values) => {
             let errors = {};
             if (!values.firstName) {
