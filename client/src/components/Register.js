@@ -107,7 +107,7 @@ class Register extends React.Component {
       <div className="browserContainer u-flex u-flexCenter">
         <Formik
           enableReinitialize={true}
-          initialValues={{ firstName, lastName, email, forCredit, shirtSize }}
+          initialValues={{ firstName, lastName, email, forCredit, shirtSize, experience: 3 }}
           validate={(values) => {
             let errors = {};
             if (!values.firstName) {
