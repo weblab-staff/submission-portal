@@ -74,7 +74,7 @@
   border-top: 5px black solid;
   width: 0;
   height: 0;
-  bottom: 0.6em;
+  top: 2.4em;
   right: 0.8em;
 }
 
@@ -149,6 +149,13 @@
   border: none;
   border-radius: 50%;
   background-color: var(--s-blue);
+}
+
+.formError {
+  margin-top: var(--px-sm);
+  color: var(--s-pink);
+  text-transform: uppercase;
+  font-size: 0.8em;
 }
 
 .bottomShadow {

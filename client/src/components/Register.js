@@ -17,7 +17,8 @@ class Register extends React.Component {
       // classYear: "", TODO add class year
       livingGroup: "",
       priorExp: "",
-      forCredit: true,
+      forCredit: "",
+      shirtSize: "",
       redirect: false,
       experience: 3,
     };
@@ -96,7 +97,7 @@ class Register extends React.Component {
   };
 
   render() {
-    const { redirect, firstName, lastName } = this.state;
+    const { redirect, firstName, lastName, email, forCredit, shirtSize } = this.state;
 
     if (redirect) {
       return <Redirect to="/coming-soon" />;
@@ -106,7 +107,7 @@ class Register extends React.Component {
       <div className="browserContainer u-flex u-flexCenter">
         <Formik
           enableReinitialize={true}
-          initialValues={{ firstName, lastName }}
+          initialValues={{ firstName, lastName, email, forCredit, shirtSize }}
           validate={(values) => {
             let errors = {};
             if (!values.firstName) {
@@ -120,6 +121,12 @@ class Register extends React.Component {
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.edu$/i.test(values.email)) {
               errors.email = "Invalid university email address";
             }
+            if (values.forCredit === "") {
+              errors.forCredit = "Required";
+            }
+            if (values.shirtSize === "") {
+              errors.shirtSize = "Required";
+            }
             return errors;
           }}
           onSubmit={(values, { setSubmitting }) => {
@@ -132,6 +139,7 @@ class Register extends React.Component {
               livingGroup,
               experience,
               forCredit,
+              shirtSize,
             } = values;
             post(`/api/users/${currentUser._id}/update`, {
               first_name: firstName,
@@ -143,6 +151,7 @@ class Register extends React.Component {
                 // class_year: classYear,
                 experience: experience,
                 living_group: livingGroup,
+                shirt_size: shirtSize,
               },
             })
               .then((response) => {
@@ -160,21 +169,21 @@ class Register extends React.Component {
                 <div className="u-formLabel u-marginBottom-sm">first name</div>
                 <div>
                   <Field className="formInput" type="input" name="firstName" />
-                  <ErrorMessage name="firstName" component="div" />
+                  <ErrorMessage className="formError" name="firstName" component="div" />
                 </div>
               </div>
               <div className="u-marginBottom-md">
                 <div className="u-formLabel u-marginBottom-sm">last name</div>
                 <div>
                   <Field className="formInput" type="input" name="lastName" />
-                  <ErrorMessage name="lastName" component="div" />
+                  <ErrorMessage className="formError" name="lastName" component="div" />
                 </div>
               </div>
               <div className="u-marginBottom-md">
                 <div className="u-formLabel u-marginBottom-sm">university email address</div>
                 <div>
                   <Field className="formInput" type="email" name="email" />
-                  <ErrorMessage name="email" component="div" />
+                  <ErrorMessage className="formError" name="email" component="div" />
                 </div>
               </div>
               <div className="u-marginBottom-md u-positionRelative">
@@ -182,18 +191,31 @@ class Register extends React.Component {
                   Are you taking this class for credit?
                 </div>
                 <div className="formInput-select--arrow">
-                  <Field
-                    className="formInput-select"
-                    component="select"
-                    name="forCredit"
-                    defaultValue="filler"
-                  >
-                    <option disabled value="filler">
+                  <Field className="formInput-select" component="select" name="forCredit">
+                    <option disabled value="">
                       -- select an option --
                     </option>
                     <option value="true">Yes</option>
                     <option value="false">No</option>
                   </Field>
+                  <ErrorMessage className="formError" name="forCredit" component="div" />
+                </div>
+              </div>
+              <div className="u-marginBottom-md u-positionRelative">
+                <div className="u-formLabel u-marginBottom-sm">T-shirt size?</div>
+                <div className="formInput-select--arrow">
+                  <Field className="formInput-select" component="select" name="shirtSize">
+                    <option disabled value="">
+                      -- select an option --
+                    </option>
+                    <option value="xs">XS</option>
+                    <option value="s">S</option>
+                    <option value="m">M</option>
+                    <option value="l">L</option>
+                    <option value="xl">XL</option>
+                    <option value="xxl">XXL</option>
+                  </Field>
+                  <ErrorMessage className="formError" name="shirtSize" component="div" />
                 </div>
               </div>
               <div className="u-marginBottom-md u-positionRelative">
