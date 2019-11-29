@@ -7,22 +7,39 @@ const path = require("path");
 const Team = require("./models/Team");
 const User = require("./models/User");
 const app = express();
-const http = require("http").Server(app);
 const api = require("./routes/api");
 const mongoose = require("mongoose");
 const passport = require("./passport");
 const periodic = require("./periodic");
 const github = require("./github");
 const sockets = require("./sockets");
-sockets.init(http);
+const fs = require("fs");
+const http = require("http").Server(app);
+const env = process.env.NODE_ENV || "dev";
+
+let https;
+if (env === "prod") {
+  // load certs for https
+  const privateKey = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.to/privkey.pem", "utf8");
+  const certificate = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.to/cert.pem", "utf8");
+  const ca = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.to/chain.pem", "utf8");
+
+  const credentials = {
+    key: privateKey,
+    cert: certificate,
+    ca: ca,
+  };
+
+  https = require("https").Server(credentials, app);
+}
+
+sockets.init(https || http);
 
 // set POST request body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const publicPath = path.resolve(__dirname, "..", "client", "dist");
-
-let env = process.env.NODE_ENV || "dev";
 
 mongoose
   .connect(process.env.MONGO_SRV, {
@@ -94,6 +111,12 @@ const port = env === "prod" ? 80 : 3000;
 http.listen(port, () => {
   console.log(`Listening on port ${port} and looking in folder ${publicPath}`);
 });
+
+if (https) {
+  https.listen(443, () => {
+    console.log(`Running https on port 443`);
+  });
+}
 
 function is_registered(user) {
   return (
