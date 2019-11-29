@@ -14,7 +14,6 @@ const periodic = require("./periodic");
 const github = require("./github");
 const sockets = require("./sockets");
 const fs = require("fs");
-const http = require("http").Server(app);
 const env = process.env.NODE_ENV || "dev";
 
 let https;
@@ -30,9 +29,20 @@ if (env === "prod") {
     ca: ca,
   };
 
+  app.enable("trust proxy");
+  app.use((req, res, next) => {
+    if (req.secure) {
+      next();
+    } else {
+      // force redirect to https
+      res.redirect("https://" + req.headers.host + req.url);
+    }
+  });
+
   https = require("https").Server(credentials, app);
 }
 
+const http = require("http").Server(app);
 sockets.init(https || http);
 
 // set POST request body parser
