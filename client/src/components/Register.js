@@ -5,6 +5,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import "./../css/register.css";
 
+const DEFAULT_EXPERIENCE = 3.1; // initial value which rounds to 3, but will not be exactly 3 so we can detect in mongo people who didn't change it at all.
+
 class Register extends React.Component {
   constructor(props) {
     super(props);
@@ -107,7 +109,14 @@ class Register extends React.Component {
       <div className="browserContainer u-flex u-flexCenter">
         <Formik
           enableReinitialize={true}
-          initialValues={{ firstName, lastName, email, forCredit, shirtSize, experience: 3 }}
+          initialValues={{
+            firstName,
+            lastName,
+            email,
+            forCredit,
+            shirtSize,
+            experience: DEFAULT_EXPERIENCE,
+          }}
           validate={(values) => {
             let errors = {};
             if (!values.firstName) {
@@ -188,7 +197,7 @@ class Register extends React.Component {
               </div>
               <div className="u-marginBottom-md u-positionRelative">
                 <div className="u-formLabel u-marginBottom-sm">
-                  Are you taking this class for credit?
+                  Are you taking this class for MIT course credit?
                 </div>
                 <div className="formInput-select--arrow">
                   <Field className="formInput-select" component="select" name="forCredit">
@@ -236,10 +245,31 @@ class Register extends React.Component {
                   </Field>
                 </div>
               </div>
-              <div className="u-marginBottom-md">
+              <div className="u-marginBottom-md u-positionRelative">
                 <div className="u-formLabel u-marginBottom-sm">living group</div>
-                <div>
-                  <Field className="formInput" type="input" name="livingGroup" />
+                <div className="formInput-select--arrow">
+                  <Field
+                    className="formInput-select"
+                    component="select"
+                    name="livingGroup"
+                    defaultValue="filler"
+                  >
+                    <option disabled value="filler">
+                      -- select an option --
+                    </option>
+                    <option value="baker">Baker</option>
+                    <option value="bc">Burton-Conner</option>
+                    <option value="ec">East Campus</option>
+                    <option value="macgregor">MacGregor</option>
+                    <option value="maseeh">Maseeh</option>
+                    <option value="mcc">McCormick</option>
+                    <option value="new">New House</option>
+                    <option value="next">Next House</option>
+                    <option value="random">Random Hall</option>
+                    <option value="simmons">Simmons</option>
+                    <option value="fsilg">FSILG</option>
+                    <option value="offcampus">Off Campus</option>
+                  </Field>
                 </div>
               </div>
               <div className="u-marginBottom-md u-positionRelative">
