@@ -19,7 +19,7 @@ library.add(fas);
 class App extends React.Component {
   render() {
     return (
-      <div>
+      <>
         <Switch>
           <Route exact path="/" component={Root} />
           <Route exact path="/register" component={Register} />
@@ -28,7 +28,7 @@ class App extends React.Component {
           <Route exact path="/join-team" component={JoinTeam} />
           <Route exact path="/coming-soon" component={UnderConstruction} />
         </Switch>
-      </div>
+      </>
     );
   }
 }

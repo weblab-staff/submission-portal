@@ -3,6 +3,7 @@ import AdminView from "./AdminView/AdminView";
 import StudentView from "./StudentView/StudentView";
 import UnderConstruction from "./UnderConstruction/UnderConstruction";
 import Login from "./Login";
+import StudentNav from "./StudentView/StudentNav";
 import { get, MilestoneLoader } from "../utils";
 import { Redirect } from "react-router-dom";
 import { isRegistered } from "../js/students";
@@ -112,11 +113,16 @@ class Root extends React.Component {
     }
 
     if (!currentUser) {
-      return <Login />;
+      return (
+        <>
+          <StudentNav />
+          <Login />
+        </>
+      );
     }
 
     return (
-      <div>
+      <>
         {currentUser.is_admin ? (
           <AdminView />
         ) : isRegistered(currentUser) ? (
@@ -125,7 +131,7 @@ class Root extends React.Component {
         ) : (
           <Redirect to="/register" />
         )}
-      </div>
+      </>
     );
   }
 }

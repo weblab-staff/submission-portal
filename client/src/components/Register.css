@@ -1,0 +1,50 @@
+.Register-container {
+  background: var(--s-blue);
+  width: 100vw;
+  height: 100vh;
+}
+
+.Register-header {
+  color: var(--s-white);
+  margin-bottom: 0.5em;
+}
+
+.Register-yellow {
+  color: var(--s-yella);
+}
+
+.Register-formContainer {
+  max-width: 400px;
+  width: 100%;
+  padding: 1.25em 2.5em;
+  border-radius: var(--radius-md);
+  background-color: var(--s-white);
+}
+
+.Register-label {
+  color: var(--s-grey);
+  font-size: 0.9em;
+}
+
+.Register-button {
+  width: 100%;
+  background: var(--s-pink);
+  border-radius: var(--radius-sm);
+  padding: 0.75em;
+  color: var(--s-white);
+  text-decoration: none;
+  text-align: center;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.Register-help {
+  margin-top: 1em;
+  color: var(--s-white);
+  font-size: 0.8em;
+}
+
+.Register-help a {
+  color: var(--s-white);
+}

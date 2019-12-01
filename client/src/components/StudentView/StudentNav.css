@@ -1,0 +1,50 @@
+.StudentNav-header {
+  font-family: "Avenir Next";
+  font-weight: 600;
+  font-size: 1.2em;
+  color: var(--s-blue);
+}
+
+.StudentNav-container {
+  margin: 36px 72px 0;
+}
+
+.StudentNav-link {
+  text-decoration: none;
+  color: var(--s-black);
+  font-weight: 600;
+  margin-right: 32px;
+}
+
+.StudentNav-link:hover {
+  color: var(--s-grey);
+}
+
+.StudentNav-login {
+  background: var(--s-black);
+  padding: 0.5em 1.5em;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--s-white);
+}
+
+.StudentNav-login:hover {
+  background: var(--s-grey);
+}
+
+@media screen and (max-width: 640px) {
+  .StudentNav-header {
+    display: none;
+  }
+
+  .StudentNav-container {
+    margin: 36px 32px 0;
+  }
+
+  .StudentNav-linkContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

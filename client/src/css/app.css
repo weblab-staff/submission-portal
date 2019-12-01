@@ -3,6 +3,9 @@
   --s-blue-focus: #26acfc;
   --s-pink: #fe82de;
   --s-yella: #ffc215;
+  --s-black: #2e2e2e;
+  --s-grey: rgb(68, 68, 68);
+  --s-white: white;
 
   --a-red: #d55959;
   --a-yella: #ebc90e;
@@ -26,6 +29,7 @@
 
   --radius-xs: 3px;
   --radius-sm: 4px;
+  --radius-md: 6px;
 
   --px-sm: 4px;
   --px-md: 10px;
@@ -42,24 +46,40 @@
   --adminSidebar-containerWidth: 120px;
 }
 
+@font-face {
+  font-family: "Avenir Next";
+  font-weight: normal;
+  src: url(../fonts/AvenirNext-Regular.woff);
+}
+@font-face {
+  font-family: "Avenir Next";
+  font-weight: 600;
+  src: url(../fonts/AvenirNext-Bold.woff);
+}
+@import url("https://fonts.googleapis.com/css?family=Open+San&display=swap");
+
 html {
   height: 100%;
-  font-family: sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 body {
   margin: 0;
-  height: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Avenir Next";
 }
 
 button {
   border: none;
   position: relative;
   display: block;
-}
-
-#root {
-  height: 100%;
 }
 
 .center {
@@ -75,6 +95,10 @@ button {
 
 .u-flex {
   display: flex;
+}
+
+.u-flexColumn {
+  flex-direction: column;
 }
 
 .u-flexWrap {
@@ -121,10 +145,6 @@ button {
 
 .u-fontSm {
   font-size: 0.8em;
-}
-
-.u-formLabel {
-  color: var(--dark-grey);
 }
 
 .u-marginRight-sm {

@@ -22,10 +22,23 @@ module.exports = {
         test: /\.(scss|css)$/,
         use: [
           {
-            loader: "style-loader",
-          },
-          {
             loader: "css-loader",
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/,
+        use: [
+          {
+            loader: "file-loader",
+          },
+        ],
+      },
+      {
+        test: /\.(ttf|eot|woff|woff2)$/,
+        use: [
+          {
+            loader: "file-loader",
           },
         ],
       },
@@ -43,7 +56,10 @@ module.exports = {
       "/team": "http://localhost:3000",
       "/create-team": "http://localhost:3000",
       "/join-team": "http://localhost:3000",
+<<<<<<< HEAD
       "/coming-soon": "http://localhost:3000",
+=======
+>>>>>>> master
       "/socket.io/*": {
         target: "http://localhost:3000",
         ws: true,
