@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import "./Register.css";
 
-const DEFAULT_EXPERIENCE = 3.1; // initial value which rounds to 3, but will not be exactly 3 so we can detect in mongo people who didn't change it at all.
+const DEFAULT_EXPERIENCE = 1;
 
 class Register extends React.Component {
   constructor(props) {
