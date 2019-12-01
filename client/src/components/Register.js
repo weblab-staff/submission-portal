@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import { get, post } from "../utils";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
-import "./../css/register.css";
+import "./Register.css";
 
 const DEFAULT_EXPERIENCE = 3.1; // initial value which rounds to 3, but will not be exactly 3 so we can detect in mongo people who didn't change it at all.
 
@@ -106,7 +106,10 @@ class Register extends React.Component {
     }
 
     return (
-      <div className="browserContainer u-flex u-flexCenter">
+      <div className="u-flex u-flexColumn u-flexCenter Register-container">
+        <h1 className="Register-header">
+          register for web<span className="Register-yellow">.</span>lab
+        </h1>
         <Formik
           enableReinitialize={true}
           initialValues={{
@@ -173,30 +176,32 @@ class Register extends React.Component {
           }}
         >
           {({ isSubmitting }) => (
-            <Form className="register-formContainer">
-              <div className="u-marginBottom-md">
-                <div className="u-formLabel u-marginBottom-sm">first name</div>
+            <Form className="Register-formContainer">
+              <div className="formGroup-two u-marginBottom-md">
                 <div>
-                  <Field className="formInput" type="input" name="firstName" />
-                  <ErrorMessage className="formError" name="firstName" component="div" />
+                  <div className="Register-label u-marginBottom-sm">first name</div>
+                  <div>
+                    <Field className="formInput" type="input" name="firstName" />
+                    <ErrorMessage className="formError" name="firstName" component="div" />
+                  </div>
+                </div>
+                <div>
+                  <div className="Register-label u-marginBottom-sm">last name</div>
+                  <div>
+                    <Field className="formInput" type="input" name="lastName" />
+                    <ErrorMessage className="formError" name="lastName" component="div" />
+                  </div>
                 </div>
               </div>
               <div className="u-marginBottom-md">
-                <div className="u-formLabel u-marginBottom-sm">last name</div>
-                <div>
-                  <Field className="formInput" type="input" name="lastName" />
-                  <ErrorMessage className="formError" name="lastName" component="div" />
-                </div>
-              </div>
-              <div className="u-marginBottom-md">
-                <div className="u-formLabel u-marginBottom-sm">university email address</div>
+                <div className="Register-label u-marginBottom-sm">university email address</div>
                 <div>
                   <Field className="formInput" type="email" name="email" />
                   <ErrorMessage className="formError" name="email" component="div" />
                 </div>
               </div>
               <div className="u-marginBottom-md u-positionRelative">
-                <div className="u-formLabel u-marginBottom-sm">
+                <div className="Register-label u-marginBottom-sm">
                   Are you taking this class for MIT course credit?
                 </div>
                 <div className="formInput-select--arrow">
@@ -210,43 +215,45 @@ class Register extends React.Component {
                   <ErrorMessage className="formError" name="forCredit" component="div" />
                 </div>
               </div>
-              <div className="u-marginBottom-md u-positionRelative">
-                <div className="u-formLabel u-marginBottom-sm">T-shirt size?</div>
-                <div className="formInput-select--arrow">
-                  <Field className="formInput-select" component="select" name="shirtSize">
-                    <option disabled value="">
-                      -- select an option --
-                    </option>
-                    <option value="xs">XS</option>
-                    <option value="s">S</option>
-                    <option value="m">M</option>
-                    <option value="l">L</option>
-                    <option value="xl">XL</option>
-                    <option value="xxl">XXL</option>
-                  </Field>
-                  <ErrorMessage className="formError" name="shirtSize" component="div" />
+              <div className="formGroup-two u-marginBottom-md u-positionRelative">
+                <div>
+                  <div className="Register-label u-marginBottom-sm">T-shirt size</div>
+                  <div className="formInput-select--arrow">
+                    <Field className="formInput-select" component="select" name="shirtSize">
+                      <option disabled value="">
+                        -- select an option --
+                      </option>
+                      <option value="xs">XS</option>
+                      <option value="s">S</option>
+                      <option value="m">M</option>
+                      <option value="l">L</option>
+                      <option value="xl">XL</option>
+                      <option value="xxl">XXL</option>
+                    </Field>
+                    <ErrorMessage className="formError" name="shirtSize" component="div" />
+                  </div>
+                </div>
+                <div>
+                  <div className="Register-label u-marginBottom-sm">gender</div>
+                  <div className="formInput-select--arrow">
+                    <Field
+                      className="formInput-select"
+                      component="select"
+                      name="gender"
+                      defaultValue="filler"
+                    >
+                      <option disabled value="filler">
+                        -- select an option --
+                      </option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </Field>
+                  </div>
                 </div>
               </div>
               <div className="u-marginBottom-md u-positionRelative">
-                <div className="u-formLabel u-marginBottom-sm">gender</div>
-                <div className="formInput-select--arrow">
-                  <Field
-                    className="formInput-select"
-                    component="select"
-                    name="gender"
-                    defaultValue="filler"
-                  >
-                    <option disabled value="filler">
-                      -- select an option --
-                    </option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </Field>
-                </div>
-              </div>
-              <div className="u-marginBottom-md u-positionRelative">
-                <div className="u-formLabel u-marginBottom-sm">living group</div>
+                <div className="Register-label u-marginBottom-sm">living group</div>
                 <div className="formInput-select--arrow">
                   <Field
                     className="formInput-select"
@@ -273,7 +280,7 @@ class Register extends React.Component {
                 </div>
               </div>
               <div className="u-marginBottom-md u-positionRelative">
-                <div className="u-formLabel u-marginBottom-sm">prior experience</div>
+                <div className="Register-label u-marginBottom-sm">prior experience</div>
                 <div className="formInput-rangeContainer" ref={this.sliderRef}>
                   <Field
                     type="range"
@@ -283,17 +290,20 @@ class Register extends React.Component {
                     className="formInput-range"
                   />
                 </div>
-                <div className="u-fontSm u-formLabel u-flex u-flexJustifyBetweeen u-marginTop-sm">
+                <div className="u-fontSm Register-label u-flex u-flexJustifyBetweeen u-marginTop-sm">
                   <div>none</div>
                   <div className="u-textRight">expert</div>
                 </div>
               </div>
-              <button className="studentButton" type="submit" disabled={isSubmitting}>
+              <button className="Register-button" type="submit" disabled={isSubmitting}>
                 register
               </button>
             </Form>
           )}
         </Formik>
+        <div className="Register-help">
+          Have any questions? Email <a href="mailto:weblab-staff@mit.edu">weblab-staff@mit.edu</a>
+        </div>
       </div>
     );
   }

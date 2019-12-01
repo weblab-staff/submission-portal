@@ -29,6 +29,7 @@
 
   --radius-xs: 3px;
   --radius-sm: 4px;
+  --radius-md: 6px;
 
   --px-sm: 4px;
   --px-md: 10px;
@@ -144,10 +145,6 @@ button {
 
 .u-fontSm {
   font-size: 0.8em;
-}
-
-.u-formLabel {
-  color: var(--dark-grey);
 }
 
 .u-marginRight-sm {
