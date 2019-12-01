@@ -8,6 +8,9 @@ import { get, MilestoneLoader } from "../utils";
 import { Redirect } from "react-router-dom";
 import { isRegistered } from "../js/students";
 
+import "./fonts/AvenirNext-Regular.woff";
+import "./fonts/AvenirNext-Bold.woff";
+
 import { socket } from "../js/teams";
 
 import { post, delet } from "../utils";
