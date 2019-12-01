@@ -127,7 +127,10 @@ class Root extends React.Component {
           <AdminView />
         ) : isRegistered(currentUser) ? (
           // <StudentView currentUser={currentUser} currentTeam={currentTeam} loading={loading}/>
-          <UnderConstruction />
+          <>
+            <StudentNav loggedIn={true} />
+            <UnderConstruction />
+          </>
         ) : (
           <Redirect to="/register" />
         )}
