@@ -22,6 +22,9 @@ module.exports = {
         test: /\.(scss|css)$/,
         use: [
           {
+            loader: "style-loader",
+          },
+          {
             loader: "css-loader",
           },
         ],
@@ -56,10 +59,7 @@ module.exports = {
       "/team": "http://localhost:3000",
       "/create-team": "http://localhost:3000",
       "/join-team": "http://localhost:3000",
-<<<<<<< HEAD
       "/coming-soon": "http://localhost:3000",
-=======
->>>>>>> master
       "/socket.io/*": {
         target: "http://localhost:3000",
         ws: true,
