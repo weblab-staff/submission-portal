@@ -14,7 +14,7 @@
 }
 
 .Login-header {
-  font-family: "Avenir Next";
+  font-family: var(--headerFont);
   font-weight: 700;
   font-size: 4em;
   line-height: 1em;
