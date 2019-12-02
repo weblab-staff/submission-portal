@@ -33,7 +33,7 @@ class Login extends React.Component {
             welcome to web<span className="Login-yellow">.</span>lab
           </h1>
           <div className="Login-descript">
-            Register by logging in with Github. To find out more about the class and competition,
+            Register by logging in with GitHub. To find out more about the class and competition,
             visit{" "}
             <a className="studentLink" target="_blank" href="http://weblab.mit.edu/">
               weblab.mit.edu
@@ -41,7 +41,7 @@ class Login extends React.Component {
           </div>
           <a className="Login-button" href="/auth/github">
             <GithubIcon />
-            Log In with Github
+            Log In with GitHub
           </a>
         </div>
       </div>
