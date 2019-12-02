@@ -1,5 +1,5 @@
 .StudentNav-header {
-  font-family: "Avenir Next";
+  font-family: var(--headerFont);
   font-weight: 600;
   font-size: 1.2em;
   color: var(--s-blue);

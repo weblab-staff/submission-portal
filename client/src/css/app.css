@@ -44,23 +44,26 @@
   --admin-topPadding: 60px;
   --admin-bottomPadding: 16px;
   --adminSidebar-containerWidth: 120px;
+
+  --headerFont: "Avenir Next", "Hind", sans-serif;
+  --bodyFont: "Open Sans", sans-serif;
 }
 
 @font-face {
   font-family: "Avenir Next";
   font-weight: normal;
-  src: url(../fonts/AvenirNext-Regular.woff);
+  src: local("Avenir Next") url(./../fonts/AvenirNext-Regular.woff) format("woff");
 }
 @font-face {
   font-family: "Avenir Next";
   font-weight: 600;
-  src: url(../fonts/AvenirNext-Bold.woff);
+  src: local("Avenir Next") url(./../fonts/AvenirNext-Bold.woff) format("woff");
 }
-@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Hind:400,700|Open+Sans&display=swap");
 
 html {
   height: 100%;
-  font-family: "Open Sans", sans-serif;
+  font-family: var(--bodyFont);
 }
 
 body {
@@ -73,7 +76,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Avenir Next";
+  font-family: var(--headerFont);
 }
 
 button {
