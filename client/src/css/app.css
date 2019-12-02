@@ -52,12 +52,12 @@
 @font-face {
   font-family: "Avenir Next";
   font-weight: normal;
-  src: url(./../fonts/AvenirNext-Regular.woff) format("woff");
+  src: local("Avenir Next") url(./../fonts/AvenirNext-Regular.woff) format("woff");
 }
 @font-face {
   font-family: "Avenir Next";
   font-weight: 600;
-  src: url(./../fonts/AvenirNext-Bold.woff) format("woff");
+  src: local("Avenir Next") url(./../fonts/AvenirNext-Bold.woff) format("woff");
 }
 @import url("https://fonts.googleapis.com/css?family=Hind:400,700|Open+Sans&display=swap");
 
