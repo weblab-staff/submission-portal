@@ -40,6 +40,7 @@ class Register extends React.Component {
           currentUser: userObj,
           firstName: userObj.first_name ? userObj.first_name : "",
           lastName: userObj.last_name ? userObj.last_name : "",
+          errRedirect: !userObj || !userObj._id,
         });
       })
       .catch((err) => console.log(err));
@@ -99,9 +100,9 @@ class Register extends React.Component {
   };
 
   render() {
-    const { redirect, firstName, lastName, email, forCredit, shirtSize } = this.state;
+    const { redirect, firstName, lastName, email, forCredit, shirtSize, errRedirect } = this.state;
 
-    if (redirect) {
+    if (errRedirect || redirect) {
       return <Redirect to="/" />;
     }
 
