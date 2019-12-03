@@ -147,7 +147,8 @@ class StudentsSection extends React.Component {
     if (category === ListOptions.INDIVIDUAL) {
       return list.filter(
         (el) =>
-          el.first_name.toLowerCase().includes(term) || el.last_name.toLowerCase().includes(term)
+          (el.first_name && el.first_name.toLowerCase().includes(term)) ||
+          (el.last_name && el.last_name.toLowerCase().includes(term))
       );
     } else {
       return list.filter((el) => el.team_name.toLowerCase().includes(term));
