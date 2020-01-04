@@ -1,51 +1,137 @@
-.greetingContainer, .milestonesContainer {
-  margin-top: 20vh;
+.StudentView-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 0 80px;
 }
 
-.greetingContainer {
-  margin-left: 8vw;
+.StudentView-buttonHolder {
+  margin: var(--px-lg) 0 var(--px-md);
 }
 
-.greetingContainer h1, h2 {
+.StudentView-buttonHolder span + span {
+  margin-left: var(--px-md);
+}
+
+.StudentView-button--primary {
+  background: var(--s-black);
+  padding: 0.5em 1.5em;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--s-white);
+  cursor: pointer;
+}
+
+.StudentView-button--secondary {
+  padding: 0.5em 1.5em;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--s-black);
+  cursor: pointer;
+}
+
+.StudentView-button--secondary:hover {
+  background-color: var(--a-grey);
+}
+
+.StudentView-greetingHeader {
+  margin: 72px 0 0;
   color: var(--s-blue);
+  font-size: 3em;
 }
 
-.greetingContainer h2 {
+.StudentView-team {
+  margin: 0;
+  color: var(--s-black);
   font-style: italic;
+  font-weight: 400;
 }
 
-.greetingContainer a {
+.StudentView-teamName {
+  font-weight: 700;
   color: var(--s-pink);
 }
 
-.graphicCircle {
-  --radius: 80px;
-  
-  background-color: var(--grey);
-  width: var(--radius);
-  height: var(--radius);
-  border-radius: 100%;
+.StudentView-teamOption {
+  font-weight: 700;
+  color: var(--s-pink);
+  text-decoration: underline;
 }
 
-.milestone-Container {
+.StudentView-leaveTeam {
+  position: absolute;
+  top: -4px;
+  right: -22px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--s-grey);
+  color: var(--s-white);
+}
+
+.StudentView-leaveTeam:hover {
+  background-color: var(--s-pink);
+}
+
+.StudentView-leaveIcon {
+  width: 12px;
+  height: 12px;
+}
+
+/***************************
+* Miletone Styles in Broad *
+***************************/
+
+.StudentMilestone-container {
   display: flex;
   margin-bottom: var(--milestone-gap);
+  padding: var(--px-md);
+  border-radius: var(--radius-md);
 }
 
-.milestone-Name {
+.StudentMilestone-hasSubmissions:hover {
+  background-color: var(--a-greyblue);
+}
+
+.StudentMilestone-body {
+  flex: 1 1 0;
+}
+
+.StudentMilestone-name {
   font-size: 1.2rem;
 }
 
-.milestone-Due {
+.StudentMilestone-due {
   opacity: 0.5;
 }
 
-.milestone-Indicator {
-  --radius: 16px;
-  
+.StudentMilestone-submitted {
+  font-style: italic;
+  color: var(--s-grey);
+}
+
+.StudentMilestone-indicator {
+  --radius: 32px;
+
   width: var(--radius);
   height: var(--radius);
   border-radius: 100%;
+  margin: 0 10px 0 0;
+  background-color: var(--grey);
+  color: var(--s-white);
+}
+
+.StudentMilestone-status--submitted {
   background-color: var(--s-blue);
-  margin: 0 10px;
+}
+
+.StudentMilestone-status--waiting {
+  background-color: var(--s-yella);
+}
+
+.StudentMilestone-status--late {
+  background-color: var(--s-pink);
+}
+
+.StudentMilestone-link {
+  color: var(--s-blue);
 }

@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import StudentViewBody from "./StudentViewBody";
+import Nav from "./StudentNav";
+import JoinTeam from "../TeamView/JoinTeam";
+import TeamView from "../TeamView/TeamView";
 
 import "./StudentView.css";
-import JoinTeam from "../TeamView/JoinTeam";
-import { removeMember } from "../../js/teams";
 
 class StudentView extends React.Component {
   constructor(props) {
@@ -14,9 +16,7 @@ class StudentView extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const { currentUser, currentTeam, loading } = this.props;
-  }
+  componentDidMount() {}
 
   toggleJoinTeam = () => {
     this.setState({
@@ -31,38 +31,24 @@ class StudentView extends React.Component {
       return <div className="browserContainer browserContainer--studentView">LOADING</div>;
     }
     return (
-      <div className="browserContainer browserContainer--studentView">
-        <div className="greetingContainer">
-          {/* <ul>
-            <li><a href="#">Portal</a></li>
-            <li><a href="/auth/logout">Logout</a></li>
-          </ul> */}
-          <div className="graphicCircle" />
-          <h1>Welcome, {currentUser.first_name + " " + currentUser.last_name}</h1>
-          <h2>
+      <>
+        <Nav loggedIn />
+        <div className="StudentView-container">
+          <h1 className="StudentView-greetingHeader">
+            Hi, {currentUser.first_name + " " + currentUser.last_name}
+          </h1>
+          <h2 className="StudentView-team">
             {currentTeam !== null ? (
-              <React.Fragment>
-                {"how's "}
-                <Link
-                  to={{
-                    pathname: "/team",
-                    state: {
-                      currentUser,
-                      currentTeam,
-                    },
-                  }}
-                >
-                  {currentTeam.team_name}
-                </Link>
-                {"?"}
-                <br />
-                <button onClick={() => removeMember(currentTeam._id, currentUser._id)}>
-                  Leave team?
-                </button>
-              </React.Fragment>
+              <span className="u-positionRelative">
+                how's team <span className="StudentView-teamName">{currentTeam.team_name}</span>?
+              </span>
+            ) : showJoinTeam ? (
+              <JoinTeam user={currentUser} hideJoinTeamView={this.toggleJoinTeam} />
             ) : (
-              <React.Fragment>
+              <>
+                to get started,{" "}
                 <Link
+                  className="StudentView-teamName"
                   to={{
                     pathname: "/create-team",
                     state: {
@@ -70,21 +56,19 @@ class StudentView extends React.Component {
                     },
                   }}
                 >
-                  Create Team
-                </Link>
-                <br />
-
-                {showJoinTeam ? (
-                  <JoinTeam user={currentUser} hideJoinTeamView={this.toggleJoinTeam} />
-                ) : (
-                  <button onClick={this.toggleJoinTeam}>Join Team?</button>
-                )}
-              </React.Fragment>
+                  create a team
+                </Link>{" "}
+                or{" "}
+                <span className="StudentView-teamOption" onClick={this.toggleJoinTeam}>
+                  join a team
+                </span>
+              </>
             )}
           </h2>
+          {currentTeam && <TeamView currentTeam={currentTeam} currentUser={currentUser} />}
+          {currentTeam && currentTeam.github_url && <StudentViewBody currentTeam={currentTeam} />}
         </div>
-        <StudentViewBody currentTeam={currentTeam} />
-      </div>
+      </>
     );
   }
 }

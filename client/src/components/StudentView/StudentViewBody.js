@@ -44,13 +44,10 @@ class StudentViewBody extends React.Component {
   };
 
   toggleView = (selectedMilestone) => {
-    const stateSwitch = () => {
-      this.setState({
-        expanded: !this.state.expanded,
-        selectedMilestoneId: selectedMilestone,
-      });
-    };
-    return stateSwitch;
+    this.setState({
+      expanded: !this.state.expanded,
+      selectedMilestoneId: selectedMilestone,
+    });
   };
 
   render() {

@@ -4,14 +4,17 @@ A submission portal for weblab students
 
 ## start dev
 
-in two terminals, run: 
+in two terminals, run:
 
 ```
 $ npm run start
 $ npm run dev
 ```
 
+make sure you've downloaded the .env file from staff drive
+
 ## running in production
+
 ssh into the staff server, and run these commands
 note that will probably not work on your local machine
 

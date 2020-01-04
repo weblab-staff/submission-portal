@@ -1,0 +1,12 @@
+.WarningBox-container {
+  font-size: 14px;
+  margin-bottom: var(--px-lg);
+  padding: var(--px-md) var(--px-lg);
+  border-radius: var(--radius-sm);
+  color: rgb(92, 68, 29);
+  background-color: var(--s-yella);
+}
+
+.WarningBox-warn {
+  font-weight: 700;
+}

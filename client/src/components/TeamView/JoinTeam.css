@@ -1,0 +1,33 @@
+.JoinTeam-label {
+  margin-right: var(--px-md);
+}
+
+.JoinTeam-textInput {
+  flex: 1 1 0;
+  font-size: 1em;
+  font-family: var(--headerFont);
+  color: var(--s-pink);
+  font-weight: 700;
+  text-decoration: underline;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.JoinTeam-submit {
+  cursor: pointer;
+}
+
+.JoinTeam-submit.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.JoinTeam-submit.disabled:hover::before {
+  content: "not a valid team name ";
+  margin-left: var(--px-md);
+}
+
+.JoinTeam-submit input {
+  display: none;
+}

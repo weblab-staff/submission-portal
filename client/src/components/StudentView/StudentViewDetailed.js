@@ -3,10 +3,14 @@ import React from "react";
 class StudentViewDetailed extends React.Component {
   render() {
     const { toggleView, milestone, submissions } = this.props;
+    if (!submissions) {
+      toggleView(-1);
+    }
+
     console.log("detailed subsmissions", submissions);
     return (
       <div>
-        <h1>Milestone: {milestone.title}. </h1>
+        <h1>Milestone: {milestone.title}</h1>
         {submissions.length !== 0 ? (
           <span>
             last submission received:
@@ -26,7 +30,7 @@ class StudentViewDetailed extends React.Component {
         <div>
           <a href={milestone.handin_link}>New Submission</a>
         </div>
-        <button onClick={toggleView(-1)}>Back</button>
+        <button onClick={() => toggleView(-1)}>Back</button>
       </div>
     );
   }

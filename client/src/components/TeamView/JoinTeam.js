@@ -1,6 +1,13 @@
 import React from "react";
+import classnames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { get, post } from "../../utils";
 import { addMember } from "../../js/teams";
+
+import Back from "../ui/Back";
+
+import "./JoinTeam.css";
 
 class JoinTeam extends React.Component {
   constructor(props) {
@@ -14,6 +21,7 @@ class JoinTeam extends React.Component {
   }
 
   componentDidMount() {
+    document.getElementById("teamnameInput").focus();
     get("/api/teams/names").then((res) => {
       this.setState({ loading: false, teamNameIdMap: res });
     });
@@ -23,33 +31,46 @@ class JoinTeam extends React.Component {
     const { teamName, teamNameIdMap } = this.state;
     event.preventDefault();
     addMember(teamNameIdMap[teamName], this.props.user._id);
-    this.props.hideJoinView();
   };
 
   handleChange = (event) => {
     const inputNode = event.target;
+    const cleanedSpaces = inputNode.value.replace(/ /g, "_");
     this.setState({
-      [inputNode.name]: inputNode.value,
+      [inputNode.name]: cleanedSpaces,
     });
   };
 
   render() {
     const { teamName } = this.state;
     return (
-      <div>
-        <h1>Join Team</h1>
-
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Team Name:
-            <input type="text" name="teamName" value={teamName} onChange={this.handleChange} />
-          </label>
+      <div className="u-positionRelative">
+        <Back absolute trigger={this.props.hideJoinTeamView} />
+        <form className="u-flex" onSubmit={this.handleSubmit}>
+          <label className="JoinTeam-label">join team</label>
           <input
-            type="submit"
-            disabled={this.state.loading || !this.state.teamNameIdMap[this.state.teamName]}
-            value="Submit"
-            onClick={this.handleSubmit}
+            id="teamnameInput"
+            className="JoinTeam-textInput"
+            type="text"
+            name="teamName"
+            value={teamName}
+            onChange={this.handleChange}
+            placeholder="team name"
+            maxLength="50"
           />
+          <span
+            className={classnames("JoinTeam-submit", {
+              disabled: this.state.loading || !this.state.teamNameIdMap[this.state.teamName],
+            })}
+            onClick={this.handleSubmit}
+          >
+            <FontAwesomeIcon icon={["fas", "check"]} size="1x" />
+            <input
+              type="submit"
+              disabled={this.state.loading || !this.state.teamNameIdMap[this.state.teamName]}
+              value=""
+            />
+          </span>
         </form>
       </div>
     );

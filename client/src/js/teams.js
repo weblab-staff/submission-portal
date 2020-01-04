@@ -29,14 +29,22 @@ export const hasSubmission = (teamObj, milestoneId) => {
 };
 
 export const addMember = (teamId, userId) => {
-  post(`api/teams/${teamId}`, { user_id: userId }).then(console.log(`joined team ${teamId}`));
+  post(`api/teams/${teamId}`, { user_id: userId }).then((status) => {
+    if (status === 204) {
+      console.log(`joined team ${teamId}`);
+      window.location.reload();
+    } else {
+      console.log("failed to join team");
+    }
+  });
 };
 
 export const removeMember = (teamId, userId) => {
   delet(`/api/teams/${teamId}/remove-member`, { user_id: userId, team_id: teamId })
     .then((status) => {
       if (status === 204) {
-        alert("removed team member, plx refresh page");
+        console.log("successfully removed from team");
+        window.location.reload();
       } else {
         console.log("failed to remove student from team");
       }

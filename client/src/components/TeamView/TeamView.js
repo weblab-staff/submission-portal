@@ -1,34 +1,23 @@
 import React from "react";
-import WarningBox from "./WarningBox";
+
 import MemberSection from "./MemberSection";
+import WarningBox from "./WarningBox";
 
 class TeamView extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
   }
 
+  componentDidMount() {}
+
   render() {
-    const { currentTeam } = this.props.location.state;
-    const {} = this.state;
+    const { currentTeam, currentUser } = this.props;
 
     return (
-      <div className="browserContainer">
-        <ul>
-          <li>
-            <a href="/">Portal</a>
-          </li>
-          <li>
-            <a href="/auth/logout">Logout</a>
-          </li>
-        </ul>
-        <div>
-          <a href="/">Back</a>
-          {currentTeam.team_name}
-          {currentTeam.members.length > 3 ? <WarningBox /> : <div></div>}
-          <MemberSection currentTeam={currentTeam} />
-        </div>
-      </div>
+      <>
+        {currentTeam.members.length > 3 ? <WarningBox /> : <div></div>}
+        <MemberSection currentTeam={currentTeam} currentUser={currentUser} />
+      </>
     );
   }
 }

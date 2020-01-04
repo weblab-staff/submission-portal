@@ -103,14 +103,21 @@ class Root extends React.Component {
 
     if (loading) {
       return (
-        <div className="browserContainer browserContainer--studentView">
-          <div className="greetingContainer">
-            <div className="skeleton graphicCircle" />
-            <h1 className="skeleton skeleton-line--long" />
-            <h2 className="skeleton skeleton-line" />
+        <>
+          <div className="u-flex u-flexJustifyBetweeen StudentNav-container">
+            <span className="skeleton skeleton-line StudentNav-header" />
+            <div className="StudentNav-linkContainer">
+              <div className="skeleton skeleton-line--short" />
+            </div>
           </div>
-          <MilestoneLoader />
-        </div>
+          <div className="StudentView-container">
+            <div className="StudentView-greetingContainer">
+              <h1 className="skeleton skeleton-line--long StudentView-greetingHeader" />
+            </div>
+            <h2 className="skeleton skeleton-line" />
+            <MilestoneLoader />
+          </div>
+        </>
       );
     }
 

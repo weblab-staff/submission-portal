@@ -1,0 +1,14 @@
+.Back {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--grey-focus) !important;
+  color: var(--s-white) !important;
+  text-decoration: none !important;
+  font-size: 24px;
+}
+
+.Back--absolute {
+  position: absolute;
+  left: -56px;
+}
