@@ -1,0 +1,32 @@
+.StudentViewDetail-header {
+  margin: 0;
+}
+
+.StudentViewDetail-headContainer {
+  flex: 1 1 0;
+}
+
+.StudentViewDetail-subheader {
+  margin-bottom: var(--px-lg);
+}
+
+.StudentViewDetail-buttonHolder {
+  padding: var(--px-lg) 0;
+}
+
+.Submission-container {
+  margin-top: var(--px-xxl);
+}
+
+.Submission-part {
+  margin-bottom: var(--px-lg);
+}
+
+.Submission-prompt {
+  font-style: italic;
+  color: var(--dark-grey);
+}
+
+.Submission-answer {
+  font-size: 14pt;
+}

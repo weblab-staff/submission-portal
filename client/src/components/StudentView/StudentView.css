@@ -1,7 +1,7 @@
 .StudentView-container {
   max-width: 800px;
   margin: auto;
-  padding: 0 80px;
+  padding: 0 80px 60px;
 }
 
 .StudentView-buttonHolder {
@@ -134,4 +134,17 @@
 
 .StudentMilestone-link {
   color: var(--s-blue);
+}
+
+.StudentMilestone-autograde:hover::after {
+  content: "this milestone is graded manually";
+  position: absolute;
+  padding: var(--px-md);
+  background-color: var(--s-black);
+  color: var(--s-white);
+  font-size: 14px;
+  width: 220px;
+  top: -46px;
+  right: -10px;
+  border-radius: var(--radius-md);
 }

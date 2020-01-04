@@ -54,7 +54,7 @@ class CreateTeam extends React.Component {
       return (
         <Redirect
           to={{
-            pathname: "/team",
+            pathname: "/",
             state: {
               currentTeam: newTeam,
             },

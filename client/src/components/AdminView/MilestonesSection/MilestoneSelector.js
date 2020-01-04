@@ -28,7 +28,6 @@ class MilestoneSelector extends React.Component {
 
   render() {
     const { team, milestones } = this.props;
-    console.log(team, milestones);
 
     return (
       <div className="milestoneSelector-container">

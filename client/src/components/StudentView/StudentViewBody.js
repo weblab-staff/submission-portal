@@ -3,7 +3,6 @@ import StudentViewBroad from "./StudentViewBroad";
 import StudentViewDetailed from "./StudentViewDetailed";
 import { get } from "../../utils";
 import { MilestoneLoader } from "../../utils";
-import { socket } from "../../js/teams";
 
 const TEAM_PLACEHOLDER = "$TEAMNAME";
 

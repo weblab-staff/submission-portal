@@ -239,6 +239,10 @@ button {
   color: var(--s-pink);
 }
 
+.u-yellow {
+  color: var(--s-yella);
+}
+
 .u-grey {
   color: var(--grey-text);
 }

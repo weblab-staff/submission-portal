@@ -35,9 +35,8 @@ class JoinTeam extends React.Component {
 
   handleChange = (event) => {
     const inputNode = event.target;
-    const cleanedSpaces = inputNode.value.replace(/ /g, "_");
     this.setState({
-      [inputNode.name]: cleanedSpaces,
+      [inputNode.name]: inputNode.value,
     });
   };
 

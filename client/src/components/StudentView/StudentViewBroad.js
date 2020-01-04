@@ -14,6 +14,7 @@ import { hasSubmission } from "../../js/teams";
  * @param submissionTime
  * @param deadline
  * @param status team submission status
+ * @param {bool} autograde
  */
 class StudentMilestone extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class StudentMilestone extends React.Component {
 
   render() {
     const { toggleView } = this.props;
-    const { id, title, closed, link, submissionTime, deadline, status } = this.props;
+    const { id, title, closed, link, submissionTime, deadline, status, autograde } = this.props;
 
     return (
       <div
@@ -66,10 +67,15 @@ class StudentMilestone extends React.Component {
             </span>
           </div>
         </div>
+        {!closed && !autograde && (
+          <div className="u-yellow StudentMilestone-autograde u-positionRelative">
+            <FontAwesomeIcon icon={["fas", "hand-paper"]} />
+          </div>
+        )}
         {!closed && link && (
           <div>
             <a
-              className="StudentMilestone-link"
+              className="StudentMilestone-link u-marginLeft-md"
               href={link}
               rel="noopener noreferrer"
               target="_blank"
@@ -125,6 +131,7 @@ class StudentViewBroad extends React.Component {
               }
               deadline={mileObj.deadline}
               status={this.getMilestoneStatus(currentTeam, mileObj)}
+              autograde={mileObj.autograde}
             />
           );
         })}
