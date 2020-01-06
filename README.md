@@ -35,3 +35,12 @@ to kill the prod server,
 ```
 $ npm run stop
 ```
+
+## configuration
+
+### adding new milestones
+
+a milestone requires two links
+
+- **hand-in link**: the link to the google form. to set up team name autocompletion, go to the google form editor, then open the settings menu and hit "get pre-filled link". in the "team name" field, type `$TEAMNAME` and then then hit "get link". use this as the hand-in link
+- **response link**: this is a link to the responses spreadsheets
