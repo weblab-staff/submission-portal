@@ -32,12 +32,15 @@ class StudentMilestone extends React.Component {
   };
 
   formatDate = (date, withDay = false) => {
-    let options = { weekday: "long" };
+    let options = { timeZone: "UTC" };
     let d = new Date(date);
     if (withDay) {
-      return `${d.toLocaleDateString("en-US", options)} ${d.toLocaleDateString("en-US")}`;
+      return `${d.toLocaleDateString("en-US", {
+        ...options,
+        weekday: "long",
+      })} ${d.toLocaleDateString("en-US", options)}`;
     }
-    return d.toLocaleDateString("en-US");
+    return d.toLocaleDateString("en-US", options);
   };
 
   render() {
