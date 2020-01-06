@@ -23,3 +23,8 @@
   top: 1em;
   right: 0.8em;
 }
+
+.MemberSection-member:first-of-type::after {
+  content: ": Team lead";
+  font-weight: 700;
+}

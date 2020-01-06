@@ -22,6 +22,10 @@ class MemberSection extends React.Component {
     };
   }
 
+  isTeamLead = (team, user) => {
+    return team.members.length > 0 && team.members[0]._id === user._id;
+  };
+
   setShowLockModal = (val) => {
     this.setState({ showLockModal: val });
   };
@@ -139,7 +143,7 @@ class MemberSection extends React.Component {
         {this.renderCompeting()}
         <div className="u-marginBottom-xxl u-marginTop-xl">
           {currentTeam.members.map((userObj) => (
-            <div className="u-marginBottom-sm" key={userObj._id}>
+            <div className="MemberSection-member u-marginBottom-sm" key={userObj._id}>
               {userObj.first_name + " " + userObj.last_name}
             </div>
           ))}
@@ -147,9 +151,11 @@ class MemberSection extends React.Component {
 
         {!github_url && (
           <div className="StudentView-buttonHolder">
-            <span className="StudentView-button--primary" onClick={this.askLockTeam}>
-              lock team
-            </span>
+            {this.isTeamLead(currentTeam, currentUser) && (
+              <span className="StudentView-button--primary" onClick={this.askLockTeam}>
+                lock team
+              </span>
+            )}
             <span className="StudentView-button--secondary" onClick={this.askLeaveTeam}>
               leave team
             </span>
