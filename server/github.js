@@ -105,6 +105,7 @@ async function test() {
 module.exports = {
   // Generate a GitHub team and repo for the given team, return URL of repo
   generate: async (team) => {
+    console.log(`Starting GitHub generation for ${team.team_name}`);
     const members = team.members.map((member) => member.github_username);
     const repoName = members.join("-");
 
@@ -113,6 +114,7 @@ module.exports = {
 
     await giveAdminAccess(id, repoName);
     await addMembers(id, members);
+    console.log(`Completed GitHub generation for ${team.team_name}`);
 
     return url;
   },

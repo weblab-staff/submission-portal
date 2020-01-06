@@ -19,6 +19,8 @@ class MemberSection extends React.Component {
       redirect: false,
       competing: props.currentTeam.competing,
       editingCompeting: false,
+      githubLoading: false,
+      githubError: false,
     };
   }
 
@@ -48,12 +50,14 @@ class MemberSection extends React.Component {
   };
 
   lockTeam = (team) => {
+    this.setState({ githubLoading: true });
     post(`/api/teams/${this.props.currentTeam._id}/generate-github`)
       .then((res) => {
         location.reload();
       })
       .catch((err) => {
         console.log(err);
+        this.setState({ githubError: true });
       });
   };
 
@@ -165,18 +169,32 @@ class MemberSection extends React.Component {
         <Modal show={this.state.showLockModal} setShow={this.setShowLockModal}>
           <h2 className="Modal-header">Are you sure you want to lock your team?</h2>
           <div className="StudentView-buttonHolder u-textRight">
-            <span
-              className="StudentView-button--primary"
-              onClick={() => this.lockTeam(currentTeam)}
-            >
-              Confirm
-            </span>
-            <span
-              className="StudentView-button--secondary"
-              onClick={() => this.setShowLockModal(false)}
-            >
-              Cancel
-            </span>
+            {this.state.githubLoading ? (
+              this.state.githubError ? (
+                <span>
+                  Error! Failed to create your GitHub repository. This probably means your team name
+                  is invalid or conflicts with a team from a previous year. Please contact
+                  weblab-staff@mit.edu.
+                </span>
+              ) : (
+                <span>Creating GitHub repository...</span>
+              )
+            ) : (
+              <>
+                <span
+                  className="StudentView-button--primary"
+                  onClick={() => this.lockTeam(currentTeam)}
+                >
+                  Confirm
+                </span>
+                <span
+                  className="StudentView-button--secondary"
+                  onClick={() => this.setShowLockModal(false)}
+                >
+                  Cancel
+                </span>
+              </>
+            )}
           </div>
         </Modal>
 
