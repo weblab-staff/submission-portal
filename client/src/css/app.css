@@ -258,3 +258,7 @@ button {
 .u-white {
   color: var(--a-white);
 }
+
+.u-bold {
+  font-weight: 700;
+}

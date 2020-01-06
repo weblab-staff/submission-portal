@@ -1,7 +1,10 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { removeMember } from "../../js/teams";
+
+import "./MemberSection.css";
 
 import Modal from "../ui/Modal";
 import { post } from "../../utils";
@@ -13,6 +16,8 @@ class MemberSection extends React.Component {
       msg: "",
       showModal: false,
       redirect: false,
+      competing: props.currentTeam.competing,
+      editingCompeting: false,
     };
   }
 
@@ -31,6 +36,66 @@ class MemberSection extends React.Component {
 
   lockTeam = (team) => {
     // post("/:team_id/generate-github")
+  };
+
+  toggleEditingCompeting = () => {
+    this.setState({ editingCompeting: !this.state.editingCompeting });
+  };
+
+  handleEditingSelect = (event) => {
+    this.toggleEditingCompeting();
+    post(`/api/teams/${this.props.currentTeam._id}/set-competing`, {
+      competing: event.target.value,
+    })
+      .then((_res) => {
+        this.setState({ competing: !this.state.competing });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  renderCompeting = () => {
+    const { competing, editingCompeting } = this.state;
+
+    if (editingCompeting) {
+      return (
+        <div className="u-marginTop-xl u-flex u-flexAlignCenter">
+          Your team is currently set to:{" "}
+          <div className="u-positionRelative">
+            <div className="MemberSection-select--arrow">
+              <select
+                className="MemberSection-select"
+                value={competing}
+                onChange={this.handleEditingSelect}
+              >
+                <option value="true">competing</option>
+                <option value="false">not competing</option>
+              </select>
+            </div>
+          </div>
+          <FontAwesomeIcon
+            className="u-marginLeft-md u-pointer"
+            icon={["fas", "times"]}
+            size="1x"
+            onClick={this.toggleEditingCompeting}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div className="u-marginTop-xl">
+          Your team is currently set to:{" "}
+          <span className="u-pink u-bold">{competing ? "competing" : "not competing"}</span>
+          <FontAwesomeIcon
+            className="u-marginLeft-md u-pointer"
+            icon={["fas", "edit"]}
+            size="1x"
+            onClick={this.toggleEditingCompeting}
+          />
+        </div>
+      );
+    }
   };
 
   render() {
@@ -56,6 +121,7 @@ class MemberSection extends React.Component {
             </a>
           </div>
         )}
+        {this.renderCompeting()}
         <div className="u-marginBottom-xxl u-marginTop-xl">
           {currentTeam.members.map((userObj) => (
             <div className="u-marginBottom-sm" key={userObj._id}>

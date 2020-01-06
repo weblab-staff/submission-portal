@@ -59,7 +59,7 @@ class StudentView extends React.Component {
                   create a team
                 </Link>{" "}
                 or{" "}
-                <span className="StudentView-teamOption" onClick={this.toggleJoinTeam}>
+                <span className="StudentView-teamOption u-pointer" onClick={this.toggleJoinTeam}>
                   join a team
                 </span>
               </>

@@ -1,0 +1,25 @@
+.MemberSection-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; /* remove default arrow */
+
+  background: var(--grey);
+  padding: 0.5em;
+  border: 1px solid var(--grey);
+  border-radius: var(--radius-sm);
+  margin-left: var(--px-sm);
+  width: 9em;
+  font-size: 1em;
+}
+
+.MemberSection-select--arrow::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  border: 6px transparent solid;
+  border-top: 5px black solid;
+  width: 0;
+  height: 0;
+  top: 1em;
+  right: 0.8em;
+}
