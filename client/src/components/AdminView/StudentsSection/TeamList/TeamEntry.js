@@ -99,7 +99,7 @@ class TeamEntry extends React.Component {
         </div>
         <div>{team.team_name}</div>
         <div>
-          <a href={team.github_url}>{team.github_url ? team.github_url.substring(27) : "-"}</a>
+          <a href={team.github_url}>{team.github_url ? team.github_url.substring(32) : "-"}</a>
         </div>
         <TagList
           tags={team.members}
