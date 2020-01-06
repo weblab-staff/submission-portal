@@ -29,14 +29,7 @@ export const hasSubmission = (teamObj, milestoneId) => {
 };
 
 export const addMember = (teamId, userId) => {
-  post(`api/teams/${teamId}`, { user_id: userId }).then((status) => {
-    if (status === 204) {
-      console.log(`joined team ${teamId}`);
-      window.location.reload();
-    } else {
-      console.log("failed to join team");
-    }
-  });
+  return post(`api/teams/${teamId}`, { user_id: userId });
 };
 
 export const removeMember = (teamId, userId) => {

@@ -40,6 +40,12 @@ class TeamEntry extends React.Component {
     });
   };
 
+  addMember = (teamId, userId) => {
+    addMember(teamId, userId)
+      .then((res) => location.reload())
+      .catch((err) => console.log(err));
+  };
+
   showMemberInput = () => {
     this.setState({
       addingMember: true,
@@ -98,9 +104,7 @@ class TeamEntry extends React.Component {
         <TagList
           tags={team.members}
           displayTags={team.members.map((member) => `${member.first_name} ${member.last_name}`)}
-          add={(userId) => {
-            addMember(this.props.team._id, userId);
-          }}
+          add={(userId) => this.addMember(this.props.team._id, userId)}
           datalist={students.reduce((data, studentObj) => {
             data[studentObj._id] = `${studentObj.first_name} ${studentObj.last_name}`;
             return data;

@@ -17,6 +17,7 @@ class JoinTeam extends React.Component {
       teamName: "",
       msg: "",
       loading: true,
+      error: "",
     };
   }
 
@@ -30,7 +31,18 @@ class JoinTeam extends React.Component {
   handleSubmit = (event) => {
     const { teamName, teamNameIdMap } = this.state;
     event.preventDefault();
-    addMember(teamNameIdMap[teamName], this.props.user._id);
+    addMember(teamNameIdMap[teamName], this.props.user._id)
+      .then((res) => {
+        if (res === 204) {
+          location.reload();
+        } else {
+          this.setState({ error: res.err });
+          setTimeout(() => {
+            this.setState({ error: "" });
+          }, 3000);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   handleChange = (event) => {
@@ -71,6 +83,7 @@ class JoinTeam extends React.Component {
             />
           </span>
         </form>
+        {this.state.error && <div className="u-pink">{this.state.error}</div>}
       </div>
     );
   }
