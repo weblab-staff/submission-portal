@@ -12,6 +12,15 @@ class MilestoneDetails extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { team, milestone } = this.props;
+    if (!milestone) return;
+
+    const submissions = team.submissions[milestone._id];
+    if (!submissions || !submissions.length) return;
+    this.setState({ selectedSubmission: submissions.length - 1 });
+  }
+
   selectSubmission = (index) => {
     this.setState({ selectedSubmission: index });
   };
@@ -59,7 +68,9 @@ class MilestoneDetails extends React.Component {
           <div className="u-flex u-marginBottom-xxxl">
             {submissions.map((_, index) => (
               <div
-                className="milestone-submissionOption u-pointer u-marginRight-lg"
+                className={`milestone-submissionOption u-pointer u-marginRight-lg ${
+                  index == this.state.selectedSubmission ? "u-bold" : ""
+                }`}
                 key={`submission-${index}`}
                 onClick={() => this.selectSubmission(index)}
               >{`Submission ${index}`}</div>
