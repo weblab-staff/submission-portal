@@ -3,6 +3,7 @@
 const request = require("request-promise-native");
 
 const BASE_URL = "https://api.github.com";
+const ORG_NAME = "weblab-class";
 const API_KEY = process.env.GITHUB_API_KEY;
 const HEADERS = {
   "User-Agent": "cory2067",
@@ -16,7 +17,7 @@ function getEndpoint(path) {
 function createTeam(name) {
   const options = {
     method: "POST",
-    uri: getEndpoint("orgs/mit6148/teams"),
+    uri: getEndpoint(`orgs/${ORG_NAME}/teams`),
     headers: HEADERS,
     body: { name },
     json: true,
@@ -29,7 +30,7 @@ function createTeam(name) {
 function createRepo(teamId, repoName) {
   const options = {
     method: "POST",
-    uri: getEndpoint("orgs/mit6148/repos"),
+    uri: getEndpoint(`orgs/${ORG_NAME}/repos`),
     headers: HEADERS,
     body: {
       name: repoName,
@@ -45,7 +46,7 @@ function createRepo(teamId, repoName) {
 function giveAdminAccess(teamId, repoName) {
   const options = {
     method: "PUT",
-    uri: getEndpoint(`teams/${teamId}/repos/mit6148/${repoName}`),
+    uri: getEndpoint(`teams/${teamId}/repos/${ORG_NAME}/${repoName}`),
     headers: HEADERS,
     body: {
       permission: "admin",
@@ -80,7 +81,7 @@ function deleteTeamAndRepo(teamId, repoName) {
 
   const repoOptions = {
     method: "DELETE",
-    uri: getEndpoint(`repos/mit6148/${repoName}`),
+    uri: getEndpoint(`repos/${ORG_NAME}/${repoName}`),
     headers: HEADERS,
   };
 
