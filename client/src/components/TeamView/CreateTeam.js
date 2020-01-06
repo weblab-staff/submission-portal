@@ -14,6 +14,7 @@ class CreateTeam extends React.Component {
       isCompeting: "",
       redirect: false,
       newTeam: "",
+      error: false,
     };
   }
 
@@ -44,7 +45,10 @@ class CreateTeam extends React.Component {
           })
           .catch((err) => console.log(err));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        this.setState({ error: true });
+        console.log(err);
+      });
   };
 
   render() {
@@ -107,7 +111,10 @@ class CreateTeam extends React.Component {
                     })
                     .catch((err) => console.log(err));
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => {
+                  this.setState({ error: true });
+                  console.log(err);
+                });
             }}
           >
             {({ isSubmitting }) => (
@@ -138,6 +145,9 @@ class CreateTeam extends React.Component {
                 <button className="Register-button" type="submit" disabled={isSubmitting}>
                   create
                 </button>
+                {this.state.error && (
+                  <span>Team name invalid or already taken! Refresh and try a different one.</span>
+                )}
               </Form>
             )}
           </Formik>
