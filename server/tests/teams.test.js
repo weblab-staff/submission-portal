@@ -220,6 +220,31 @@ describe("Team API tests", () => {
       });
   });
 
+  it("should prohibit add member after lock-in", (done) => {
+    Team.findByIdAndUpdate(_id, { $set: { github_url: "https://github.com/test" } }).then(() => {
+      request(app)
+        .post(`/api/teams/${_id}`)
+        .set("Accept", "application/json")
+        .send({ user_id: members[1]._id.toString() })
+        .expect(400)
+        .then((res) => {
+          assert(res.body.err);
+          done();
+        });
+    });
+  });
+
+  it("should prohibit remove member after lock-in", (done) => {
+    request(app)
+      .delete(`/api/teams/${_id}/remove-member`)
+      .send({ user_id: members[1]._id })
+      .expect(400)
+      .then((res) => {
+        assert(res.body.err);
+        done();
+      });
+  });
+
   it("should delete a team", (done) => {
     request(app)
       .delete(`/api/teams/${_id}`)

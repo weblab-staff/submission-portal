@@ -109,6 +109,10 @@ router.post(
   })
 );
 
+async function isLocked(teamId) {
+  return (await Team.find({ _id: teamId, github_url: { $exists: true } })).length > 0;
+}
+
 //add members to a team
 //TODO NEEDS VALIDATION
 //should not be able to add duplicate team members!
@@ -116,6 +120,10 @@ router.post(
   "/:team_id",
   ensure.loggedIn,
   errorWrap(async (req, res) => {
+    if (await isLocked(req.params.team_id)) {
+      return res.status(400).send({ err: "This team is already locked" });
+    }
+
     const team = await Team.findByIdAndUpdate(req.params.team_id, {
       $addToSet: { members: req.body.user_id },
     });
@@ -210,6 +218,10 @@ router.delete(
   "/:team_id/remove-member",
   ensure.onTeam,
   errorWrap(async (req, res) => {
+    if (await isLocked(req.params.team_id)) {
+      return res.status(400).send({ err: "This team is already locked" });
+    }
+
     await Team.findByIdAndUpdate(req.params.team_id, {
       $pull: { members: req.body.user_id },
     });
