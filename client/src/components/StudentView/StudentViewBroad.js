@@ -22,7 +22,12 @@ class StudentMilestone extends React.Component {
   }
 
   getIconName = (status) => {
-    const ICON_MAP = { closed: "lock", waiting: "", submitted: "check", late: "exclamation" };
+    const ICON_MAP = {
+      closed: "lock",
+      waiting: "wrench",
+      submitted: "check",
+      late: "exclamation",
+    };
     return ICON_MAP[status];
   };
 

@@ -14,19 +14,28 @@ class MemberSection extends React.Component {
     super(props);
     this.state = {
       msg: "",
-      showModal: false,
+      showLockModal: false,
+      showLeaveModal: false,
       redirect: false,
       competing: props.currentTeam.competing,
       editingCompeting: false,
     };
   }
 
-  setShowModal = (val) => {
-    this.setState({ showModal: val });
+  setShowLockModal = (val) => {
+    this.setState({ showLockModal: val });
+  };
+
+  setShowLeaveModal = (val) => {
+    this.setState({ showLeaveModal: val });
   };
 
   askLeaveTeam = () => {
-    this.setState({ showModal: true });
+    this.setState({ showLeaveModal: true });
+  };
+
+  askLockTeam = () => {
+    this.setState({ showLockModal: true });
   };
 
   leaveTeam = (team, user) => {
@@ -35,7 +44,13 @@ class MemberSection extends React.Component {
   };
 
   lockTeam = (team) => {
-    // post("/:team_id/generate-github")
+    post(`/api/teams/${this.props.currentTeam._id}/generate-github`)
+      .then((res) => {
+        location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   toggleEditingCompeting = () => {
@@ -132,14 +147,34 @@ class MemberSection extends React.Component {
 
         {!github_url && (
           <div className="StudentView-buttonHolder">
-            <span className="StudentView-button--primary">lock team</span>
+            <span className="StudentView-button--primary" onClick={this.askLockTeam}>
+              lock team
+            </span>
             <span className="StudentView-button--secondary" onClick={this.askLeaveTeam}>
               leave team
             </span>
           </div>
         )}
 
-        <Modal show={this.state.showModal} setShow={this.setShowModal}>
+        <Modal show={this.state.showLockModal} setShow={this.setShowLockModal}>
+          <h2 className="Modal-header">Are you sure you want to lock your team?</h2>
+          <div className="StudentView-buttonHolder u-textRight">
+            <span
+              className="StudentView-button--primary"
+              onClick={() => this.lockTeam(currentTeam)}
+            >
+              Confirm
+            </span>
+            <span
+              className="StudentView-button--secondary"
+              onClick={() => this.setShowLockModal(false)}
+            >
+              Cancel
+            </span>
+          </div>
+        </Modal>
+
+        <Modal show={this.state.showLeaveModal} setShow={this.setShowLeaveModal}>
           <h2 className="Modal-header">Are you sure you want to leave your team?</h2>
           <div className="StudentView-buttonHolder u-textRight">
             <span
@@ -150,7 +185,7 @@ class MemberSection extends React.Component {
             </span>
             <span
               className="StudentView-button--secondary"
-              onClick={() => this.setShowModal(false)}
+              onClick={() => this.setShowLeaveModal(false)}
             >
               Cancel
             </span>
