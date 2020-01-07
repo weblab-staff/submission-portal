@@ -149,7 +149,8 @@ router.post(
       team: req.params.team_id,
       milestone: req.body.milestone_id,
       timestamp: Date.now(),
-      form_response: "Manually credited milestone",
+      form_response: { milestone: "Manually credited milestone" },
+      key: Date.now(),
     });
 
     await submission.save();
