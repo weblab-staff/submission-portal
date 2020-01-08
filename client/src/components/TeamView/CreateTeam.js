@@ -51,6 +51,14 @@ class CreateTeam extends React.Component {
       });
   };
 
+  validateName = (name) => {
+    if (name.length > 50) return "team name is too long";
+
+    // accept all ascii except backslash
+    if (/^[\x20-\x5b\x5d-\x7F]*$/.test(name)) return;
+    return "team name contains illegal characters";
+  };
+
   render() {
     const { teamName, isCompeting, redirect, newTeam } = this.state;
 
@@ -121,18 +129,18 @@ class CreateTeam extends React.Component {
               <Form>
                 <div className="u-marginBottom-md">
                   <div className="Register-label">team name</div>
-                  <Field className="formInput" type="text" name="teamName" />
+                  <Field
+                    className="formInput"
+                    type="text"
+                    name="teamName"
+                    validate={this.validateName}
+                  />
                   <ErrorMessage className="formError" name="teamName" component="div" />
                 </div>
                 <div className="u-positionRelative u-marginBottom-md">
                   <label className="Register-label">is your team competing?</label>
                   <div className="formInput-select--arrow">
-                    <Field
-                      className="formInput-select"
-                      component="select"
-                      name="isCompeting"
-                      defaultValue="filler"
-                    >
+                    <Field className="formInput-select" component="select" name="isCompeting">
                       <option disabled value="">
                         -- select an option --
                       </option>
