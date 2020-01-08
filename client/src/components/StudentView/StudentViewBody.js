@@ -30,7 +30,7 @@ class StudentViewBody extends React.Component {
           if (!mileObj.handin_link) return;
           mileObj.handin_link = mileObj.handin_link.replace(
             TEAM_PLACEHOLDER,
-            currentTeam.team_name
+            encodeURIComponent(currentTeam.team_name)
           );
         });
 
