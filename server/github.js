@@ -1,6 +1,7 @@
 /** API interaction with GitHub **/
 
 const request = require("request-promise-native");
+const util = require("./routes/util");
 
 const BASE_URL = "https://api.github.com";
 const ORG_NAME = "weblab-class";
@@ -40,7 +41,15 @@ function createRepo(teamId, repoName) {
     json: true,
   };
 
-  return request(options).then((res) => res.html_url);
+  return request(options)
+    .catch((err) =>
+      util.get_active_year().then((year) => {
+        options.body.name = `${options.body.name}-${year}`;
+        console.log(`Retrying GitHub creation with name ${options.body.name}`);
+        return request(options);
+      })
+    )
+    .then((res) => res.html_url);
 }
 
 function giveAdminAccess(teamId, repoName) {
