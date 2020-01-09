@@ -27,7 +27,8 @@ function createTeam(name) {
   return request(options).then((res) => res.id);
 }
 
-// returns a promise for the URL of the repo
+// returns a promise for the URL of the repo and final repo name
+// the final repo name might differ from repoName, in order to resolve naming conflicts
 function createRepo(teamId, repoName) {
   const options = {
     method: "POST",
@@ -49,7 +50,9 @@ function createRepo(teamId, repoName) {
         return request(options);
       })
     )
-    .then((res) => res.html_url);
+    .then((res) => {
+      return { url: res.html_url, repoName: options.body.name };
+    });
 }
 
 function giveAdminAccess(teamId, repoName) {
@@ -100,10 +103,10 @@ function deleteTeamAndRepo(teamId, repoName) {
 async function test() {
   const id = await createTeam("the meme team");
   console.log(`Created team with id ${id}`);
-  const url = await createRepo(id, "cor-jynnie-aspiser");
+  const { url, repoName } = await createRepo(id, "cor-jynnie-aspiser");
   console.log(`Created new repo ${url}`);
-  const res2 = await giveAdminAccess(id, "cor-jynnie-aspiser");
-  console.log("Granted team admin access to repo");
+  const res2 = await giveAdminAccess(id, repoName);
+  console.log(`Granted team admin access to repo ${repoName}`);
   const res = await addMembers(id, ["cory2067"]);
   console.log("Added members to repo");
 
@@ -116,10 +119,11 @@ module.exports = {
   generate: async (team) => {
     console.log(`Starting GitHub generation for ${team.team_name}`);
     const members = team.members.map((member) => member.github_username);
-    const repoName = members.join("-");
+    const initialRepoName = members.join("-");
 
     const id = await createTeam(team.team_name);
-    const url = await createRepo(id, repoName);
+    const { url, repoName } = await createRepo(id, initialRepoName);
+    console.log(`finished repo gen with url ${url} and name ${repoName}`);
 
     await giveAdminAccess(id, repoName);
     await addMembers(id, members);
