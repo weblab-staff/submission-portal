@@ -26,7 +26,7 @@ async function save_email(user_ids, team_ids, subject, body, sender) {
     $or: [
       {
         _id: {
-          $in: teams.map((team) => team.members).reduce((a, b) => a.concat(b)),
+          $in: teams.map((team) => team.members).reduce((a, b) => a.concat(b), []),
         },
       },
       { _id: { $in: user_ids } },
