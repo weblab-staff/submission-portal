@@ -20,11 +20,11 @@ class App extends React.Component {
     return (
       <>
         <Switch>
-          <Route exact path="/" component={Root} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/team" component={TeamView} />
           <Route exact path="/create-team" component={CreateTeam} />
           <Route exact path="/join-team" component={JoinTeam} />
+          <Route component={Root} />
         </Switch>
       </>
     );
