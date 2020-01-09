@@ -46,6 +46,7 @@ class Feedback extends React.Component {
             <textarea
               className="feedback-input"
               placeholder="Enter feedback..."
+              value={this.state.feedback}
               onChange={this.handleChange}
             ></textarea>
             <div
