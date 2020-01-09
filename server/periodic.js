@@ -42,7 +42,7 @@ async function checkSubmissions() {
           milestone: milestone._id,
           form_response: row,
           feedback: [],
-          key: `${milestone._id}:${rowIndex}`, // assert unique, to prevent duplicate submissions
+          key: `${milestone._id}:${team._id}:${rowIndex}`, // assert unique, to prevent duplicate submissions
         });
 
         // update submission and team atomically (prevents weird state in case of failure)
@@ -52,8 +52,8 @@ async function checkSubmissions() {
             await submission.save({ session });
             await team.updateOne({ $push: { submissions: submission } }, { session });
           });
-          const io = sockets.getIo()
-          io.in(team._id).emit('new_submission', {});
+          const io = sockets.getIo();
+          io.in(team._id).emit("new_submission", {});
         } catch (e) {
           if (e.name === "ValidationError") {
             console.log(`Ignoring duplicate submission from ${row.teamname}`);
@@ -67,7 +67,6 @@ async function checkSubmissions() {
 
       milestone.submission_count += rows.length;
       milestone.save();
-
     });
 }
 
