@@ -12,7 +12,14 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function send_email(user_ids, team_ids, subject, body, sender) {
+const createMailto = (recipients, subject, body) => {
+  const joinedRecipients = recipients.map((user) => user.email).join(",");
+  const cleanedSubject = encodeURIComponent(subject.trim());
+  const cleanedBody = encodeURIComponent(body.trim());
+  return `mailto:?bcc=${joinedRecipients}&subject=${cleanedSubject}&body=${cleanedBody}`;
+};
+
+async function save_email(user_ids, team_ids, subject, body, sender) {
   const teams = await Team.find({ _id: { $in: team_ids } });
   const users = await User.find({ _id: { $in: user_ids } });
   const recipients = await User.find({
@@ -25,14 +32,6 @@ async function send_email(user_ids, team_ids, subject, body, sender) {
       { _id: { $in: user_ids } },
     ],
   });
-  const mailOptions = {
-    from: process.env.GMAIL_USER,
-    bcc: recipients.map(function(recipient) {
-      return recipient.email;
-    }),
-    subject: subject,
-    text: body,
-  };
   const email = new Email({
     timestamp: Date.now(),
     subject: subject,
@@ -42,15 +41,7 @@ async function send_email(user_ids, team_ids, subject, body, sender) {
     team_targets: teams,
   });
   await email.save();
-  return new Promise((resolve, reject) => {
-    transporter.sendMail(mailOptions, function(error, _) {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(email);
-      }
-    });
-  });
+  return { email, mailto: createMailto(recipients, subject, body) };
 }
 
 function query_active_year() {
@@ -72,10 +63,13 @@ function filterOnWord(obj, word, fields) {
       if (word_passed) {
         return true;
       }
-    } else if (field === "members"){
+    } else if (field === "members") {
       word_passed = false;
       obj[field].forEach(function(item, index) {
-        if (item["first_name"].toLowerCase().includes(lw) || item["last_name"].toLowerCase().includes(lw)) {
+        if (
+          item["first_name"].toLowerCase().includes(lw) ||
+          item["last_name"].toLowerCase().includes(lw)
+        ) {
           word_passed = true;
         }
       });
@@ -117,6 +111,6 @@ async function query_filter_year(req) {
 module.exports = {
   get_active_year: query_active_year,
   get_filter_year: query_filter_year,
-  send_email,
+  save_email,
   searchFilter,
 };

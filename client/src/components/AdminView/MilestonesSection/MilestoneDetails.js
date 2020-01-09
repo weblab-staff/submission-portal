@@ -86,7 +86,7 @@ class MilestoneDetails extends React.Component {
             ))}
           </div>
         </div>
-        <Feedback team={team} submission={submission} />
+        <Feedback team={team} submission={submission} refresh={this.props.refresh} />
       </div>
     );
   }

@@ -194,11 +194,11 @@ router.post(
       _id: submission.milestone,
     });
     const subject = get_feedback_subject(milestone.title);
-    const email = await util.send_email([], [team_id], subject, feedback, sender);
+    const { email, mailto } = await util.save_email([], [team_id], subject, feedback, sender);
     await MilestoneSubmission.findByIdAndUpdate(submission._id, {
       $push: { feedback: email._id },
     });
-    res.send(email);
+    res.send({ mailto });
   })
 );
 

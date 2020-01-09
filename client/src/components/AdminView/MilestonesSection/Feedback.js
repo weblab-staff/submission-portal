@@ -8,16 +8,24 @@ class Feedback extends React.Component {
     this.state = {
       feedback: "",
     };
-    this.inputRef = React.createRef();
   }
 
   sendFeedback = () => {
     post(`api/teams/${this.props.team._id}/feedback`, {
       milestone_submission_id: this.props.submission._id,
-      feedback: this.inputRef.current.innerText,
+      feedback: this.state.feedback,
     })
-      .then((res) => console.log("Success!"))
+      .then((res) => {
+        window.open(res.mailto, "_blank");
+        this.props.refresh();
+        this.setState({ feedback: "" });
+      })
       .catch((err) => console.log(err));
+  };
+
+  handleChange = (event) => {
+    const value = event.target.value;
+    this.setState({ feedback: value });
   };
 
   render() {
@@ -35,9 +43,11 @@ class Feedback extends React.Component {
               </div>
             ))}
           <div className="feedback-specificContainer feedback-inputContainer u-positionRelative">
-            <div contentEditable className="feedback-input" ref={this.inputRef}>
-              feedback...
-            </div>
+            <textarea
+              className="feedback-input"
+              placeholder="Enter feedback..."
+              onChange={this.handleChange}
+            ></textarea>
             <div
               className="feedback-submit u-pointer u-flex u-flexCenter"
               onClick={this.sendFeedback}

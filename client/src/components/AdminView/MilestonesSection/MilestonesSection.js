@@ -35,6 +35,10 @@ class MilestonesSection extends React.Component {
     this.setState({ selectedMilestone: milestone });
   };
 
+  refresh = () => {
+    this.loadData();
+  };
+
   render() {
     const styles = {
       display: "flex",
@@ -52,7 +56,11 @@ class MilestonesSection extends React.Component {
           team={this.state.team}
           milestones={this.state.milestones}
         />
-        <MilestoneDetails team={this.state.team} milestone={this.state.selectedMilestone} />
+        <MilestoneDetails
+          team={this.state.team}
+          milestone={this.state.selectedMilestone}
+          refresh={this.refresh}
+        />
       </div>
     );
   }
