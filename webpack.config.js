@@ -59,6 +59,9 @@ module.exports = {
       "/team": "http://localhost:3000",
       "/create-team": "http://localhost:3000",
       "/join-team": "http://localhost:3000",
+      "/students": "http://localhost:3000",
+      "/grade": "http://localhost:3000",
+      "/settings": "http://localhost:3000",
       "/socket.io/*": {
         target: "http://localhost:3000",
         ws: true,

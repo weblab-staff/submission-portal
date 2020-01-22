@@ -20,6 +20,8 @@
 
 .adminSidebar-iconContainer {
   flex-direction: column;
+  color: var(--dark-grey);
+  text-decoration: none;
   width: 100%;
   height: var(--adminSidebar-iconHeight);
 }

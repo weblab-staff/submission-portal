@@ -1,64 +1,59 @@
 import React from "react";
+import { Link, withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./AdminSideBar.css";
 
 class AdminTabButton extends React.Component {
   render() {
-    const { activeTab, tabName, tabLabel, icon, onClick, showingMilestones } = this.props;
-    const active = !showingMilestones && activeTab === tabName;
+    const { activeTab, to, tabLabel, icon, showingMilestones } = this.props;
+    const active = !showingMilestones && activeTab === to;
 
     return (
-      <div
-        className={`u-flex u-flexCenter u-pointer adminSidebar-iconContainer ${active &&
+      <Link
+        to={to}
+        className={`u-flex u-flexCenter adminSidebar-iconContainer ${active &&
           "adminSidebar-iconContainer--active"}`}
-        onClick={() => {
-          onClick(tabName);
-        }}
       >
         <FontAwesomeIcon icon={["fas", icon]} size="2x" />
         <span className="adminSidebar-iconLabel">{tabLabel}</span>
-      </div>
+      </Link>
     );
   }
 }
 
 class AdminSideBar extends React.Component {
   render() {
-    const { activeTab, year, setActiveTab, showingMilestones } = this.props;
+    const { year, showingMilestones } = this.props;
 
     return (
       <div className={`u-flex u-flexAlignCenter u-darkGrey adminSidebar-container`}>
         <AdminTabButton
-          activeTab={activeTab}
-          tabName="iteration"
+          activeTab={this.props.location.pathname}
           tabLabel={`${year} Class`}
           icon="calendar-alt"
-          onClick={setActiveTab}
+          to="/"
           showingMilestones={showingMilestones}
         />
         <AdminTabButton
-          activeTab={activeTab}
-          tabName="students"
+          activeTab={this.props.location.pathname}
           tabLabel="Students"
           icon="user"
-          onClick={setActiveTab}
+          to="/students"
           showingMilestones={showingMilestones}
         />
         <AdminTabButton
-          activeTab={activeTab}
-          tabName="grade"
+          activeTab={this.props.location.pathname}
           tabLabel="Grade"
           icon="highlighter"
-          onClick={setActiveTab}
+          to="/grade"
           showingMilestones={showingMilestones}
         />
         <AdminTabButton
-          activeTab={activeTab}
-          tabName="settings"
+          activeTab={this.props.location.pathname}
           tabLabel="Settings"
           icon="cog"
-          onClick={setActiveTab}
+          to="/settings"
           showingMilestones={showingMilestones}
         />
       </div>
@@ -66,4 +61,6 @@ class AdminSideBar extends React.Component {
   }
 }
 
-export default AdminSideBar;
+const AdminSideBarWithRouter = withRouter((props) => <AdminSideBar {...props} />);
+
+export default AdminSideBarWithRouter;
