@@ -9,6 +9,7 @@ class NewClassMilestoneModal extends React.Component {
       deadline: null,
       handin_link: null,
       responses_link: null,
+      audience: "all",
     };
   }
 
@@ -65,6 +66,14 @@ class NewClassMilestoneModal extends React.Component {
         <div>
           <span>Response link:</span>
           <input name="responses_link" type="text" onChange={this.handleInputChange} />
+        </div>
+        <div>
+          <span>What teams can see this:</span>
+          <select name="audience" onChange={this.handleInputChange}>
+            <option value="all">all</option>
+            <option value="competing">competing</option>
+            <option value="non-competing">non-competing</option>
+          </select>
         </div>
         <button onClick={this.confirmNewMilestone}>confirm</button>
         <button onClick={this.cancelNewMilestone}>cancel</button>

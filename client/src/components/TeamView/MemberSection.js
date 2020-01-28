@@ -72,6 +72,7 @@ class MemberSection extends React.Component {
     })
       .then((_res) => {
         this.setState({ competing: !this.state.competing });
+        location.reload();
       })
       .catch((err) => {
         console.log(err);

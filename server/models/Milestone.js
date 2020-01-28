@@ -9,6 +9,7 @@ const milestoneSchema = new mongoose.Schema({
   autograde: Boolean,
   submission_closed: Boolean,
   submission_count: Number,
+  audience: { type: String, enum: ["competing", "non-competing", "all"] },
   year: Number,
 });
 

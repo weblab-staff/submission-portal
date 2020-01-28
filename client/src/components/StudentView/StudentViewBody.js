@@ -23,7 +23,7 @@ class StudentViewBody extends React.Component {
 
   getMilestones = () => {
     const { currentTeam } = this.props;
-    get(`/api/milestones`)
+    get(`/api/milestones`, { competing: currentTeam.competing })
       .then((milestones) => {
         // modify link to autofill teamname
         milestones.forEach((mileObj) => {

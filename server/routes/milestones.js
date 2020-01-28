@@ -12,8 +12,15 @@ router.get(
   "/",
   ensure.loggedIn,
   errorWrap(async (req, res) => {
-    let year_filter = { year: req.year };
-    res.send(await Milestone.find(year_filter).sort({ deadline: "asc" }));
+    const filter = { year: req.year };
+    if (req.query.competing !== undefined) {
+      const isCompeting = JSON.parse(req.query.competing);
+      filter.$or = [
+        { audience: { $exists: false } },
+        { audience: { $in: [isCompeting ? "competing" : "non-competing", "all"] } },
+      ];
+    }
+    res.send(await Milestone.find(filter).sort({ deadline: "asc" }));
   })
 );
 
@@ -40,6 +47,7 @@ router.post(
       autograde: false,
       submission_closed: false,
       submission_count: 0,
+      audience: req.body.audience || "all",
       year: req.year,
     });
 
