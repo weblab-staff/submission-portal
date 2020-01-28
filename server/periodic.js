@@ -111,7 +111,7 @@ function getRows(sheet, offset = 0) {
 
 // delete characters from keys mongo doesn't like
 function sanitizeKey(key) {
-  return key.replace(".", "_");
+  return key.replace(/\./g, "_");
 }
 
 module.exports = { start };
