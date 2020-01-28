@@ -13,12 +13,22 @@ class MilestoneDetails extends React.Component {
   }
 
   componentDidMount() {
+    this.setDefaultSelectedSubmission();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.milestone !== this.props.milestone) {
+      this.setDefaultSelectedSubmission();
+    }
+  }
+
+  setDefaultSelectedSubmission() {
     const { team, milestone } = this.props;
     if (!milestone) return;
 
     const submissions = team.submissions[milestone._id];
-    if (!submissions || !submissions.length) return;
-    this.setState({ selectedSubmission: submissions.length - 1 });
+    const selIndex = submissions && submissions.length ? submissions.length - 1 : 0;
+    this.setState({ selectedSubmission: selIndex });
   }
 
   selectSubmission = (index) => {
@@ -59,7 +69,7 @@ class MilestoneDetails extends React.Component {
       );
     }
 
-    const submission = submissions[this.state.selectedSubmission];
+    const submission = submissions[this.state.selectedSubmission] || submissions[0];
 
     return (
       <div className="milestone-container u-marginTop-xxxl u-marginLeft-lg u-marginRight-lg">
