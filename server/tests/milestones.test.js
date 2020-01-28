@@ -15,6 +15,7 @@ const milestoneObj = {
   description: "sql is for monkeys",
   handin_link: "http://handin.link",
   responses_link: "http://responses.link",
+  audience: "non-competing",
 };
 
 const otherMilestoneObj = {
@@ -22,6 +23,7 @@ const otherMilestoneObj = {
   description: "sql is for monkeys",
   handin_link: "http://handin.link",
   responses_link: "http://responses.link",
+  audience: "competing",
 };
 
 describe("Milestone API tests", () => {
@@ -74,6 +76,28 @@ describe("Milestone API tests", () => {
             assert.strictEqual(res.body.length, 2);
             done();
           });
+      });
+  });
+
+  it("should get competing milestones", (done) => {
+    request(app)
+      .get(`/api/milestones?competing=true`)
+      .expect(200)
+      .then((res) => {
+        assert.strictEqual(res.body.length, 1);
+        assert.strictEqual(res.body[0].title, otherMilestoneObj.title);
+        done();
+      });
+  });
+
+  it("should get non-competing milestones", (done) => {
+    request(app)
+      .get(`/api/milestones?competing=false`)
+      .expect(200)
+      .then((res) => {
+        assert.strictEqual(res.body.length, 1);
+        assert.strictEqual(res.body[0].title, milestoneObj.title);
+        done();
       });
   });
 
