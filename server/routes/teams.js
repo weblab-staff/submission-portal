@@ -87,7 +87,7 @@ router.get(
 
 //create a team
 //defaults to creating that team for the active year
-//needs validation to see if registration is open, and request is coming from creator_id / admin
+//TODO: create a SEPARATE route for admins to create a team for a student
 router.post(
   "/",
   ensure.loggedIn,
@@ -104,7 +104,7 @@ router.post(
     }
 
     await team.save();
-    await User.findByIdAndUpdate(req.body.creator_id, { team: team._id });
+    await User.findByIdAndUpdate(req.user.id, { team: team._id });
     res.send(team);
   })
 );

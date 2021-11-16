@@ -48,14 +48,7 @@ class StudentView extends React.Component {
               <>
                 to get started,{" "}
                 <Link
-                  className="StudentView-teamName"
-                  to={{
-                    pathname: "/create-team",
-                    state: {
-                      currentUser,
-                    },
-                  }}
-                >
+                      className="StudentView-teamName" to="/create-team" >
                   create a team
                 </Link>{" "}
                 or{" "}
