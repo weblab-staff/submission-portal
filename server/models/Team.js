@@ -10,6 +10,11 @@ const teamSchema = new mongoose.Schema({
     required: true,
     unique: true,
     uniqueCaseInsensitive: true,
+    validate: {
+      validator: v => {
+        return !v.startsWith("'");
+      }
+    }
   },
   github_url: String,
   competing: { type: Boolean, required: true },

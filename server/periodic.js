@@ -32,9 +32,8 @@ async function checkSubmissions() {
       rows.forEach(async (row, i) => {
         const rowIndex = milestone.submission_count + i + 1;
 
-        // workaround for teams that start with ' (in future years, just ban teamnames starting with ')
         const team = await Team.findOne({
-          team_name: { $in: [row.teamname, `'${row.teamname}`] },
+          team_name: row.teamname,
         });
         if (!team) {
           return console.log("ERROR: Submission with invalid team name");
