@@ -20,11 +20,18 @@ const userSchema = new mongoose.Schema({
   },
   for_credit: { type: Boolean },
   statistics: {
-    gender: String,
+    gender: String, // Deprecated. Don't add this to new students or show in UI
+    pronouns: String,
     class_year: Number,
     experience: Number,
     living_group: String,
     shirt_size: String,
+    mit_id: Number,
+    kerb: {
+      type: String,
+      minlength: 1,
+      maxlength: maxFieldLength,
+    },
   },
   is_admin: Boolean,
   tags: [String],

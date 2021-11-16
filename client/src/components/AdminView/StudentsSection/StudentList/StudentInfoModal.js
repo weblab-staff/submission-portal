@@ -95,8 +95,32 @@ class StudentInfoModal extends React.Component {
         )}
         {info.statistics && (
           <div>
-            <span className="StudentInfoModal-label">gender</span>
-            <span>{info.statistics.gender}</span>
+            <span className="StudentInfoModal-label">pronouns</span>
+            <span>{info.statistics.pronouns}</span>
+          </div>
+        )}
+        {info.statistics && (
+          <div>
+            <span className="StudentInfoModal-label">class year</span>
+            <span>{info.statistics.class_year}</span>
+          </div>
+        )}
+        {info.statistics && (
+          <div>
+            <span className="StudentInfoModal-label">pronouns</span>
+            <span>{info.statistics.pronouns}</span>
+          </div>
+        )}
+        {info.statistics && (
+          <div>
+            <span className="StudentInfoModal-label">mit id</span>
+            <span>{info.statistics.mit_id}</span>
+          </div>
+        )}
+        {info.statistics && (
+          <div>
+            <span className="StudentInfoModal-label">kerb</span>
+            <span>{info.statistics.kerb}</span>
           </div>
         )}
         <div>
