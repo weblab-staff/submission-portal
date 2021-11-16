@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-var uniqueValidator = require("mongoose-unique-validator");
 const maxFieldLength = 50;
 const userSchema = new mongoose.Schema({
   github_username: String,
@@ -38,5 +37,4 @@ const userSchema = new mongoose.Schema({
   team: { type: mongoose.Schema.Types.ObjectId, ref: "Team" },
   year: Number, //year the student registered under
 });
-userSchema.plugin(uniqueValidator);
 module.exports = mongoose.model("User", userSchema);
