@@ -53,10 +53,6 @@ const publicPath = path.resolve(__dirname, "..", "client", "dist");
 
 mongoose
   .connect(process.env.MONGO_SRV, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
     dbName: env,
   })
   .then(
