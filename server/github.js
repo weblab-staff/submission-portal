@@ -24,7 +24,6 @@ function createTeam(name) {
   };
 
   return fetch(getEndpoint(`orgs/${ORG_NAME}/teams`), options).then(res => res.json()).then((res) => {
-    console.log("got create team response: ", res)
     return { id: res.id, slug: res.slug };
   });
 }
@@ -64,7 +63,6 @@ function giveAdminAccess(team_slug, repoName) {
       permission: "admin",
     })
   };
-  console.log("attempting give admin access: ", options)
 
   return fetch(getEndpoint(`orgs/${ORG_NAME}/teams/${team_slug}/repos/${ORG_NAME}/${repoName}`), options
   ).then(res => res.json());
