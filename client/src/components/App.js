@@ -1,6 +1,5 @@
 import React from "react";
-import Route from "react-router-dom/es/Route";
-import Switch from "react-router-dom/es/Switch";
+import { Route, Routes } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import Root from "./Root";
@@ -19,13 +18,13 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <Switch>
-          <Route exact path="/" component={Root} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/team" component={TeamView} />
-          <Route exact path="/create-team" component={CreateTeam} />
-          <Route exact path="/join-team" component={JoinTeam} />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Root />} />
+          <Route path="/register/*" element={<Register />} />
+          <Route path="/team/*" element={<TeamView />} />
+          <Route path="/create-team/*" element={<CreateTeam />} />
+          <Route path="/join-team/*" element={<JoinTeam />} />
+        </Routes>
       </>
     );
   }

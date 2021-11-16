@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { get, post } from "../../utils";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
@@ -26,13 +26,11 @@ class CreateTeam extends React.Component {
   };
 
   handleSubmit = (event) => {
-    const { currentUser } = this.props.location.state;
     const { teamName, isCompeting } = this.state;
     event.preventDefault();
     post(`/api/teams/`, {
       team_name: teamName,
       is_competing: isCompeting,
-      creator_id: currentUser._id,
     })
       .then((response) => {
         console.log(response);
@@ -64,14 +62,7 @@ class CreateTeam extends React.Component {
 
     if (redirect) {
       return (
-        <Redirect
-          to={{
-            pathname: "/",
-            state: {
-              currentTeam: newTeam,
-            },
-          }}
-        />
+        <Navigate to="/" />
       );
     }
     return (
@@ -99,14 +90,12 @@ class CreateTeam extends React.Component {
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-              const { currentUser } = this.props.location.state;
               const { teamName, isCompeting } = values;
               console.log(teamName, isCompeting);
               event.preventDefault();
               post(`/api/teams/`, {
                 team_name: teamName,
                 is_competing: isCompeting,
-                creator_id: currentUser._id,
               })
                 .then((response) => {
                   console.log(response);

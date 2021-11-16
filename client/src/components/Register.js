@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { get, post } from "../utils";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
@@ -15,14 +15,16 @@ class Register extends React.Component {
       firstName: "",
       lastName: "",
       email: "",
-      gender: "",
-      // classYear: "", TODO add class year
+      pronouns: "",
+      classYear: "",
       livingGroup: "",
       priorExp: "",
       forCredit: "",
       shirtSize: "",
       redirect: false,
       experience: 3,
+      mitId: "",
+      kerb: "",
     };
     this.sliderRef = React.createRef();
   }
@@ -64,10 +66,13 @@ class Register extends React.Component {
       firstName,
       lastName,
       email,
-      gender,
+      pronouns,
       livingGroup,
       experience,
       forCredit,
+      mitId,
+      kerb,
+      classYear,
     } = this.state;
     event.preventDefault();
     post(`/api/users/${currentUser._id}/update`, {
@@ -76,10 +81,12 @@ class Register extends React.Component {
       email: email,
       for_credit: forCredit,
       statistics: {
-        gender: gender,
-        // class_year: Number,
+        pronouns: pronouns,
+        class_year: Number.parseInt(classYear),
         experience: experience,
         living_group: livingGroup,
+        mit_id: Number.parseInt(mitId),
+        kerb: kerb,
       },
     })
       .then((response) => {
@@ -103,7 +110,7 @@ class Register extends React.Component {
     const { redirect, firstName, lastName, email, forCredit, shirtSize, errRedirect } = this.state;
 
     if (errRedirect || redirect) {
-      return <Redirect to="/" />;
+      return <Navigate to="/" />;
     }
 
     return (
@@ -134,6 +141,16 @@ class Register extends React.Component {
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.edu$/i.test(values.email)) {
               errors.email = "Invalid university email address";
             }
+            if (values.mitId) {
+              const idNum = Number.parseInt(values.mitId);
+              if (Number.isNaN(idNum) || idNum.toString().length !== 9) {
+                errors.mitId = "If provided, MIT ID # must be valid";
+              }
+            }
+            if (values.classYear && (Number.parseInt(values.classYear).toString().length !== 4
+              || Number.parseInt(values.classYear) < 1900)) {
+              errors.classYear = "If provided, must be a valid year";
+            }
             if (values.forCredit === "") {
               errors.forCredit = "Required";
             }
@@ -148,11 +165,14 @@ class Register extends React.Component {
               firstName,
               lastName,
               email,
-              gender,
+              pronouns,
               livingGroup,
               experience,
               forCredit,
               shirtSize,
+              classYear,
+              mitId,
+              kerb,
             } = values;
             post(`/api/users/${currentUser._id}/update`, {
               first_name: firstName,
@@ -160,11 +180,13 @@ class Register extends React.Component {
               email: email,
               for_credit: forCredit,
               statistics: {
-                gender: gender,
-                // class_year: classYear,
+                pronouns: pronouns,
+                class_year: Number.parseInt(classYear),
                 experience: experience,
                 living_group: livingGroup,
                 shirt_size: shirtSize,
+                mit_id: Number.parseInt(mitId),
+                kerb: kerb,
               },
             })
               .then((response) => {
@@ -201,9 +223,23 @@ class Register extends React.Component {
                   <ErrorMessage className="formError" name="email" component="div" />
                 </div>
               </div>
+              <div className="u-marginBottom-md">
+                <div className="Register-label u-marginBottom-sm">mit id # (if applicable)</div>
+                <div>
+                  <Field className="formInput" type="number" name="mitId" />
+                  <ErrorMessage className="formError" name="mitId" component="div" />
+                </div>
+              </div>
+              <div className="u-marginBottom-md">
+                <div className="Register-label u-marginBottom-sm">mit kerb (if not the same as email)</div>
+                <div>
+                  <Field className="formInput" type="input" name="kerb" />
+                  <ErrorMessage className="formError" name="kerb" component="div" />
+                </div>
+              </div>
               <div className="u-marginBottom-md u-positionRelative">
                 <div className="Register-label u-marginBottom-sm">
-                  Are you taking this class for MIT course credit?
+                  are you taking this class for mit course credit?
                 </div>
                 <div className="formInput-select--arrow">
                   <Field className="formInput-select" component="select" name="forCredit">
@@ -218,7 +254,7 @@ class Register extends React.Component {
               </div>
               <div className="formGroup-two u-marginBottom-md u-positionRelative">
                 <div>
-                  <div className="Register-label u-marginBottom-sm">T-shirt size</div>
+                  <div className="Register-label u-marginBottom-sm">t-shirt size</div>
                   <div className="formInput-select--arrow">
                     <Field className="formInput-select" component="select" name="shirtSize">
                       <option disabled value="">
@@ -235,20 +271,22 @@ class Register extends React.Component {
                   </div>
                 </div>
                 <div>
-                  <div className="Register-label u-marginBottom-sm">gender</div>
+                  <div className="Register-label u-marginBottom-sm">pronouns</div>
                   <div className="formInput-select--arrow">
                     <Field
                       className="formInput-select"
                       component="select"
-                      name="gender"
+                      name="pronouns"
                       defaultValue="filler"
                     >
                       <option disabled value="filler">
                         -- select an option --
                       </option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
+                      <option value="he/him">he/him</option>
+                      <option value="she/her">she/her</option>
+                      <option value="they/them">they/them</option>
+                      <option value="other">other</option>
+                      <option value="prefer not">prefer not to say</option>
                     </Field>
                   </div>
                 </div>
@@ -278,6 +316,13 @@ class Register extends React.Component {
                     <option value="fsilg">FSILG</option>
                     <option value="offcampus">Off Campus</option>
                   </Field>
+                </div>
+              </div>
+              <div className="u-marginBottom-md">
+                <div className="Register-label u-marginBottom-sm">class year (e.g. class of 2021)</div>
+                <div>
+                  <Field className="formInput" type="number" name="classYear" />
+                  <ErrorMessage className="formError" name="classYear" component="div" />
                 </div>
               </div>
               <div className="u-marginBottom-md u-positionRelative">

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-var uniqueValidator = require("mongoose-unique-validator");
 const maxFieldLength = 50;
 const userSchema = new mongoose.Schema({
   github_username: String,
@@ -20,16 +19,22 @@ const userSchema = new mongoose.Schema({
   },
   for_credit: { type: Boolean },
   statistics: {
-    gender: String,
+    gender: String, // Deprecated. Don't add this to new students or show in UI
+    pronouns: String,
     class_year: Number,
     experience: Number,
     living_group: String,
     shirt_size: String,
+    mit_id: Number,
+    kerb: {
+      type: String,
+      minlength: 1,
+      maxlength: maxFieldLength,
+    },
   },
   is_admin: Boolean,
   tags: [String],
   team: { type: mongoose.Schema.Types.ObjectId, ref: "Team" },
   year: Number, //year the student registered under
 });
-userSchema.plugin(uniqueValidator);
 module.exports = mongoose.model("User", userSchema);
