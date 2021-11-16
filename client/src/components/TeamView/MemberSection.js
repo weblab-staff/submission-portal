@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { removeMember } from "../../js/teams";
@@ -127,7 +127,7 @@ class MemberSection extends React.Component {
     const { github_url } = currentTeam;
 
     if (this.state.redirect) {
-      return <Redirect to="/" />;
+      return <Navigate to="/" />;
     }
 
     return (

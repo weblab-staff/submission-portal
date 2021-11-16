@@ -4,7 +4,7 @@ import StudentView from "./StudentView/StudentView";
 import Login from "./Login";
 import StudentNav from "./StudentView/StudentNav";
 import { get, MilestoneLoader } from "../utils";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { isRegistered } from "../js/students";
 
 import "./../fonts/AvenirNext-Regular.woff";
@@ -137,7 +137,7 @@ class Root extends React.Component {
         ) : isRegistered(currentUser) ? (
           <StudentView currentUser={currentUser} currentTeam={currentTeam} loading={loading} />
         ) : (
-          <Redirect to="/register" />
+              <Navigate to="/register" />
         )}
       </>
     );

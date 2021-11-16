@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { get, post } from "../../utils";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
@@ -64,7 +64,7 @@ class CreateTeam extends React.Component {
 
     if (redirect) {
       return (
-        <Redirect
+        <Navigate
           to={{
             pathname: "/",
             state: {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { get, post } from "../utils";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
@@ -110,7 +110,7 @@ class Register extends React.Component {
     const { redirect, firstName, lastName, email, forCredit, shirtSize, errRedirect } = this.state;
 
     if (errRedirect || redirect) {
-      return <Redirect to="/" />;
+      return <Navigate to="/" />;
     }
 
     return (
