@@ -50,7 +50,7 @@ function createRepo(teamId, repoName) {
         console.log(`Retrying GitHub creation with name ${options.body.name}`);
         return fetch(url, options);
       })
-    )
+  ).then(res => res.json())
     .then((res) => {
       return { url: res.html_url, repoName: options.body.name };
     });
