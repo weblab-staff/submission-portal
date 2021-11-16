@@ -10,7 +10,8 @@
     "dev": "webpack-dev-server --config ./webpack.config.js --mode development --port 5000",
     "start": "nodemon --ignore client/ server/app.js",
     "prod": "NODE_ENV=prod pm2 start server/app.js",
-    "stop": "pm2 stop all"
+    "stop": "pm2 stop all",
+    "logs": "pm2 logs"
   },
   "author": "",
   "license": "ISC",
