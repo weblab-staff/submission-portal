@@ -8,10 +8,11 @@ const ORG_NAME = "weblab-class";
 const API_KEY = process.env.GITHUB_API_KEY;
 const HEADERS = {
   "User-Agent": "cory2067",
+  "Authorization": "token " + API_KEY,
 };
 
 function getEndpoint(path) {
-  return `${BASE_URL}/${path}?access_token=${API_KEY}`;
+  return `${BASE_URL}/${path}`;
 }
 
 // returns a promise for the GitHub ID of the created team
@@ -24,7 +25,9 @@ function createTeam(name) {
     json: true,
   };
 
-  return request(options).then((res) => res.id);
+  return request(options).then((res) => {
+    return { id: res.id, slug: res.slug };
+  });
 }
 
 // returns a promise for the URL of the repo and final repo name
@@ -55,10 +58,10 @@ function createRepo(teamId, repoName) {
     });
 }
 
-function giveAdminAccess(teamId, repoName) {
+function giveAdminAccess(team_slug, repoName) {
   const options = {
     method: "PUT",
-    uri: getEndpoint(`teams/${teamId}/repos/${ORG_NAME}/${repoName}`),
+    uri: getEndpoint(`orgs/${ORG_NAME}/teams/${team_slug}/repos/${ORG_NAME}/${repoName}`),
     headers: HEADERS,
     body: {
       permission: "admin",
@@ -121,11 +124,11 @@ module.exports = {
     const members = team.members.map((member) => member.github_username);
     const initialRepoName = members.join("-");
 
-    const id = await createTeam(team.team_name);
+    const { id, slug } = await createTeam(team.team_name);
     const { url, repoName } = await createRepo(id, initialRepoName);
     console.log(`finished repo gen with url ${url} and name ${repoName}`);
 
-    await giveAdminAccess(id, repoName);
+    await giveAdminAccess(slug, repoName);
     await addMembers(id, members);
     console.log(`Completed GitHub generation for ${team.team_name}`);
 
