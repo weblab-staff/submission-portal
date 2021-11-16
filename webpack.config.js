@@ -5,7 +5,7 @@ const outputDir = path.resolve(__dirname, "client", "dist");
 const webpack = require("webpack");
 
 module.exports = {
-  entry: ["@babel/polyfill", entryFile],
+  entry: [entryFile],
   output: {
     publicPath: "/",
     filename: "bundle.js",
@@ -49,7 +49,7 @@ module.exports = {
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
-    contentBase: "./client/dist",
+    static: "./client/dist",
     hot: true,
     proxy: {
       "/api": "http://localhost:3000",
