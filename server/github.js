@@ -1,6 +1,6 @@
 /** API interaction with GitHub **/
 
-const request = require("request-promise-native");
+const fetch = require("node-fetch");
 const util = require("./routes/util");
 
 const BASE_URL = "https://api.github.com";
@@ -19,13 +19,12 @@ function getEndpoint(path) {
 function createTeam(name) {
   const options = {
     method: "POST",
-    uri: getEndpoint(`orgs/${ORG_NAME}/teams`),
     headers: HEADERS,
-    body: { name },
-    json: true,
+    body: JSON.stringify({ name }),
   };
 
-  return request(options).then((res) => {
+  return fetch(getEndpoint(`orgs/${ORG_NAME}/teams`), options).then(res => res.json()).then((res) => {
+    console.log("got create team response: ", res)
     return { id: res.id, slug: res.slug };
   });
 }
@@ -35,22 +34,21 @@ function createTeam(name) {
 function createRepo(teamId, repoName) {
   const options = {
     method: "POST",
-    uri: getEndpoint(`orgs/${ORG_NAME}/repos`),
     headers: HEADERS,
-    body: {
+    body: JSON.stringify({
       name: repoName,
       team_id: teamId,
       private: true,
-    },
-    json: true,
+    }),
   };
+  const url = getEndpoint(`orgs/${ORG_NAME}/repos`);
 
-  return request(options)
+  return fetch(url, options)
     .catch((err) =>
       util.get_active_year().then((year) => {
         options.body.name = `${options.body.name}-${year}`;
         console.log(`Retrying GitHub creation with name ${options.body.name}`);
-        return request(options);
+        return fetch(url, options);
       })
     )
     .then((res) => {
@@ -61,15 +59,15 @@ function createRepo(teamId, repoName) {
 function giveAdminAccess(team_slug, repoName) {
   const options = {
     method: "PUT",
-    uri: getEndpoint(`orgs/${ORG_NAME}/teams/${team_slug}/repos/${ORG_NAME}/${repoName}`),
     headers: HEADERS,
-    body: {
+    body: JSON.stringify({
       permission: "admin",
-    },
-    json: true,
+    })
   };
+  console.log("attempting give admin access: ", options)
 
-  return request(options);
+  return fetch(getEndpoint(`orgs/${ORG_NAME}/teams/${team_slug}/repos/${ORG_NAME}/${repoName}`), options
+  ).then(res => res.json());
 }
 
 function addMembers(teamId, usernames) {
@@ -77,30 +75,24 @@ function addMembers(teamId, usernames) {
     usernames.map((username) => {
       const options = {
         method: "PUT",
-        uri: getEndpoint(`teams/${teamId}/memberships/${username}`),
         headers: HEADERS,
-        json: true,
       };
 
-      return request(options);
+      return fetch(getEndpoint(`teams/${teamId}/memberships/${username}`), options);
     })
   );
 }
 
+// TODO: test this since converting to node-fetch and since Github API major version change
+// Not needed for any server operations at the moment
 function deleteTeamAndRepo(teamId, repoName) {
-  const teamOptions = {
+  const options = {
     method: "DELETE",
-    uri: getEndpoint(`teams/${teamId}`),
     headers: HEADERS,
   };
 
-  const repoOptions = {
-    method: "DELETE",
-    uri: getEndpoint(`repos/${ORG_NAME}/${repoName}`),
-    headers: HEADERS,
-  };
-
-  return Promise.all([request(teamOptions), request(repoOptions)]);
+  return Promise.all([fetch(getEndpoint(`teams/${teamId}`), options),
+  fetch(getEndpoint(`repos/${ORG_NAME}/${repoName}`), options)]);
 }
 
 async function test() {
@@ -129,6 +121,7 @@ module.exports = {
     console.log(`finished repo gen with url ${url} and name ${repoName}`);
 
     await giveAdminAccess(slug, repoName);
+    console.log("gave admin access to repo");
     await addMembers(id, members);
     console.log(`Completed GitHub generation for ${team.team_name}`);
 
