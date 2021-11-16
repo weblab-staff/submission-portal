@@ -1,6 +1,6 @@
 /** Functions that run periodically **/
 
-const GoogleSpreadsheet = require("google-spreadsheet");
+const { GoogleSpreadsheet } = require("google-spreadsheet");
 
 const Team = require("./models/Team");
 const Milestone = require("./models/Milestone");
@@ -78,34 +78,30 @@ function connectToSheet(sheetId) {
   const client_email = process.env.GOOGLE_SERVICE_ACCOUNT;
   const private_key = process.env.GOOGLE_PRIVATE_KEY;
 
-  return new Promise((resolve, reject) => {
-    doc.useServiceAccountAuth({ client_email, private_key }, () => {
-      doc.getInfo((err, info) => {
-        if (err) return reject(err);
-        resolve(doc.worksheets[0]);
-      });
-    });
+  // return new Promise((resolve, reject) => {
+  //   doc.useServiceAccountAuth({ client_email, private_key }, () => {
+  //     doc.getInfo((err, info) => {
+  //       if (err) return reject(err);
+  //       resolve(doc.worksheets[0]);
+  //     });
+  //   });
+  // });
+  return doc.useServiceAccountAuth({ client_email, private_key }).then(() => {
+    return doc.loadInfo();
+  }).then(() => {
+    return doc.sheetsByIndex[0];
   });
 }
 
 function getRows(sheet, offset = 0) {
   const exclude = ["id", "app:edited", "save", "del"];
-
-  return new Promise((resolve, reject) => {
-    sheet.getRows({ offset }, (err, rows) => {
-      if (err) return reject(err);
-
-      resolve(
-        rows.map((row) => {
-          const output = {};
-          Object.keys(row)
-            .filter((key) => !key.startsWith("_") && !exclude.includes(key))
-            .forEach((key) => (output[sanitizeKey(key)] = row[key]));
-          return output;
-        })
-      );
+  return sheet.getRows({ offset }).then(rows => rows.map(row => {
+    const output = {};
+    Object.keys(row).filter(key => !key.startsWith("_") && !exclude.includes(key)).forEach(key => {
+      output[sanitizeKey(key)] = row[key];
     });
-  });
+    return output;
+  }));
 }
 
 // delete characters from keys mongo doesn't like
