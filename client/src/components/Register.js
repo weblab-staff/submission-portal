@@ -319,7 +319,7 @@ class Register extends React.Component {
                 </div>
               </div>
               <div className="u-marginBottom-md">
-                <div className="Register-label u-marginBottom-sm">class year (e.g. class of 2021)</div>
+                <div className="Register-label u-marginBottom-sm">graduation year (e.g. 2023)</div>
                 <div>
                   <Field className="formInput" type="number" name="classYear" />
                   <ErrorMessage className="formError" name="classYear" component="div" />
