@@ -310,6 +310,7 @@ class Register extends React.Component {
                     <option value="maseeh">Maseeh</option>
                     <option value="mcc">McCormick</option>
                     <option value="new">New House</option>
+                    <option value="newvassar">New Vassar</option>
                     <option value="next">Next House</option>
                     <option value="random">Random Hall</option>
                     <option value="simmons">Simmons</option>
