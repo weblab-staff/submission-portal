@@ -100,13 +100,28 @@ function getRows(sheet, offset = 0) {
     Object.keys(row).filter(key => !key.startsWith("_") && !exclude.includes(key)).forEach(key => {
       output[sanitizeKey(key)] = row[key];
     });
+    validateRow(output);
     return output;
   }));
 }
 
-// delete characters from keys mongo doesn't like
+// Ensure the row has the necessary format not to break the code in this file
+function validateRow(row) {
+  const keys = Object.keys(row);
+  if (!(keys.includes("timestamp") && keys.includes("teamname"))) {
+    console.log("Form format must have changed and needs to be accounted for");
+    // throw early to avoid corrupting the milestone object and thus skipping grading teams
+    throw "Milestone form headers for timestamp and/or team name are not formatted as expected, so the portal will break";
+  }
+}
+
+// delete characters from keys mongo doesn't like, and cleans important names.
+// Handles team name explicitly because it is used in the code.
 function sanitizeKey(key) {
-  return key.replace(/\./g, "_");
+  if (key.toLowerCase().startsWith("team name")) {
+    return "teamname";
+  }
+  return key.toLowerCase().replace(/[.() ~!@#$%^&*]/g, "_");
 }
 
 module.exports = { start };
