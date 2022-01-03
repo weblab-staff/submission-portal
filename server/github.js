@@ -34,20 +34,21 @@ function createRepo(teamId, repoName) {
   const options = {
     method: "POST",
     headers: HEADERS,
-    body: JSON.stringify({
+    body: {
       name: repoName,
       team_id: teamId,
       private: true,
-    }),
+    },
   };
+  const getFormattedOptions = () => ({ ...options, body: JSON.stringify(options.body) });
   const url = getEndpoint(`orgs/${ORG_NAME}/repos`);
 
-  return fetch(url, options)
+  return fetch(url, getFormattedOptions())
     .catch((err) =>
       util.get_active_year().then((year) => {
         options.body.name = `${options.body.name}-${year}`;
         console.log(`Retrying GitHub creation with name ${options.body.name}`);
-        return fetch(url, options);
+        return fetch(url, getFormattedOptions());
       })
   ).then(res => res.json())
     .then((res) => {
@@ -64,8 +65,7 @@ function giveAdminAccess(team_slug, repoName) {
     })
   };
 
-  return fetch(getEndpoint(`orgs/${ORG_NAME}/teams/${team_slug}/repos/${ORG_NAME}/${repoName}`), options
-  ).then(res => res.json());
+  return fetch(getEndpoint(`orgs/${ORG_NAME}/teams/${team_slug}/repos/${ORG_NAME}/${repoName}`), options);
 }
 
 function addMembers(teamId, usernames) {
@@ -99,7 +99,6 @@ async function test() {
   const { url, repoName } = await createRepo(id, "cor-jynnie-aspiser");
   console.log(`Created new repo ${url}`);
   const res2 = await giveAdminAccess(id, repoName);
-  console.log(`Granted team admin access to repo ${repoName}`);
   const res = await addMembers(id, ["cory2067"]);
   console.log("Added members to repo");
 
@@ -118,8 +117,8 @@ module.exports = {
     const { url, repoName } = await createRepo(id, initialRepoName);
     console.log(`finished repo gen with url ${url} and name ${repoName}`);
 
-    await giveAdminAccess(slug, repoName);
-    console.log("gave admin access to repo");
+    const resp = await giveAdminAccess(slug, repoName);
+    console.log(`gave admin access to repo with id ${id} and slug ${slug} and url ${url} and repoName ${repoName} and init repo name ${initialRepoName} with response: ${JSON.stringify(resp)}`);
     await addMembers(id, members);
     console.log(`Completed GitHub generation for ${team.team_name}`);
 
