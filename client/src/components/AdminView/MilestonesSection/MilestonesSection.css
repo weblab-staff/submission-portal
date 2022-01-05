@@ -22,6 +22,11 @@
   text-transform: uppercase;
 }
 
+.milestoneSelector-subsubheader {
+  font-size: 0.5em;
+  text-transform: none;
+}
+
 .milestoneSelector-backIcon:hover {
   color: var(--a-white);
 }

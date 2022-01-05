@@ -41,6 +41,15 @@ class MilestoneSelector extends React.Component {
           <div className="u-marginLeft-lg u-marginBottom-xxxl">
             <div className="milestoneSelector-header">Milestones</div>
             <div className="milestoneSelector-subheader">Team {team.team_name}</div>
+            <div className="milestoneSelector-subsubheader">{team.competing ? "Competing" : "Not Competing"}</div>
+            {
+              team.members.map(member => {
+                return <div className="milestoneSelector-subsubheader">
+                  {member.first_name} {member.last_name} ({member.email}):
+                  {member.for_credit ? " Credit" : " Listener"}
+                </div>
+              })
+            }
           </div>
         </div>
 
