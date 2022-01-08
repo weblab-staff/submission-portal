@@ -7,7 +7,7 @@ const BASE_URL = "https://api.github.com";
 const ORG_NAME = "weblab-class";
 const API_KEY = process.env.GITHUB_API_KEY;
 const HEADERS = {
-  "User-Agent": "cory2067",
+  "User-Agent": "bukabuka-weblab",
   "Authorization": "token " + API_KEY,
 };
 
@@ -114,7 +114,15 @@ module.exports = {
     const initialRepoName = members.join("-");
 
     const { id, slug } = await createTeam(team.team_name);
+    if (!id || !slug) {
+      console.log("create github team failed for team name " + team.team_name);
+      throw new Error("create team failed");
+    }
     const { url, repoName } = await createRepo(id, initialRepoName);
+    if (!url || !repoName) {
+      console.log("create github repo failed for team name " + team.team_name);
+      throw new Error("create repo failed");
+    }
     console.log(`finished repo gen with url ${url} and name ${repoName}`);
 
     const resp = await giveAdminAccess(slug, repoName);
