@@ -19,9 +19,9 @@ const env = process.env.NODE_ENV || "dev";
 let https;
 if (env === "prod") {
   // load certs for https
-  const privateKey = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.to/privkey.pem", "utf8");
-  const certificate = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.to/cert.pem", "utf8");
-  const ca = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.to/chain.pem", "utf8");
+  const privateKey = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.is/privkey.pem", "utf8");
+  const certificate = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.is/cert.pem", "utf8");
+  const ca = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.is/chain.pem", "utf8");
 
   const credentials = {
     key: privateKey,
@@ -113,7 +113,7 @@ if (env === "test") {
   return; // don't run webserver for tests
 }
 
-const port = env === "prod" ? 80 : 3000;
+const port = env === "prod" ? 8000 : 3000;
 http.listen(port, () => {
   console.log(`Listening on port ${port} and looking in folder ${publicPath}`);
 });
