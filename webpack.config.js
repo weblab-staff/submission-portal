@@ -51,6 +51,7 @@ module.exports = {
   devServer: {
     static: "./client/dist",
     hot: true,
+    port: 9000,
     proxy: {
       "/api": "http://localhost:3000",
       "/auth": "http://localhost:3000",

@@ -7,7 +7,7 @@
   "scripts": {
     "test": "NODE_ENV=test mocha server/tests",
     "coverage": "NODE_ENV=test nyc mocha server/tests",
-    "dev": "webpack-dev-server --config ./webpack.config.js --mode development --port 5000",
+    "dev": "webpack-dev-server --config ./webpack.config.js --mode development",
     "start": "nodemon --ignore client/ server/app.js",
     "prod": "NODE_ENV=prod pm2 start server/app.js",
     "stop": "pm2 stop all",
