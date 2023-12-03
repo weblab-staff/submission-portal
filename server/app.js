@@ -19,9 +19,9 @@ const env = process.env.NODE_ENV || "dev";
 let https;
 if (env === "prod") {
   // load certs for https
-  const privateKey = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.is/privkey.pem", "utf8");
-  const certificate = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.is/cert.pem", "utf8");
-  const ca = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.is/chain.pem", "utf8");
+  const privateKey = fs.readFileSync("/etc/letsencrypt/live/www.weblab.is-0001/privkey.pem", "utf8");
+  const certificate = fs.readFileSync("/etc/letsencrypt/live/www.weblab.is-0001/cert.pem", "utf8");
+  const ca = fs.readFileSync("/etc/letsencrypt/live/www.weblab.is-0001/chain.pem", "utf8");
 
   const credentials = {
     key: privateKey,
@@ -30,20 +30,10 @@ if (env === "prod") {
   };
 
   app.enable("trust proxy");
-  app.use((req, res, next) => {
-    if (req.secure) {
-      next();
-    } else {
-      // force redirect to https
-      res.redirect("https://" + req.headers.host + req.url);
-    }
-  });
-
-  https = require("https").Server(credentials, app);
 }
 
 const http = require("http").Server(app);
-sockets.init(https || http);
+sockets.init(http);
 
 // set POST request body parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -117,12 +107,6 @@ const port = env === "prod" ? 8000 : 3000;
 http.listen(port, () => {
   console.log(`Listening on port ${port} and looking in folder ${publicPath}`);
 });
-
-if (https) {
-  https.listen(443, () => {
-    console.log(`Running https on port 443`);
-  });
-}
 
 function is_registered(user) {
   return (
