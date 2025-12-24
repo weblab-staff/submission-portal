@@ -19,14 +19,12 @@ const env = process.env.NODE_ENV || "dev";
 let https;
 if (env === "prod") {
   // load certs for https
-  const privateKey = fs.readFileSync("/etc/letsencrypt/live/www.weblab.is-0001/privkey.pem", "utf8");
-  const certificate = fs.readFileSync("/etc/letsencrypt/live/www.weblab.is-0001/cert.pem", "utf8");
-  const ca = fs.readFileSync("/etc/letsencrypt/live/www.weblab.is-0001/chain.pem", "utf8");
+  const privateKey = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.is/privkey.pem", "utf8");
+  const certificate = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.is/fullchain.pem", "utf8");
 
   const credentials = {
     key: privateKey,
     cert: certificate,
-    ca: ca,
   };
 
   app.enable("trust proxy");
@@ -97,16 +95,14 @@ app.use(function(err, req, res, next) {
   res.status(status).send(err.message || "Something broke!");
 });
 
-module.exports = app;
-
-if (env === "test") {
-  return; // don't run webserver for tests
+if (env !== "test") {
+  const port = process.env.PORT || (env === "prod" ? 8000 : 3000);
+  http.listen(port, () => {
+    console.log(`Listening on port ${port} and looking in folder ${publicPath}`);
+  });
 }
 
-const port = env === "prod" ? 8000 : 3000;
-http.listen(port, () => {
-  console.log(`Listening on port ${port} and looking in folder ${publicPath}`);
-});
+module.exports = app;
 
 function is_registered(user) {
   return (
