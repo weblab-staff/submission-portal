@@ -4,31 +4,15 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const session = require("express-session");
 const path = require("path");
-const Team = require("./models/Team");
-const User = require("./models/User");
 const app = express();
 const api = require("./routes/api");
 const mongoose = require("mongoose");
 const passport = require("./passport");
 const periodic = require("./periodic");
-const github = require("./github");
 const sockets = require("./sockets");
-const fs = require("fs");
 const env = process.env.NODE_ENV || "dev";
 
-let https;
-if (env === "prod") {
-  // load certs for https
-  const privateKey = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.is/privkey.pem", "utf8");
-  const certificate = fs.readFileSync("/etc/letsencrypt/live/portal.weblab.is/fullchain.pem", "utf8");
-
-  const credentials = {
-    key: privateKey,
-    cert: certificate,
-  };
-
-  app.enable("trust proxy");
-}
+app.enable("trust proxy");
 
 const http = require("http").Server(app);
 sockets.init(http);
