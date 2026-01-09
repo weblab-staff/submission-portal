@@ -44,12 +44,22 @@ export const removeMember = (teamId, userId) => {
     .catch((err) => console.log(err));
 };
 
-export const manualCredit = (teamObj, milestoneObj) => {
-  post(`/api/teams/${teamObj._id}/mark-complete`, {
+export const manualCredit = async (teamObj, milestoneObj) => {
+  await post(`/api/teams/${teamObj._id}/mark-complete`, {
     milestone_id: milestoneObj._id,
   })
     .then((res) => {
-      alert("refresh to see");
+      // alert("refresh to see");
+    })
+    .catch((err) => console.log(err));
+};
+
+export const removeCredit = async (teamObj, milestoneObj) => {
+  await post(`/api/teams/${teamObj._id}/mark-incomplete`, {
+    milestone_id: milestoneObj._id,
+  })
+    .then((res) => {
+      // alert("refresh to see");
     })
     .catch((err) => console.log(err));
 };

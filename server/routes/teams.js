@@ -161,6 +161,24 @@ router.post(
   })
 );
 
+router.post(
+  "/:team_id/mark-incomplete",
+  ensure.admin,
+  errorWrap(async (req, res) => {
+    deletedSubmission = await MilestoneSubmission.findOne({
+      team:req.params.team_id, 
+      milestone: req.body.milestone_id});
+    await MilestoneSubmission.deleteOne({
+      team:req.params.team_id, 
+      milestone: req.body.milestone_id});
+    console.log(deletedSubmission);
+    await Team.findByIdAndUpdate(req.params.team_id, {
+      $pull: { submissions: deletedSubmission._id },
+    });
+    res.sendStatus(204);
+  })
+);
+
 // (this route has no automated tests)
 router.post(
   "/:team_id/generate-github",
